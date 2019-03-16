@@ -10,7 +10,6 @@ export class Playlist extends React.Component {
   }
 
   render() {
-    console.log(this.props.playlist)
     return (
       <div>
         <h1>Playlist</h1>

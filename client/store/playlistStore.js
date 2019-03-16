@@ -13,7 +13,6 @@ const getSongs = playlist => {
 
 //THUNK CREATORS
 export const fetchPlaylist = () => {
-  console.log('this is inside the thunk')
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs`)
