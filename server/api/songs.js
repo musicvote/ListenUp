@@ -13,7 +13,7 @@ spotifyApi.setAccessToken(
   'BQAQCWpSkVaoY_9kvSHdmlLzbLccVlHM_2VTxDjo7rTr50Au7q2LVQjhfShJpc0C-rMPn1eButSKTIh48z84wdYKkKHc8ETbC43IKZnQw7dIDiHwZT7r4SUH8Emm0qNUB3psIotGkVKdSTiuwl_KtYhJ77qYJdnxiQI'
 )
 
-const authorizationCode = 'playlist-modify-public'
+// const authorizationCode = 'playlist-modify-public'
 
 //get song by ID
 //api/songs/

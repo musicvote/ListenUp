@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {fetchPlaylist} from '../store/playlistStore'
 import SongCard from './SongCard'
+import Player from './Player'
 
 export class Playlist extends React.Component {
   componentDidMount() {
@@ -16,6 +17,7 @@ export class Playlist extends React.Component {
         {this.props.playlist.songs.map(song => {
           return <SongCard key={song.songSpotifyId} song={song} />
         })}
+        <Player />
       </div>
     )
   }
