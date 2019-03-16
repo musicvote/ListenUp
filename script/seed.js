@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Song} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,8 +12,40 @@ async function seed() {
     User.create({email: 'murphy@email.com', password: '123'})
   ])
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  const songs = await Promise.all([
+    Song.create({
+      songSpotifyId: '6PCUP3dWmTjcTtXY02oFdT',
+      title: 'Castle on the Hill',
+      artist: 'Ed Sheeran',
+      voteCount: 3
+    }),
+    Song.create({
+      songSpotifyId: '3Du2K5dLzmduCNp6uwuaL0',
+      title: 'Sorry Not Sorry',
+      artist: 'Demi Lovato',
+      voteCount: 2
+    }),
+    Song.create({
+      songSpotifyId: '1uigwk5hNV84zRd5YQQRTk',
+      title: 'Pocketful of Sunshine',
+      artist: 'Natasha Bedingfield',
+      voteCount: 1
+    }),
+    Song.create({
+      songSpotifyId: '7BKLCZ1jbUBVqRi2FVlTVw',
+      title: 'Closer',
+      artist: 'The Chainsmokers',
+      voteCount: 1
+    }),
+    Song.create({
+      songSpotifyId: '1rfofaqEpACxVEHIZBJe6W',
+      title: 'Havana',
+      artist: 'Camila Cabello',
+      voteCount: 0
+    })
+  ])
+
+  console.log(`seeded ${songs.length} songs successfully!!`)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
