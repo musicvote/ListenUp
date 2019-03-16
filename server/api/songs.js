@@ -54,6 +54,7 @@ router.get('/getPlaylist', async (req, res, next) => {
 router.get('/addToPlaylist', async (req, res, next) => {
   try {
     console.log('HI')
+    //send axios request to spotify
     const newPlaylist = await spotifyApi.addTracksToPlaylist(
       '5NASiveas4k209RBgVvH5B',
       [
