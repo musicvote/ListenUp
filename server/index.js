@@ -95,8 +95,8 @@ const createApp = () => {
     '/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function(req, res) {
-      // Successful authentication, redirect home.
-      res.redirect('/#/channels')
+      //TODO: update/create a component to redirect home.
+      res.redirect('/playlist')
     }
   )
 
