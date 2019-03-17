@@ -5,11 +5,10 @@ const Player = props => {
     <div>
       <h1>Player</h1>
       <iframe
-        src="https://open.spotify.com/embed/track/6PCUP3dWmTjcTtXY02oFdT"
+        src={`https://open.spotify.com/embed/track/${props.songId}`}
         width="300"
         height="80"
         frameBorder="0"
-        allowTransparency="true"
         allow="encrypted-media"
       />
     </div>
