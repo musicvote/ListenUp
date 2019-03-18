@@ -6,12 +6,14 @@ const spotifyWebApi = require('spotify-web-api-node')
 const spotifyApi = new spotifyWebApi({
   clientId: 'f30f211450824a22bd223303ca42a33e',
   clientSecret: '92cba98e076e42e2944d489f830f4259',
-  redirectUri: 'localhost:1337/callback'
+  redirectUri: 'localhost:8080/callback'
 })
 
 spotifyApi.setAccessToken(
-  'BQAQCWpSkVaoY_9kvSHdmlLzbLccVlHM_2VTxDjo7rTr50Au7q2LVQjhfShJpc0C-rMPn1eButSKTIh48z84wdYKkKHc8ETbC43IKZnQw7dIDiHwZT7r4SUH8Emm0qNUB3psIotGkVKdSTiuwl_KtYhJ77qYJdnxiQI'
+  'BQAmTx7gHJkrIVxS_rBqRBvhZabt9QcGGP-sxIRFj4tZ5epUBcCWXNGscNpfcmghjYahlusRUv-7c_bXJuZ5MbYqftY4JnwVitPinxrlTuTvbV1zz6KiCiX_qgDOx8f1GQ0-tV6D8EcT1GlY3FytT97BEFl94LwQKLHZGc_2K-rV1g_4psJXkXL9xFuJ760u9JwpCXjdc0XibTuc7C2TJJA8JFewTj_H6ZuW6b9hbWklN4TfAIP4_fBnICG2CWVOywNLPuiEOTMfcyFRv7S3_bSZq6Zj9Bx7GUw'
 )
+
+const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 // const authorizationCode = 'playlist-modify-public'
 
@@ -44,29 +46,44 @@ router.get('/getPlaylist', async (req, res, next) => {
   try {
     //this should be a POST request after test is done
     // const playlistName = req.body
-    const myPlaylist = await spotifyApi.getPlaylist('5NASiveas4k209RBgVvH5B')
+    const myPlaylist = await spotifyApi.getPlaylist(playlistId)
     res.json(myPlaylist)
   } catch (error) {
     next(error)
   }
 })
 
-router.get('/addToPlaylist', async (req, res, next) => {
-  try {
-    console.log('HI')
-    //send axios request to spotify
-    const newPlaylist = await spotifyApi.addTracksToPlaylist(
-      '5NASiveas4k209RBgVvH5B',
-      [
-        'spotify:track:24CXuh2WNpgeSYUOvz14jk',
-        'spotify:track:2SG0RPcyWgUPqLCKWLtYc1'
-      ]
+router.post('/addToPlaylist', (req, res, next) => {
+  let songId = req.body.id
+  spotifyApi
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
+      position: 1
+    })
+    .then(
+      data => {
+        console.log(')))))))))) ', data)
+        res.json({isAdded: true})
+      },
+      err => {
+        console.log('Something went wrong!', err)
+      }
     )
-    console.log('this is the newplaylist', newPlaylist)
-    res.json('TEST')
-  } catch (error) {
-    next(error)
-  }
+    .catch(next)
+})
+
+router.get('/getCurrentlyPlaying', (req, res, next) => {
+  spotifyApi
+    .getMyCurrentPlayingTrack()
+    .then(
+      data => {
+        // Output items
+        res.json(data.body.item.id)
+      },
+      err => {
+        console.log('Something went wrong!', err)
+      }
+    )
+    .catch(next)
 })
 
 module.exports = router
