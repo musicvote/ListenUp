@@ -4,6 +4,7 @@ const Player = props => {
   return (
     <div>
       <h1>Player</h1>
+
       <div id="player">
         <iframe
           src="https://open.spotify.com/embed/track/6PCUP3dWmTjcTtXY02oFdT"
@@ -14,6 +15,8 @@ const Player = props => {
           allow="encrypted-media"
         />
       </div>
+
+
     </div>
   )
 }
