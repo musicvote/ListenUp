@@ -33,7 +33,8 @@ form div {
   height: 56px;
   width: 100%;
   bottom: 0;
-  margin-left: 160px;
+  margin-left: 150px;
+  margin-bottom: 25px;
   /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
