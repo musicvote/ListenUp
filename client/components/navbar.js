@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import Searchbar from './Searchbar'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div id="navbar">
@@ -24,6 +25,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      <Searchbar />
     </nav>
     <hr />
   </div>

@@ -10,7 +10,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 spotifyApi.setAccessToken(
-  'BQAmTx7gHJkrIVxS_rBqRBvhZabt9QcGGP-sxIRFj4tZ5epUBcCWXNGscNpfcmghjYahlusRUv-7c_bXJuZ5MbYqftY4JnwVitPinxrlTuTvbV1zz6KiCiX_qgDOx8f1GQ0-tV6D8EcT1GlY3FytT97BEFl94LwQKLHZGc_2K-rV1g_4psJXkXL9xFuJ760u9JwpCXjdc0XibTuc7C2TJJA8JFewTj_H6ZuW6b9hbWklN4TfAIP4_fBnICG2CWVOywNLPuiEOTMfcyFRv7S3_bSZq6Zj9Bx7GUw'
+  'BQBjlY7ub074PHp5EHDf7zSzt8hQHEoKbIBsy8-ZPrBstiPtdYi8oMVuDdcvGhwQOxFf2QBnsrxUV9tirU25s106yVOzlHbqZrZnfScYjkK-cW5E1ibu1Aqc54Nq6GKTkw69nbfDhU2SKX9qVv-C53ENTPmSjo98ZVrzyg2UbN6cWB_DF797u5EI53qMDEMHQeYxgXbTYYF3_-N5CIz6Elen1KhTCQxgs3qnZrtPwGmUTacaiw5yHd6nHB4XnMpeh1PmTX3v5pwAmpDVJJQsbkuE5WN3HfXmFpc'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -41,7 +41,8 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
-//Playlist method
+//Playlist method - gets particular playlist
+//returns json object with all the tracks within a playlist
 router.get('/getPlaylist', async (req, res, next) => {
   try {
     //this should be a POST request after test is done

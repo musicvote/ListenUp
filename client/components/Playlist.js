@@ -40,17 +40,6 @@ export class Playlist extends React.Component {
           <button type="button" onClick={this.CheckSpotify}>
             Check Spotify
           </button>
-          <h1>test</h1>
-          <div>
-            {this.props.playlist.songs.length ? (
-              this.props.playlist.songs.map(song => {
-                return <SongCard key={song.songSpotifyId} song={song} />
-              })
-            ) : (
-              <div>Sorry this playlist is empty.</div>
-            )}
-          </div>
-          <Player songId={this.props.playlist.deckSong.id} />
         </div>
       </div>
     )
