@@ -6,7 +6,7 @@ const spotifyWebApi = require('spotify-web-api-node')
 const spotifyApi = new spotifyWebApi({
   clientId: 'f30f211450824a22bd223303ca42a33e',
   clientSecret: '92cba98e076e42e2944d489f830f4259',
-  redirectUri: 'localhost:1337/callback'
+  redirectUri: 'localhost:8080/callback'
 })
 
 spotifyApi.setAccessToken(
