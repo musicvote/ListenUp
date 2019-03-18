@@ -10,7 +10,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 spotifyApi.setAccessToken(
-  'BQAWITT5Or4Q8PBCeywZPRmy0K8VXEwFXUu59-qisfPzitraVB2tGRrSXq4-8vM1Ok00KiO9LRKSBYScEqVBHzVST3_C7jpvV5AqRhfGpFXb07gExGCTbDMejKU0rqkUMyvhEM2pPGuCESGAq1ORWuXpftmITdC0bZCY2Hd6gTfOVxjza4wpvhy3hlrXa7RU4Jxv-y2i2aE6VJR4MeQXpN6HMWXPB4Ot_BDDsai9xBnBpoQcCqC3zFsR7JHDKjc020bBby9hT8sfjVz1AwYFqzKjXlMsL0C-mYE'
+  'BQAu1JMk5AtU38lsXZGF07HagxJhR5DNreQEMQDNP3BeWQLzKkR1Ncbccsr7496NXN65vcpC81gZqTXLOA_Q9IsxLzJLiWMCeVMQbZviZkQPHnX-9OS3brrwPQpRKj1Xt_jyubfInELuN9EhdhP9XVoBx2z1iDdUwWsy0eGxI0WMhAB4bnsxr9efvYLtbeZRDcJ0ZE8f90yx-G98cp8VGmAyQ9ffhqLSdNvGbkPuzxP0-G_exzzsUmMiDKSBg0jhYTndjbnVRORcJjZvt9_XCDLh-FbfMbw6xjo'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -56,9 +56,7 @@ router.get('/getPlaylist', async (req, res, next) => {
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
   spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
-      position: 1
-    })
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
     .then(
       data => {
         console.log(')))))))))) ', data)
@@ -77,7 +75,8 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
     .then(
       data => {
         // Output items
-        res.json(data.body.item.id)
+        console.log('%%%%%%: ', data.body.is_playing)
+        res.json(data)
       },
       err => {
         console.log('Something went wrong!', err)

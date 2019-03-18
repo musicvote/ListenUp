@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {
   fetchPlaylist,
   CheckFetchSpotify,
-  moveTopVoteToDeck
+  placeTopTwoToSpotify
 } from '../store/playlistStore'
 import SongCard from './SongCard'
 import Player from './Player'
@@ -36,7 +36,7 @@ export class Playlist extends React.Component {
             </button>
           </div>
           {this.props.playlist.songs.map(song => {
-            return <SongCard key={song.songSpotifyId} song={song} />
+            return <SongCard key={song} song={song} />
           })}
         </div>
         <Player />
@@ -51,8 +51,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchedPlaylist: () => dispatch(fetchPlaylist()),
-  isSongDone: () => dispatch(CheckFetchSpotify()),
-  moveToDeck: () => dispatch(moveTopVoteToDeck())
+  isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
+  placeTopTwo: () => dispatch(placeTopTwoToSpotify())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist)
