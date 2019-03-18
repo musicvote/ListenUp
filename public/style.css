@@ -1,5 +1,13 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', arial, sans-serif;
+  padding-bottom: 56px;
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(45deg, #222, #333);
+  background-attachment: fixed;
+  color: #f2f2f2;
+  letter-spacing: 0.03em;
 }
 
 a {
@@ -18,4 +26,90 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+#player {
+  position: fixed;
+  height: 56px;
+  width: 100%;
+  bottom: 0;
+  margin-left: 160px;
+  /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+#sidebar {
+  height: 100%;
+  background-color: #333;
+  border-right: 1px solid gray;
+  text-align: center;
+  position: fixed;
+  width: 160px;
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+}
+
+#sidebar section {
+  text-align: left;
+  padding-left: 10px;
+}
+
+#sidebar a {
+  transition: border 0.2s ease;
+  cursor: pointer;
+}
+
+#sidebar a:hover {
+  border-bottom: 2px solid #00aaaa;
+}
+
+#playlist {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+#logo {
+  max-height: 100px;
+  max-width: 100px;
+}
+
+/* The navigation menu links */
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+.sidebar-link {
+  color: white;
+}
+.navbar-link {
+  color: white;
+}
+
+.upvote-link {
+  color: white;
+}
+
+#navbar {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+  color: #f1f1f1;
+}
+
+.navbar-link hover {
+  border-bottom: 2px solid #00aaaa;
+}
+
+#song {
+  border-style: dotted;
+  border-width: 2px;
+  border-collapse: separate;
+  border-spacing: 150px;
+  border: 1px solid aqua;
+  padding: 15px;
+  margin-top: 5px;
 }
