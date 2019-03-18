@@ -3,8 +3,8 @@ import axios from 'axios'
 //STATE AND REDUCER
 const initialState = {
   songs: [],
-  currSong: {id: '3EqHFfCSbX4Z1pX8JQ0c0r'},
-  deckSong: {id: '3EqHFfCSbX4Z1pX8JQ0c0r'}
+  currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
+  deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'}
 }
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
@@ -42,19 +42,19 @@ export const CheckFetchSpotify = () => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
-      if (data === initialState.currSong) {
+      if (data === initialState.deckSong.id) {
         //Same song is still playing
         //hits reducer's defalt may not be needed but this will just keep the same state.
         console.log('Same Song.')
         dispatch({type: 'SAME_SONG_PLAYING'})
       } else {
         console.log('Song Changed!')
-        const addedSong = await axios.post(`/api/songs/addToPlaylist`, {
-          id: `1KFN3kB4hc6r7ILpifFsqf`
+        const {data} = await axios.post(`/api/songs/addToPlaylist`, {
+          id: `5zhnwbZWsbfJFNcrdO3LYB`
         })
-        console.log('got here')
+        console.log('got here', data.body)
 
-        const action = gotNext(addedSong)
+        const action = gotNext(data.body)
         dispatch(action)
       }
     } catch (error) {

@@ -10,7 +10,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 spotifyApi.setAccessToken(
-  'BQAmTx7gHJkrIVxS_rBqRBvhZabt9QcGGP-sxIRFj4tZ5epUBcCWXNGscNpfcmghjYahlusRUv-7c_bXJuZ5MbYqftY4JnwVitPinxrlTuTvbV1zz6KiCiX_qgDOx8f1GQ0-tV6D8EcT1GlY3FytT97BEFl94LwQKLHZGc_2K-rV1g_4psJXkXL9xFuJ760u9JwpCXjdc0XibTuc7C2TJJA8JFewTj_H6ZuW6b9hbWklN4TfAIP4_fBnICG2CWVOywNLPuiEOTMfcyFRv7S3_bSZq6Zj9Bx7GUw'
+  'BQBpodiU0KAYIZyEtpjU6-m2MXFEKzMDkcyAvSFcWAyjb2EAQjNuIFkkHFcffhm7vsAd-dVE7PN-l0EDBsFubNzeOUA_7yk_EQ73f2uJhERIZKRAIsiE6Tc3qXFlx9UI834VOh3zmTB1Wfl8L6fIR6KTfDQwQGTinJeiDsoqflHVeq2dGASY-OriYrGs6i1XptRk_HvRqYS-frtJV014kSi9GSaJVK97fa7CRwuhv_iCUp1rrFQiX5w0Xo2O_mHx_MckNgHdDIuxHo5Z0A8VlJcgszImJjtH_kA'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -62,7 +62,7 @@ router.post('/addToPlaylist', (req, res, next) => {
     .then(
       data => {
         console.log(')))))))))) ', data)
-        res.json({isAdded: true})
+        res.json(data)
       },
       err => {
         console.log('Something went wrong!', err)
