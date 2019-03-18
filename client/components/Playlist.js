@@ -7,6 +7,7 @@ import {
 } from '../store/playlistStore'
 import SongCard from './SongCard'
 import Player from './Player'
+import Sidebar from './sidebar'
 
 export class Playlist extends React.Component {
   constructor(props) {
@@ -27,6 +28,15 @@ export class Playlist extends React.Component {
     console.log(this.props.playlist.deckSong)
     return (
       <div>
+        <h1>Playlist</h1>
+        <Sidebar />
+        <div id="playlist">
+          {this.props.playlist.songs.map(song => {
+            return <SongCard key={song.songSpotifyId} song={song} />
+          })}
+        </div>
+        <Player />
+
         <button type="button" onClick={this.CheckSpotify}>
           Check Spotify
         </button>
@@ -41,6 +51,7 @@ export class Playlist extends React.Component {
           )}
         </div>
         <Player songId={this.props.playlist.deckSong.id} />
+
       </div>
     )
   }

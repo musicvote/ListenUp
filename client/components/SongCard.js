@@ -28,6 +28,7 @@ class SongCard extends React.Component {
         <div>
           <VoteCount changeVote={this.changeVote} />
         </div>
+
       </div>
     )
   }
