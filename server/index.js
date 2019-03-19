@@ -3,7 +3,6 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 // const IP = process.env.SPOTIFY_CLIENT_ID
-// const redirect_uri = `${IP}/callback`;
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
@@ -57,16 +56,6 @@ const createApp = () => {
   // compression middleware
   app.use(compression())
   app.use(cors())
-
-  // session middleware with passport
-  // app.use(
-  //   session({
-  //     secret: process.env.SESSION_SECRET || 'my best friend is Cody',
-  //     store: sessionStore,
-  //     resave: false,
-  //     saveUninitialized: false
-  //   })
-  // )
 
   app.use(passport.initialize())
   app.use(passport.session())

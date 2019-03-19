@@ -20,7 +20,6 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('HIT USER FIND OR CREATE')
     if (req.user) {
       const id = req.user.id
       const username = req.user.username
@@ -30,7 +29,6 @@ router.post('/', async (req, res, next) => {
         {plain: true}
       )
       res.status(201).json(user)
-      console.log('HIT USER FIND OR CREATE')
     } else {
       res.send('Please log in with Spotify')
     }
