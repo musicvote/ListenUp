@@ -8,6 +8,10 @@ import {
 import SongCard from './SongCard'
 import Player from './Player'
 import Sidebar from './sidebar'
+import heartbeat from 'heartbeats'
+
+//Heartbeat config
+let heart = heartbeat.createHeart(30000)
 
 export class Playlist extends React.Component {
   constructor(props) {
@@ -49,10 +53,17 @@ const mapStateToProps = state => ({
   playlist: state.songs
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchedPlaylist: () => dispatch(fetchPlaylist()),
-  isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
-  placeTopTwo: () => dispatch(placeTopTwoToSpotify())
-})
+const mapDispatchToProps = dispatch => {
+  heart.createEvent(1, function() {
+    console.log('heartBeat')
+    const fire = () => dispatch(CheckFetchSpotify())
+    fire()
+  })
+  return {
+    fetchedPlaylist: () => dispatch(fetchPlaylist()),
+    isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
+    placeTopTwo: () => dispatch(placeTopTwoToSpotify())
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlist)

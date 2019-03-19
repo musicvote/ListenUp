@@ -1,4 +1,7 @@
 import axios from 'axios'
+import createHeartbeat from 'redux-heartbeat'
+
+console.log(createHeartbeat(30000))
 //STATE AND REDUCER
 const initialState = {
   songs: [
@@ -41,10 +44,6 @@ export const fetchPlaylist = () => {
       console.log(error)
     }
   }
-}
-
-export const placeTopTwoToSpotify = () => {
-  return dispatch => {}
 }
 
 export const CheckFetchSpotify = () => {
@@ -107,7 +106,5 @@ const playlistReducer = (state = initialState, action) => {
     }
   }
 }
-
-// heartbeat isPlaying checker.
 
 export default playlistReducer
