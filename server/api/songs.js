@@ -63,7 +63,7 @@ module.exports = router
 //   }
 // );
 
-//when a searches for a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
+//when a user for a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
 router.get('/search-song', async (req, res, next) => {
   try {
     const songId = req.body
@@ -81,7 +81,8 @@ router.get('/search-song', async (req, res, next) => {
 //when a searches for a song, and we see that we do not have that song in our DB, we need to ping spotify to get the song, then create a new instance i our songs DB with that song returned from spotify
 router.post('/search-song', async (req, res, next) => {
   try {
-    const songId = '285pBltuF7vW8TeWk8hdRR'
+    //make sure we are sending just the id {id: njvdnsajkanvjdkas}
+    const songId = req.body
     const spotifySeachResult = await axios.get(
       `https://api.spotify.com/v1/tracks/${songId}`,
       {
