@@ -1,5 +1,6 @@
 const User = require('./user')
 const Song = require('./song')
+const Playlist = require('./playlist')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -16,5 +17,6 @@ const Song = require('./song')
  */
 module.exports = {
   User,
-  Song
+  Song,
+  Playlist
 }
