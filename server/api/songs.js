@@ -2,15 +2,16 @@
 const router = require('express').Router()
 const {Song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
-
+const {client_id, client_secret, redirect_uri} = require('../../secrets')
+// const axios =
 const spotifyApi = new spotifyWebApi({
-  clientId: 'f30f211450824a22bd223303ca42a33e',
-  clientSecret: '92cba98e076e42e2944d489f830f4259',
-  redirectUri: 'localhost:8080/callback'
+  clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
+  clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
+  callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
 spotifyApi.setAccessToken(
-  'BQBpodiU0KAYIZyEtpjU6-m2MXFEKzMDkcyAvSFcWAyjb2EAQjNuIFkkHFcffhm7vsAd-dVE7PN-l0EDBsFubNzeOUA_7yk_EQ73f2uJhERIZKRAIsiE6Tc3qXFlx9UI834VOh3zmTB1Wfl8L6fIR6KTfDQwQGTinJeiDsoqflHVeq2dGASY-OriYrGs6i1XptRk_HvRqYS-frtJV014kSi9GSaJVK97fa7CRwuhv_iCUp1rrFQiX5w0Xo2O_mHx_MckNgHdDIuxHo5Z0A8VlJcgszImJjtH_kA'
+  'BQBTP96EWqswlNSjT7p60wBGicw708SoCc4q2hOzb7WB6KqHClB7ALrksTxEohTp2ztA3rM5NZnoz2sroep-FymxQ91A3aDWtrxBnbVnMj-OtAdzcHS-CEROpfig6Fdrx6ve3EU6w3PHDLKNo4wMmG30hcpGQIICsm4'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -28,6 +29,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+//find song where track name has sandstorm
+router.get('/getSong', async (req, res, next) => {
+  try {
+    const song = await fetch(
+      'https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl'
+    )
+
+    res.json(song.body.item)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
   try {
@@ -36,18 +50,6 @@ router.get('/search', async (req, res, next) => {
       '43ZHCT0cAZBISjO8DG9PnE'
     )
     res.json(albumResult)
-  } catch (error) {
-    next(error)
-  }
-})
-
-//Playlist method
-router.get('/getPlaylist', async (req, res, next) => {
-  try {
-    //this should be a POST request after test is done
-    // const playlistName = req.body
-    const myPlaylist = await spotifyApi.getPlaylist(playlistId)
-    res.json(myPlaylist)
   } catch (error) {
     next(error)
   }
