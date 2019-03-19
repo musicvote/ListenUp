@@ -36,13 +36,11 @@ export class Playlist extends React.Component {
             </button>
           </div>
           {this.props.playlist.songs.map(song => {
+            console.log('inplaylist')
             return <SongCard key={song.songSpotifyId} song={song} />
           })}
 
-
           <Player />
-
-          
         </div>
         <Player />
       </div>

@@ -1,21 +1,23 @@
 import React, {Component} from 'react'
-
-export default class Searchbar extends Component {
+import {findSongFromSpotify} from '../store/playlistStore'
+import {connect} from 'react-redux'
+class Searchbar extends Component {
   constructor() {
     super()
     this.state = {
-      songName: ''
+      songName: '',
+      foundSongs: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     // this.props.addNewSongToPlaylist(this.state) !!!
-    this.setState({
-      songName: ''
-    })
+    await this.props.findMatches(this.state.songName)
+    console.log('7878787: ', this.props)
+    this.setState({songName: '', foundSongs: this.props.foundState})
   }
 
   handleChange(event) {
@@ -23,9 +25,11 @@ export default class Searchbar extends Component {
       [event.target.name]: event.target.value
     })
   }
+
   render() {
     return (
-      <div>
+      <div id="searchbar">
+        <div />
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
@@ -44,19 +48,16 @@ export default class Searchbar extends Component {
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     searchResult: state.songs,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    searchResult: state.songs.searchResult
+  }
+}
 
-// const mapDispatchToProps = dispatch => {
-//   return {
+const mapDispatchToProps = dispatch => {
+  return {
+    findMatches: songName => dispatch(findSongFromSpotify(songName))
+  }
+}
 
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Searchbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Searchbar)

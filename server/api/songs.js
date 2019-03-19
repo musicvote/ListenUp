@@ -11,7 +11,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 spotifyApi.setAccessToken(
-  'BQBTP96EWqswlNSjT7p60wBGicw708SoCc4q2hOzb7WB6KqHClB7ALrksTxEohTp2ztA3rM5NZnoz2sroep-FymxQ91A3aDWtrxBnbVnMj-OtAdzcHS-CEROpfig6Fdrx6ve3EU6w3PHDLKNo4wMmG30hcpGQIICsm4'
+  'BQAgkiFvvqTMni2iT3IRHRypwlWAlx4_aN_-TM-uOG31FL4sBtsOOrEwexgEtHyaWTwzbam7GzP0mnrK6LqvQIgDtov-ctdGTrV-RTOfbW8QMX6OmZrRj03wnvpwsZ6y26yqK95RJpb-I1GjGdYhUZpS11LnlLQxYblPCwak_aqej1Qb8-qos2dJvkgPtxZwjsIz2qwAQacz0Mp3AlSExmARBV-kBQGtO9q6nBUyuHl6FCGo5UamTnOFzIqzQTxFmWa8E0m-GQ-mXtqKGfp8M_Zin7uWsIctipw'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -44,10 +44,9 @@ router.get('/getSong', async (req, res, next) => {
 
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
-//Playlist method - gets particular playlist
-//returns json object with all the tracks within a playlist
+  //Playlist method - gets particular playlist
+  //returns json object with all the tracks within a playlist
   try {
-    console.log(spotifyApi, 'this is inside the route')
     const albumResult = await spotifyApi.getArtistAlbums(
       '43ZHCT0cAZBISjO8DG9PnE'
     )

@@ -1,16 +1,17 @@
 import axios from 'axios'
 
 //STATE AND REDUCER
-const initialState = {
+export const initialState = {
   songs: [],
   currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
   deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
-  searchResult: ''
+  searchResult: []
 }
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
-const FIND_SONG = 'FIND_SONG'
+const FOUND_SONGS = 'FOUND_SONGS'
+
 //ACTION CREATORS
 const getSongs = playlist => {
   return {
@@ -26,10 +27,10 @@ const gotNext = spotifyPlaying => {
   }
 }
 
-const findSong = song => {
+const foundFromSearch = searchResults => {
   return {
-    type: ADD_SONG,
-    searchInput
+    type: FOUND_SONGS,
+    searchResults
   }
 }
 //THUNK CREATORS
@@ -37,6 +38,7 @@ export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
+      console.log(data)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -71,16 +73,32 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token =
-  'Authorization: Bearer BQCGRAllyK3XMFmE0998kAiZ19GS_kGbe_9qyO8eD30rFyQdRDvjpmZLy5lSSGZAced8EOP-nxicWBDWXEBNoDS90wU1Rd1oxlHopWz-uILYAetJnzRMMc-lyLgSnWIJMpY-2_NzbFOFZ4VkT2Du9OyCk_yTP4BKUDalGQULfBavCQpVboGeD8X9DBadVWBGfc0O0I74fOKZ1a5elSx1nqv6FjXLnzQW1Fq4J3ZfS6_dCun0o3JR9VJGC-Zl95UQGrLVbKuMbDcc1LZD'
+const token = `Authorization: Bearer BQAgkiFvvqTMni2iT3IRHRypwlWAlx4_aN_-TM-uOG31FL4sBtsOOrEwexgEtHyaWTwzbam7GzP0mnrK6LqvQIgDtov-ctdGTrV-RTOfbW8QMX6OmZrRj03wnvpwsZ6y26yqK95RJpb-I1GjGdYhUZpS11LnlLQxYblPCwak_aqej1Qb8-qos2dJvkgPtxZwjsIz2qwAQacz0Mp3AlSExmARBV-kBQGtO9q6nBUyuHl6FCGo5UamTnOFzIqzQTxFmWa8E0m-GQ-mXtqKGfp8M_Zin7uWsIctipw`
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
-    const {searchResult} = await axios.get(
-      'https://api.spotify.com/v1/search?q=dreams&type=track',
-      token
+    const {data} = await axios.get(
+      `https://api.spotify.com/v1/search?q=${searchInput}&type=track`,
+      {
+        method: 'GET',
+        headers: {
+          authorization: token,
+          'Content-Type': 'application/json'
+        }
+      }
     )
-    const action = dispatch(searchResult)
+
+    const allItems = data.tracks.items.reduce((acc, item) => {
+      let makeItem = {
+        artist: item.artists[0].name,
+        songId: item.id,
+        songName: item.name
+      }
+      acc.push(makeItem)
+      return acc
+    }, [])
+
+    const action = foundFromSearch(allItems)
     dispatch(action)
   }
 }
@@ -101,11 +119,13 @@ const playlistReducer = (state = initialState, action) => {
         currSong: action.spotifyPlaying
       }
     }
-    case FIND_SONG: {
-      return {
+    case FOUND_SONGS: {
+      let newState = {
         ...state,
-        searchResult: action.searchInput
+        searchResult: [...action.searchResults]
       }
+      console.log(newState)
+      return newState
     }
     default: {
       return state
