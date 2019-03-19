@@ -10,9 +10,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 spotifyApi.setAccessToken(
-
   'BQAWITT5Or4Q8PBCeywZPRmy0K8VXEwFXUu59-qisfPzitraVB2tGRrSXq4-8vM1Ok00KiO9LRKSBYScEqVBHzVST3_C7jpvV5AqRhfGpFXb07gExGCTbDMejKU0rqkUMyvhEM2pPGuCESGAq1ORWuXpftmITdC0bZCY2Hd6gTfOVxjza4wpvhy3hlrXa7RU4Jxv-y2i2aE6VJR4MeQXpN6HMWXPB4Ot_BDDsai9xBnBpoQcCqC3zFsR7JHDKjc020bBby9hT8sfjVz1AwYFqzKjXlMsL0C-mYE'
-
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
