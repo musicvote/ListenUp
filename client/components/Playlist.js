@@ -25,22 +25,26 @@ export class Playlist extends React.Component {
   }
 
   render() {
-    console.log(this.props.playlist.deckSong)
     return (
       <div>
         <h1>Playlist</h1>
         <Sidebar />
         <div id="playlist">
+          <div>
+            <button type="button" onClick={this.CheckSpotify}>
+              Check Spotify
+            </button>
+          </div>
           {this.props.playlist.songs.map(song => {
             return <SongCard key={song.songSpotifyId} song={song} />
           })}
 
+
           <Player />
 
-          <button type="button" onClick={this.CheckSpotify}>
-            Check Spotify
-          </button>
+          
         </div>
+        <Player />
       </div>
     )
   }
