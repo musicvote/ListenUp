@@ -73,7 +73,7 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token = `Authorization: Bearer BQAgkiFvvqTMni2iT3IRHRypwlWAlx4_aN_-TM-uOG31FL4sBtsOOrEwexgEtHyaWTwzbam7GzP0mnrK6LqvQIgDtov-ctdGTrV-RTOfbW8QMX6OmZrRj03wnvpwsZ6y26yqK95RJpb-I1GjGdYhUZpS11LnlLQxYblPCwak_aqej1Qb8-qos2dJvkgPtxZwjsIz2qwAQacz0Mp3AlSExmARBV-kBQGtO9q6nBUyuHl6FCGo5UamTnOFzIqzQTxFmWa8E0m-GQ-mXtqKGfp8M_Zin7uWsIctipw`
+const token = `Authorization: Bearer BQB234arkbsqwgPuMC0zOw50HdOEUyCykRlpRxUfNlqPPlcGp2CkTi-8IRG1GjMXuZYRYZp-M54Nm-7FCeTHOFZBixRGkH2AEjX3qnwXmN_59NVPSWDPHL6Z9Nmf1rFoI6TJDRi1drU4nFgNWD-PxKP7S7TEO2gY8LP_ZioW0IdqSEZUUfH_VUMvVecduRpJz2uwUeDYWfQf2D-LSEW4TJdk72FFbLDJzlssHJoggZHsY4RZ-oTUomkZYhgTwXiRfZcT6CIRj3fNuTwhQoE6FQB5IxKs74QIUoA`
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
