@@ -25,7 +25,6 @@ export class Playlist extends React.Component {
   }
 
   render() {
-    console.log(this.props.playlist.deckSong)
     return (
       <div>
         <h1>Playlist</h1>
@@ -39,6 +38,11 @@ export class Playlist extends React.Component {
           {this.props.playlist.songs.map(song => {
             return <SongCard key={song.songSpotifyId} song={song} />
           })}
+
+
+          <Player />
+
+          
         </div>
         <Player />
       </div>

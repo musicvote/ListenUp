@@ -4,11 +4,13 @@ import axios from 'axios'
 const initialState = {
   songs: [],
   currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
-  deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'}
+  deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
+  searchResult: ''
 }
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
+const FIND_SONG = 'FIND_SONG'
 //ACTION CREATORS
 const getSongs = playlist => {
   return {
@@ -24,6 +26,12 @@ const gotNext = spotifyPlaying => {
   }
 }
 
+const findSong = song => {
+  return {
+    type: ADD_SONG,
+    searchInput
+  }
+}
 //THUNK CREATORS
 export const fetchPlaylist = () => {
   return async dispatch => {
@@ -63,6 +71,22 @@ export const CheckFetchSpotify = () => {
   }
 }
 
+const token =
+  'Authorization: Bearer BQCGRAllyK3XMFmE0998kAiZ19GS_kGbe_9qyO8eD30rFyQdRDvjpmZLy5lSSGZAced8EOP-nxicWBDWXEBNoDS90wU1Rd1oxlHopWz-uILYAetJnzRMMc-lyLgSnWIJMpY-2_NzbFOFZ4VkT2Du9OyCk_yTP4BKUDalGQULfBavCQpVboGeD8X9DBadVWBGfc0O0I74fOKZ1a5elSx1nqv6FjXLnzQW1Fq4J3ZfS6_dCun0o3JR9VJGC-Zl95UQGrLVbKuMbDcc1LZD'
+
+export const findSongFromSpotify = searchInput => {
+  return async dispatch => {
+    const {searchResult} = await axios.get(
+      'https://api.spotify.com/v1/search?q=dreams&type=track',
+      token
+    )
+    const action = dispatch(searchResult)
+    dispatch(action)
+  }
+}
+
+//add song to playlist in our app
+
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SONGS: {
@@ -75,6 +99,12 @@ const playlistReducer = (state = initialState, action) => {
       return {
         ...state,
         currSong: action.spotifyPlaying
+      }
+    }
+    case FIND_SONG: {
+      return {
+        ...state,
+        searchResult: action.searchInput
       }
     }
     default: {

@@ -44,6 +44,8 @@ router.get('/getSong', async (req, res, next) => {
 
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
+//Playlist method - gets particular playlist
+//returns json object with all the tracks within a playlist
   try {
     console.log(spotifyApi, 'this is inside the route')
     const albumResult = await spotifyApi.getArtistAlbums(
