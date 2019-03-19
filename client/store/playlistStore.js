@@ -73,7 +73,7 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token = `Authorization: Bearer BQB234arkbsqwgPuMC0zOw50HdOEUyCykRlpRxUfNlqPPlcGp2CkTi-8IRG1GjMXuZYRYZp-M54Nm-7FCeTHOFZBixRGkH2AEjX3qnwXmN_59NVPSWDPHL6Z9Nmf1rFoI6TJDRi1drU4nFgNWD-PxKP7S7TEO2gY8LP_ZioW0IdqSEZUUfH_VUMvVecduRpJz2uwUeDYWfQf2D-LSEW4TJdk72FFbLDJzlssHJoggZHsY4RZ-oTUomkZYhgTwXiRfZcT6CIRj3fNuTwhQoE6FQB5IxKs74QIUoA`
+const token = `Authorization: Bearer BQB0d8hEBvj3AbgoyTJ5Rjxkdojx7tqxDRbQc6O-wBzqPwGoOj86oSWQuvD7-qe9LnWstzgRYTuMu-GYezPIzoD4FOwXRrywTBlzwGaZR6YPNGGV24Dnm3u8wgeGGGx_dF29IU9yfX6Rt_N-koCGEEhftgbN9r8U2DKo5JMQO-UpRT6VKZG3U039y8G3G7UdhcPfYPlrXjwNBIHPlyl3vBNEr73S_JGDrAkVZ8j6ykkzWbKrvbeaousuir3KoC0Nm3X1wyh2bpgvdCw7YDBJz7QegjjTH74hfuo`
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
@@ -90,9 +90,8 @@ export const findSongFromSpotify = searchInput => {
 
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
-        artist: item.artists[0].name,
-        songId: item.id,
-        songName: item.name
+        label: `${item.artists[0].name} - ${item.name}`,
+        value: item.id
       }
       acc.push(makeItem)
       return acc

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify} from '../store/playlistStore'
 import {connect} from 'react-redux'
+import Select from 'react-select'
+
 class Searchbar extends Component {
   constructor() {
     super()
@@ -17,7 +19,7 @@ class Searchbar extends Component {
     // this.props.addNewSongToPlaylist(this.state) !!!
     await this.props.findMatches(this.state.songName)
     console.log('7878787: ', this.props)
-    this.setState({songName: '', foundSongs: this.props.foundState})
+    this.setState({songName: '', foundSongs: this.props.searchResult})
   }
 
   handleChange(event) {
@@ -43,6 +45,12 @@ class Searchbar extends Component {
             Submit
           </button>
         </form>
+        <Select
+          onChange={this.handleChange}
+          onSubmit={this.handleSubmit}
+          options={this.state.foundSongs}
+          defaultMenuIsOpen={true}
+        />
       </div>
     )
   }
