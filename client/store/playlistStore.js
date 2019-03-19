@@ -3,14 +3,9 @@ import axios from 'axios'
 //STATE AND REDUCER
 const initialState = {
   songs: [],
-
- 
-  searchResult: ''
-
   currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
   deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
-    searchResult: ''
-
+  searchResult: ''
 }
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
