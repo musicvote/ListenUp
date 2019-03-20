@@ -74,6 +74,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/searchSpotify', async (req, res, next) => {
   try {
+    const search = req.body.search
     const searchResult = await axios.get(
       `api.spotify.com/v1/search?q=${search}&type=track`,
       {
