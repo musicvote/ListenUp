@@ -5,8 +5,8 @@ const Playlist = require('./playlist')
 Playlist.belongsTo(User)
 User.hasOne(Playlist)
 
-Playlist.belongsToMany(Song, {through: 'playlist_song'})
-Song.belongsToMany(Playlist, {through: 'playlist_song'})
+Playlist.belongsToMany(Song, {through: 'Playlist_song'})
+Song.belongsToMany(Playlist, {through: 'Playlist_song'})
 
 module.exports = {
   User,
