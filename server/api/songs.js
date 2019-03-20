@@ -82,9 +82,9 @@ router.get('/searchSpotify', async (req, res, next) => {
     )
     const allItems = searchResult.tracks.items.reduce((acc, item) => {
       let makeItem = {
-        artist: `${item.artists[0].name},
-        songName: ${item.name}`,
-        value: item.id,
+        artist: item.artists[0].name,
+        songName: item.name,
+        songId: item.id,
         imageUrl: 'item.FIND WHERE THE IMAGEURL IS IN THE JSON'
       }
       acc.push(makeItem)
