@@ -1,6 +1,6 @@
 //get one song
 const router = require('express').Router()
-const {Song} = require('../db/models')
+const {Song, playlist_song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
@@ -70,32 +70,57 @@ router.get('/', async (req, res, next) => {
 //   }
 // );
 
-//when a user for a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
-router.get('/search-song', async (req, res, next) => {
+//when a user search a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
+
+router.get('/searchSpotify', async (req, res, next) => {
   try {
-    const songId = req.body
-    const track = await Song.findAll({where: {spotifySongId: songId}})
-    if (track) {
-      res.json(track)
+    const searchResult = await axios.get(
+      `api.spotify.com/v1/search?q=${search}&type=track`,
+      {
+        headers: {Authorization: 'Bearer ' + accessToken}
+      }
+    )
+    const allItems = searchResult.tracks.items.reduce((acc, item) => {
+      let makeItem = {
+        artist: `${item.artists[0].name},
+        songName: ${item.name}`,
+        value: item.id,
+        imageUrl: 'item.FIND WHERE THE IMAGEURL IS IN THE JSON'
+      }
+      acc.push(makeItem)
+      return acc
+    }, [])
+
+    res.json(allItems)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//returns all songs in the database
+router.get('/:playlistId/searchDb', async (req, res, next) => {
+  try {
+    const playlistId = req.params.playlistId
+    const allSongs = await playlist_song.findAll({
+      where: {playlistId}
+    })
+    if (allsongs) {
+      res.json(allSongs)
     } else {
-      res.send('track not found')
+      res.json('No songs in playlist')
     }
   } catch (error) {
     next(error)
   }
 })
 
-//when a searches for a song, and we see that we do not have that song in our DB, we need to ping spotify to get the song, then create a new instance i our songs DB with that song returned from spotify
-router.post('/search-song', async (req, res, next) => {
+router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
-    const search = req.body.search
-    const spotifySeachResult = await axios.get(
-      `api.spotify.com/v1/search?q=${search}&type=track`,
-      {
-        headers: {Authorization: 'Bearer ' + accessToken}
-      }
-    )
-    const addedSong = await Song.create(spotifySeachResult.data)
+    const playlistId = req.params.playlistId
+    const selectedSong = req.body
+    const addedSong = await playlist_song.findOrCreate({
+      where: {playlistId}
+    })
     res.json(addedSong)
   } catch (error) {
     next(error)
