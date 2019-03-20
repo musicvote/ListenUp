@@ -3,7 +3,7 @@ import axios from 'axios'
 //STATE AND REDUCER
 export const initialState = {
   songs: [],
-  currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
+  currSong: {id: '7uTv9wHkO Ph5P9HFmkOE28'},
   deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
   searchResult: []
 }
@@ -37,7 +37,7 @@ const foundFromSearch = searchResults => {
 
 const addedSongToDb = addedSong => {
   return {
-    type: FOUND_SONGS,
+    type: ADDED_SONG,
     addedSong
   }
 }
@@ -96,7 +96,7 @@ export const findSongFromSpotify = searchInput => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/songs/addToDb`, {
+      const {data} = await axios.post(`/api/songs/addSong`, {
         search: addedSongObj
       })
 
@@ -124,6 +124,12 @@ const playlistReducer = (state = initialState, action) => {
         currSong: action.spotifyPlaying
       }
     }
+    case ADDED_SONG: {
+      return {
+        ...state,
+        songs: [...state.songs, action.addedSong]
+      }
+    }
     case FOUND_SONGS: {
       let newState = {
         ...state,
@@ -137,7 +143,5 @@ const playlistReducer = (state = initialState, action) => {
     }
   }
 }
-
-// heartbeat isPlaying checker.
 
 export default playlistReducer

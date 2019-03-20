@@ -4,14 +4,15 @@ const {Song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
+module.exports = router
+
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
-
 spotifyApi.setAccessToken(
-  'BQAStW6Niib8tsmR_6h2mb29FO0Yl01QV8mqrfm0amp1gvjDDMRlhMZa1j94PyGuCLAdyC9zz9DGxd7BAD9jxhuQ15CIt_E28uUbgpGnYk-KNrD8_Z1EW6IzPT89IvxccwnmP8kBKeIGB0Mu2XIYXXf8s5Lbas57Qgs-A7C87o7Xvx93FKZtMn_yY2NoOz6GhWwYkw2AsiWAuyVSATf234EdQNP7xZzkVCJ35yKZMUAiGij4ejW4TP1C_0I7Rp09AxcTYNGoT-3mGEtaF0-0VbPQT_IeDdLz6j0'
+  'BQCAM0z-9ZZORpZdES9XSHfhmbZQrCX18uc0uzakoDBapkQSllDFhvuuV0jOwulmelTcWAW8KGrFUI3zavTfVTWd6KZ11xmjzk9FIvqdGOb35dM71e8vCREUfAwWIv99VaXEafTJnhC9vU_A49Fx7iErz3AiwARAURecTC4VB8BP4ZBhhczFMlEgMmHcyRsB9InwE2155XGZzFgXDmCb_nF0b9uE2RKxO76gUUtbvSTa4jgt9yv4U2vGDQ-GTWpu6JFSTB65d7__EHwnhYTf9Z3QWNvPzQTBjG0'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'

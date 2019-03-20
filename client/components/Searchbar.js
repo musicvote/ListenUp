@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {findSongFromSpotify} from '../store/playlistStore'
+import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
 
 class Searchbar extends Component {
@@ -28,7 +28,15 @@ class Searchbar extends Component {
     })
   }
   submitSongHandler(event) {
+    const evtValArr = event.target.value.split('///')
     console.log('this is evt.target', event.target.value, this.props)
+    const repackagedObjFromEvtVal = {
+      artist: evtValArr[0],
+      songName: evtValArr[1],
+      songId: evtValArr[2],
+      imageUrl: evtValArr[3]
+    }
+    // this.props.songs.songPickedNowPost()
   }
 
   render() {
@@ -58,7 +66,9 @@ class Searchbar extends Component {
                   key={song.songId}
                   onClick={this.submitSongHandler}
                   type="button"
-                  value={song.value}
+                  value={`${song.artist}///${song.songName}///${
+                    song.songId
+                  }///${song.imageUrl}`}
                 >
                   add
                 </button>
