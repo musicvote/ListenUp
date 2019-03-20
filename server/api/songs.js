@@ -1,6 +1,6 @@
 //get one song
 const router = require('express').Router()
-const {Song} = require('../db/models')
+const {Song, Playlist_song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
@@ -9,11 +9,20 @@ const spotifyApi = new spotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
-
+module.exports = router
 const accessToken =
-  'BQB4FDiKTv5HVE8497nnhM6-N2Y-H7PKSWBXKixkz8_b1iVd_SHkGlSHD_upL9Kj_bWBwB5GhMTqj07WQ9u3z3TLo9oLg__PCuRhwN5S-K1aKKeQi5KmTag5b2wnpqZjibv5ZSYqIKImT36CCJfCfA7yUWHkyaBTVhWilohfzoptBiebPQ93_NufCStAsh6Sj12GeEpGHtraVBID9YDXAABpR6wzJaRiJAgicdagBVv50943wHsTgGYbODsP4gNHtgSauItKm5j-NpRw'
+  'BQBB1nz4_sopQZyE8YIkZBsdmgOkb7aN2s8ul4GjSefLuHvdDGp79uPpACk6pvVgx4ncCePZ0IdswlKOW6rSJk08VuOy_Zea1fEUBCVCwMCFrOl1CsUiQhnpzGM31P2EIS4R4j7LBMCkHEZetsQMD12BF1BuQfbQCHA'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+
+router.get('/', async (req, res, next) => {
+  try {
+    console.log('Need this route to stop getting error')
+    res.sendStatus(202)
+  } catch (error) {
+    next(error)
+  }
+})
 
 // router.post('/addToPlaylist', (req, res, next) => {
 //   let songId = req.body.id
@@ -48,8 +57,6 @@ const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 //     .catch(next)
 // })
 
-module.exports = router
-
 // clientId, clientSecret and refreshToken has been set on the api object previous to this call.
 // spotifyApi.refreshAccessToken().then(
 //   function(data) {
@@ -63,35 +70,59 @@ module.exports = router
 //   }
 // );
 
-//when a user for a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
-router.get('/search-song', async (req, res, next) => {
+//when a user search a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
+
+router.get('/searchSpotify', async (req, res, next) => {
   try {
-    const songId = req.body
-    const track = await Song.findAll({where: {spotifySongId: songId}})
-    if (track) {
-      res.json(track)
+    const search = req.body.search
+    const searchResult = await axios.get(
+      `api.spotify.com/v1/search?q=${search}&type=track`,
+      {
+        method: 'GET',
+        headers: {Authorization: 'Bearer ' + accessToken},
+        'Content-Type': 'application/json'
+      }
+    )
+    const allItems = searchResult.tracks.items.reduce((acc, item) => {
+      let makeItem = {
+        artist: item.artists[0].name,
+        songName: item.name,
+        songId: item.id,
+        imageUrl: 'item.FIND WHERE THE IMAGEURL IS IN THE JSON'
+      }
+      acc.push(makeItem)
+      return acc
+    }, [])
+
+    res.json(allItems)
+  } catch (error) {
+    next(error)
+  }
+})
+
+//returns all songs in the database
+router.get('/:playlistId/searchDb', async (req, res, next) => {
+  try {
+    const playlistId = req.params.playlistId
+    const allSongs = await Playlist_song.findAll({
+      where: {playlistId}
+    })
+    if (allsongs) {
+      res.json(allSongs)
     } else {
-      res.send('track not found')
+      res.json('No songs in playlist')
     }
   } catch (error) {
     next(error)
   }
 })
 
-//when a searches for a song, and we see that we do not have that song in our DB, we need to ping spotify to get the song, then create a new instance i our songs DB with that song returned from spotify
-router.post('/search-song', async (req, res, next) => {
+router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
-    //make sure we are sending just the id {id: njvdnsajkanvjdkas}
-    const songId = req.body
-    const spotifySeachResult = await axios.get(
-      `https://api.spotify.com/v1/tracks/${songId}`,
-      {
-        headers: {Authorization: 'Bearer ' + accessToken}
-      }
-    )
-    console.log('SPOTIFY SEARCH RESULT', spotifySeachResult)
-    const addedSong = await Song.create({
-      spotifySongID: spotifySeachResult.data.id
+    const playlistId = req.params.playlistId
+    const selectedSong = req.body
+    const addedSong = await Playlist_song.findOrCreate({
+      where: {playlistId}
     })
     res.json(addedSong)
   } catch (error) {
