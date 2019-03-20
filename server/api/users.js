@@ -24,10 +24,7 @@ router.post('/', async (req, res, next) => {
       const id = req.user.id
       const username = req.user.username
       const displayName = req.user.displayName
-      const user = User.findOrCreate(
-        {where: {id, username, displayName}},
-        {plain: true}
-      )
+      const user = User.findOrCreate()
       res.status(201).json(user)
     } else {
       res.send('Please log in with Spotify')

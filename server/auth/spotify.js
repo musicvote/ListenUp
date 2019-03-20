@@ -36,13 +36,11 @@ router.get(
   '/callback',
   passport.authenticate('spotify', {failureRedirect: '/'}),
   function(req, res) {
-    console.log('this is inside the spotify route')
     res.redirect('/playlist')
   }
 )
 
 router.get('/me', function(req, res) {
-  console.log('this is inside the ME in spotify')
   if (req.user) res.json(req.user)
   else res.json({})
 })

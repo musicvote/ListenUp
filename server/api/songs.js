@@ -9,11 +9,20 @@ const spotifyApi = new spotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
-
+module.exports = router
 const accessToken =
-  'BQB4FDiKTv5HVE8497nnhM6-N2Y-H7PKSWBXKixkz8_b1iVd_SHkGlSHD_upL9Kj_bWBwB5GhMTqj07WQ9u3z3TLo9oLg__PCuRhwN5S-K1aKKeQi5KmTag5b2wnpqZjibv5ZSYqIKImT36CCJfCfA7yUWHkyaBTVhWilohfzoptBiebPQ93_NufCStAsh6Sj12GeEpGHtraVBID9YDXAABpR6wzJaRiJAgicdagBVv50943wHsTgGYbODsP4gNHtgSauItKm5j-NpRw'
+  'BQBB1nz4_sopQZyE8YIkZBsdmgOkb7aN2s8ul4GjSefLuHvdDGp79uPpACk6pvVgx4ncCePZ0IdswlKOW6rSJk08VuOy_Zea1fEUBCVCwMCFrOl1CsUiQhnpzGM31P2EIS4R4j7LBMCkHEZetsQMD12BF1BuQfbQCHA'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+
+router.get('/', async (req, res, next) => {
+  try {
+    console.log('Need this route to stop getting error')
+    res.sendStatus(202)
+  } catch (error) {
+    next(error)
+  }
+})
 
 // router.post('/addToPlaylist', (req, res, next) => {
 //   let songId = req.body.id
@@ -47,8 +56,6 @@ const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 //     )
 //     .catch(next)
 // })
-
-module.exports = router
 
 // clientId, clientSecret and refreshToken has been set on the api object previous to this call.
 // spotifyApi.refreshAccessToken().then(

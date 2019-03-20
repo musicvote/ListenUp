@@ -9,6 +9,14 @@ const Playlist = require('./playlist')
  *    BlogPost.belongsTo(User)
  */
 
+// Song.belongsTo(Playlist)
+// Playlist.hasMany(Song)
+// Playlist.belongsTo(User)
+// User.hasOne(Playlist)
+
+// Playlist.hasMany(Song)
+// Song.hasMany(Playlist)
+
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
