@@ -2,7 +2,6 @@ const router = require('express').Router()
 module.exports = router
 const {Song, Playlist, User} = require('../db/models')
 
-router.use('/users', require('./users'))
 router.use('/songs', require('./songs'))
 
 router.use((req, res, next) => {
