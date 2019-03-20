@@ -28,8 +28,8 @@ class Searchbar extends Component {
     })
   }
   submitSongHandler(event) {
-    const evtValArr = event.target.value.split('///')
     console.log('this is evt.target', event.target.value, this.props)
+    const evtValArr = event.target.value.split('///')
     const repackagedObjFromEvtVal = {
       artist: evtValArr[0],
       songName: evtValArr[1],
@@ -61,7 +61,7 @@ class Searchbar extends Component {
           this.state.foundSongs.map(song => {
             return (
               <div key={song.songId}>
-                <p>{song.label}</p>
+                <p key={song.songId}>{song.label}</p>
                 <button
                   key={song.songId}
                   onClick={this.submitSongHandler}

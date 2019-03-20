@@ -15,8 +15,7 @@ const socketio = require('socket.io')
 const SpotifyStrategy = require('passport-spotify').Strategy
 module.exports = app
 const {client_id, client_secret, redirect_uri} = require('../secrets')
-console.log(client_id, 'this is the clientID')
-
+const {User} = require('./db/models')
 const scope =
   'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate'
 passport.use(
@@ -84,7 +83,10 @@ const createApp = () => {
     '/callback',
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function(req, res) {
-      //TODO: update/create a component to redirect home.
+      User.findOrCreate({
+        where: {id: req.user.id}
+      })
+      //TODO: update/create a component to direct to choose create playlist or join playlist
       res.redirect('/playlist')
     }
   )

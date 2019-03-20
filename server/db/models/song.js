@@ -6,9 +6,16 @@ const Song = db.define('song', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  hasPlayed: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
+  name: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  artistName: {
+    type: Sequelize.TEXT,
+    allowNull: false
+  },
+  albumArtworkurl: {
+    type: Sequelize.TEXT
   }
 })
 

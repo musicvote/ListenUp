@@ -84,10 +84,8 @@ export const CheckFetchSpotify = () => {
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
-    const {data} = await axios.post(`/api/songs/search-song`, {
-      search: searchInput
-    })
-
+    const {data} = await axios.get(`/api/songs/searchSpotify/${searchInput}`)
+    console.log('FROM THE THING: ', data)
     const action = foundFromSearch(data)
     dispatch(action)
   }
