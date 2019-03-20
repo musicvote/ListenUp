@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify} from '../store/playlistStore'
 import {connect} from 'react-redux'
-import Select from 'react-select'
 
 class Searchbar extends Component {
   constructor() {
@@ -12,6 +11,7 @@ class Searchbar extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.submitSongHandler = this.submitSongHandler.bind(this)
   }
 
   async handleSubmit(event) {
@@ -26,6 +26,9 @@ class Searchbar extends Component {
     this.setState({
       [event.target.name]: event.target.value
     })
+  }
+  submitSongHandler(event) {
+    console.log('this is evt.target', event.target.value)
   }
 
   render() {
@@ -45,12 +48,25 @@ class Searchbar extends Component {
             Submit
           </button>
         </form>
-        <Select
-          onChange={this.handleChange}
-          onSubmit={this.handleSubmit}
-          options={this.state.foundSongs}
-          defaultMenuIsOpen={true}
-        />
+
+        {this.state.foundSongs.length ? (
+          this.state.foundSongs.map(song => {
+            return (
+              <div key={song.songId}>
+                <p>{song.label}</p>
+                <button
+                  onClick={this.submitSongHandler}
+                  type="button"
+                  value={song.value}
+                >
+                  +
+                </button>
+              </div>
+            )
+          })
+        ) : (
+          <div>Not found</div>
+        )}
       </div>
     )
   }

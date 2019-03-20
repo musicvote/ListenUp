@@ -11,6 +11,7 @@ export const initialState = {
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
 const FOUND_SONGS = 'FOUND_SONGS'
+const ADDED_SONG = 'ADDED_SONG'
 
 //ACTION CREATORS
 const getSongs = playlist => {
@@ -33,6 +34,14 @@ const foundFromSearch = searchResults => {
     searchResults
   }
 }
+
+const addSongToDb = addedSong => {
+  return {
+    type: FOUND_SONGS,
+    addedSong
+  }
+}
+
 //THUNK CREATORS
 export const fetchPlaylist = () => {
   return async dispatch => {
@@ -73,7 +82,7 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token = `Authorization: Bearer BQB0d8hEBvj3AbgoyTJ5Rjxkdojx7tqxDRbQc6O-wBzqPwGoOj86oSWQuvD7-qe9LnWstzgRYTuMu-GYezPIzoD4FOwXRrywTBlzwGaZR6YPNGGV24Dnm3u8wgeGGGx_dF29IU9yfX6Rt_N-koCGEEhftgbN9r8U2DKo5JMQO-UpRT6VKZG3U039y8G3G7UdhcPfYPlrXjwNBIHPlyl3vBNEr73S_JGDrAkVZ8j6ykkzWbKrvbeaousuir3KoC0Nm3X1wyh2bpgvdCw7YDBJz7QegjjTH74hfuo`
+const token = `BQC5TkCjY8wCIsX-kSxxcYegONdWOJAWIKFX1sEDiio0rYE5bCMcGYIr95CgQxTUTXhXFkPG7nZ6G-xrqzC6QqblT_7NGf7B1W71i-12mPHv54GbSZWUSHXkxjbTbT7Y3pYDEvgkm1Qd_sRrry1K8Kxgi5Zy6nu5NuhSDprRt8D1wFOjevx_EcjaehjpeEctLPKNf1qbla6z5FoLW22GpjifUCzQPApNFp3pRs8sAVYjFayfHUB8qpVDKdTzh1o6UcBNAzQ4hqbG4bpVKTlEQRvezcf2Am7qT7E`
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
@@ -82,7 +91,7 @@ export const findSongFromSpotify = searchInput => {
       {
         method: 'GET',
         headers: {
-          authorization: token,
+          authorization: `Authorization: Bearer ${token}`,
           'Content-Type': 'application/json'
         }
       }
@@ -98,6 +107,13 @@ export const findSongFromSpotify = searchInput => {
     }, [])
 
     const action = foundFromSearch(allItems)
+    dispatch(action)
+  }
+}
+
+export const postSongToPlaylist = searchInput => {
+  return async dispatch => {
+    const action = addSongToDb(allItems)
     dispatch(action)
   }
 }
