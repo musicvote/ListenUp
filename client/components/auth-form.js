@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {Button} from 'semantic-ui-react'
 
 /*** COMPONENT*/
 const AuthForm = props => {
@@ -27,9 +28,10 @@ const AuthForm = props => {
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form> */}
-      <button>
+
+      <Button size="massive">
         <a href="/callback">{displayName} with Spotify</a>
-      </button>
+      </Button>
     </div>
   )
 }

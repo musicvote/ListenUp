@@ -88,18 +88,14 @@ router.get('/search-song', async (req, res, next) => {
 //when a searches for a song, and we see that we do not have that song in our DB, we need to ping spotify to get the song, then create a new instance i our songs DB with that song returned from spotify
 router.post('/search-song', async (req, res, next) => {
   try {
-    //make sure we are sending just the id {id: njvdnsajkanvjdkas}
-    const songId = req.body
+    const search = req.body.search
     const spotifySeachResult = await axios.get(
-      `https://api.spotify.com/v1/tracks/${songId}`,
+      `api.spotify.com/v1/search?q=${search}&type=track`,
       {
         headers: {Authorization: 'Bearer ' + accessToken}
       }
     )
-    console.log('SPOTIFY SEARCH RESULT', spotifySeachResult)
-    const addedSong = await Song.create({
-      spotifySongID: spotifySeachResult.data.id
-    })
+    const addedSong = await Song.create(spotifySeachResult.data)
     res.json(addedSong)
   } catch (error) {
     next(error)

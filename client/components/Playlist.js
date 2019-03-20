@@ -39,10 +39,7 @@ export class Playlist extends React.Component {
             return <SongCard key={song.songSpotifyId} song={song} />
           })}
 
-
           <Player />
-
-          
         </div>
         <Player />
       </div>
