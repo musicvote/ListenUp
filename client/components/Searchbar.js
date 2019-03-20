@@ -55,11 +55,12 @@ class Searchbar extends Component {
               <div key={song.songId}>
                 <p>{song.label}</p>
                 <button
+                  key={song.songId}
                   onClick={this.submitSongHandler}
                   type="button"
                   value={song.value}
                 >
-                  +
+                  add
                 </button>
               </div>
             )

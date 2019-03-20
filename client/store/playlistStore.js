@@ -82,20 +82,13 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token = `BQC5TkCjY8wCIsX-kSxxcYegONdWOJAWIKFX1sEDiio0rYE5bCMcGYIr95CgQxTUTXhXFkPG7nZ6G-xrqzC6QqblT_7NGf7B1W71i-12mPHv54GbSZWUSHXkxjbTbT7Y3pYDEvgkm1Qd_sRrry1K8Kxgi5Zy6nu5NuhSDprRt8D1wFOjevx_EcjaehjpeEctLPKNf1qbla6z5FoLW22GpjifUCzQPApNFp3pRs8sAVYjFayfHUB8qpVDKdTzh1o6UcBNAzQ4hqbG4bpVKTlEQRvezcf2Am7qT7E`
+const token = `BQAStW6Niib8tsmR_6h2mb29FO0Yl01QV8mqrfm0amp1gvjDDMRlhMZa1j94PyGuCLAdyC9zz9DGxd7BAD9jxhuQ15CIt_E28uUbgpGnYk-KNrD8_Z1EW6IzPT89IvxccwnmP8kBKeIGB0Mu2XIYXXf8s5Lbas57Qgs-A7C87o7Xvx93FKZtMn_yY2NoOz6GhWwYkw2AsiWAuyVSATf234EdQNP7xZzkVCJ35yKZMUAiGij4ejW4TP1C_0I7Rp09AxcTYNGoT-3mGEtaF0-0VbPQT_IeDdLz6j0`
 
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
-    const {data} = await axios.get(
-      `https://api.spotify.com/v1/search?q=${searchInput}&type=track`,
-      {
-        method: 'GET',
-        headers: {
-          authorization: `Authorization: Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const {data} = await axios.post(`/api/songs/search-song`, {
+      search: searchInput
+    })
 
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
