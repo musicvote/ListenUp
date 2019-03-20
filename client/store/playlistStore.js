@@ -35,7 +35,7 @@ const foundFromSearch = searchResults => {
   }
 }
 
-const addSongToDb = addedSong => {
+const addedSongToDb = addedSong => {
   return {
     type: FOUND_SONGS,
     addedSong
@@ -82,32 +82,29 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token = `BQAStW6Niib8tsmR_6h2mb29FO0Yl01QV8mqrfm0amp1gvjDDMRlhMZa1j94PyGuCLAdyC9zz9DGxd7BAD9jxhuQ15CIt_E28uUbgpGnYk-KNrD8_Z1EW6IzPT89IvxccwnmP8kBKeIGB0Mu2XIYXXf8s5Lbas57Qgs-A7C87o7Xvx93FKZtMn_yY2NoOz6GhWwYkw2AsiWAuyVSATf234EdQNP7xZzkVCJ35yKZMUAiGij4ejW4TP1C_0I7Rp09AxcTYNGoT-3mGEtaF0-0VbPQT_IeDdLz6j0`
-
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
     const {data} = await axios.post(`/api/songs/search-song`, {
       search: searchInput
     })
 
-    const allItems = data.tracks.items.reduce((acc, item) => {
-      let makeItem = {
-        label: `${item.artists[0].name} - ${item.name}`,
-        value: item.id
-      }
-      acc.push(makeItem)
-      return acc
-    }, [])
-
-    const action = foundFromSearch(allItems)
+    const action = foundFromSearch(data)
     dispatch(action)
   }
 }
 
-export const postSongToPlaylist = searchInput => {
+export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
-    const action = addSongToDb(allItems)
-    dispatch(action)
+    try {
+      const {data} = await axios.post(`/api/songs/addToDb`, {
+        search: addedSongObj
+      })
+
+      const action = addedSongToDb(data)
+      dispatch(action)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

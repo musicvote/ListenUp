@@ -28,7 +28,7 @@ class Searchbar extends Component {
     })
   }
   submitSongHandler(event) {
-    console.log('this is evt.target', event.target.value)
+    console.log('this is evt.target', event.target.value, this.props)
   }
 
   render() {
@@ -81,7 +81,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    findMatches: songName => dispatch(findSongFromSpotify(songName))
+    findMatches: songName => dispatch(findSongFromSpotify(songName)),
+    songPickedNowPost: songObj => dispatch(postSongToPlaylist(songObj))
   }
 }
 
