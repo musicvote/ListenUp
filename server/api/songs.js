@@ -1,6 +1,6 @@
 //get one song
 const router = require('express').Router()
-const {Song, playlist_song} = require('../db/models')
+const {Song, Playlist_song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
@@ -104,7 +104,7 @@ router.get('/searchSpotify', async (req, res, next) => {
 router.get('/:playlistId/searchDb', async (req, res, next) => {
   try {
     const playlistId = req.params.playlistId
-    const allSongs = await playlist_song.findAll({
+    const allSongs = await Playlist_song.findAll({
       where: {playlistId}
     })
     if (allsongs) {
@@ -121,7 +121,7 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
     const playlistId = req.params.playlistId
     const selectedSong = req.body
-    const addedSong = await playlist_song.findOrCreate({
+    const addedSong = await Playlist_song.findOrCreate({
       where: {playlistId}
     })
     res.json(addedSong)
