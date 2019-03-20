@@ -78,7 +78,9 @@ router.get('/searchSpotify', async (req, res, next) => {
     const searchResult = await axios.get(
       `api.spotify.com/v1/search?q=${search}&type=track`,
       {
-        headers: {Authorization: 'Bearer ' + accessToken}
+        method: 'GET',
+        headers: {Authorization: 'Bearer ' + accessToken},
+        'Content-Type': 'application/json'
       }
     )
     const allItems = searchResult.tracks.items.reduce((acc, item) => {
