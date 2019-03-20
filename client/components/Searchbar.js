@@ -18,7 +18,7 @@ class Searchbar extends Component {
     event.preventDefault()
     // this.props.addNewSongToPlaylist(this.state) !!!
     await this.props.findMatches(this.state.songName)
-    console.log('7878787: ', this.props)
+    console.log('7878787: ', event.target.value())
     this.setState({songName: '', foundSongs: this.props.searchResult})
   }
 

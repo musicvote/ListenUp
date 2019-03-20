@@ -1,6 +1,6 @@
 const router = require('express').Router()
 module.exports = router
-const {Song, Playlist, User} = require('../db/models')
+// const {Song, Playlist, User} = require('../db/models')
 
 router.use('/songs', require('./songs'))
 

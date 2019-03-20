@@ -82,9 +82,41 @@ export const CheckFetchSpotify = () => {
   }
 }
 
+// const token =
+//   'BQCd1G4ubySrztG71seW5t_zbS-A-W7k1xiVOoYJf9glH1kEnxZcYCxEyd9zDbNYsxQ5J_MNGAOpxO0VYko9jHEjGtqHATUaauQ_D5cGCL-JyVY-aZlVOzgk_d0MkB_9bOQUpAEjJJ2BkohuET_ICefIKtNramXKh7opS2qLfw5MaOQdguEBwa91YlFiqajToM8dDSFQjz900OEpw40t_hAgD-nyilxnsK9eXD-1cxWPWpv-ePtqof7Cjjhyuf1kkBRTukLgfMe_tuna'
+
+// export const findSongFromSpotify = searchInput => {
+//   return async dispatch => {
+//     const {data} = await axios.get(
+//       `https://api.spotify.com/v1/search?q=${searchInput}&type=track`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           authorization: token,
+//           'Content-Type': 'application/json'
+//         }
+//       }
+//     )
+
+//     const allItems = data.tracks.items.reduce((acc, item) => {
+//       let makeItem = {
+//         label: `${item.artists[0].name}
+//         songName:${item.name}`,
+//         value: item.id,
+//         imageUrl: 'item.FIND WHERE THE IMAGEURL IS IN THE JSON'
+//       }
+//       acc.push(makeItem)
+//       return acc
+//     }, [])
+
+//     const action = foundFromSearch(allItems)
+//     dispatch(action)
+//   }
+// }
+
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
-    const {data} = await axios.post(`/api/songs/search-song`, {
+    const {data} = await axios.post(`/api/songs/searchSpotify`, {
       search: searchInput
     })
 

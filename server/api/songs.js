@@ -9,10 +9,9 @@ const spotifyApi = new spotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
-
-spotifyApi.setAccessToken(
-  'BQAStW6Niib8tsmR_6h2mb29FO0Yl01QV8mqrfm0amp1gvjDDMRlhMZa1j94PyGuCLAdyC9zz9DGxd7BAD9jxhuQ15CIt_E28uUbgpGnYk-KNrD8_Z1EW6IzPT89IvxccwnmP8kBKeIGB0Mu2XIYXXf8s5Lbas57Qgs-A7C87o7Xvx93FKZtMn_yY2NoOz6GhWwYkw2AsiWAuyVSATf234EdQNP7xZzkVCJ35yKZMUAiGij4ejW4TP1C_0I7Rp09AxcTYNGoT-3mGEtaF0-0VbPQT_IeDdLz6j0'
-)
+module.exports = router
+const accessToken =
+  'BQCd1G4ubySrztG71seW5t_zbS-A-W7k1xiVOoYJf9glH1kEnxZcYCxEyd9zDbNYsxQ5J_MNGAOpxO0VYko9jHEjGtqHATUaauQ_D5cGCL-JyVY-aZlVOzgk_d0MkB_9bOQUpAEjJJ2BkohuET_ICefIKtNramXKh7opS2qLfw5MaOQdguEBwa91YlFiqajToM8dDSFQjz900OEpw40t_hAgD-nyilxnsK9eXD-1cxWPWpv-ePtqof7Cjjhyuf1kkBRTukLgfMe_tuna'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -129,8 +128,10 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
 
 //when a user search a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
 
-router.get('/searchSpotify', async (req, res, next) => {
+router.post('/searchSpotify', async (req, res, next) => {
   try {
+    const search = req.body
+    console.log('hitting searchspotify')
     const searchResult = await axios.get(
       `api.spotify.com/v1/search?q=${search}&type=track`,
       {
