@@ -1,4 +1,3 @@
-//get one song
 const router = require('express').Router()
 const {Song, Playlist_song} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
@@ -13,20 +12,18 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQCU5tnSRQDuj0H6R_OOg62jH07LkUS9fXri3vlcho7mvDPBtXkri-KjOToa9TMGQGyOVdVvNPy-wZqzOJQukOmveTU2sxfwn8k8Z2eTo-LAx6oxzNZ25qzwtM4KIQraczEfnaUWLHrV6cg_OwhSrU-zr7MCEqhm7O8'
-
-spotifyApi.setAccessToken(accessToken)
+  'BQBruyUACT01-QC3VPA0kgMFsC1aM0G62yjabbZf7aVcU20HzhlJ8t54arkk7Ye2UaDEOa9OX-G270V8uwzgtDT8CPFbb0O78ybK1DoILgFOijawK2VQUpwEsSoIVAz29Ilt_lzGfYQmuCGtSuBlV9SyjH4usrRFXvs'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
-router.get('/', async (req, res, next) => {
-  try {
-    console.log('Need this route to stop getting error')
-    res.sendStatus(202)
-  } catch (error) {
-    next(error)
-  }
-})
+// router.get('/', async (req, res, next) => {
+//   try {
+//     console.log('Need this route to stop getting error')
+//     res.sendStatus(202)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
@@ -147,9 +144,15 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
     //need to revise
     const playlistId = req.params.playlistId
-    const selectedSong = req.body
-    const addedSong = await Playlist_song.findOrCreate({
-      where: {playlistId}
+    const selectedSong = req.body.selectedSong
+    console.log('This is the added to db route!!', selectedSong)
+    const addedSong = await Song.findOrCreate({
+      where: {
+        spotifySongID: selectedSong.songId,
+        songName: selectedSong.songList,
+        artistName: selectedSong.artist,
+        albumArtworkurl: selectedSong.imageUrl
+      }
     })
     res.json(addedSong)
   } catch (error) {
