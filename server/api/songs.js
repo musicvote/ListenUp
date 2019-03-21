@@ -13,7 +13,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQAKLPxGlasG-hasMOKBtzKdVqZZq5G47ZFG0lK9rl1a0a17mjUZHP91SxI8atp17z33VyqCu4GjJABIwpjD2bhzV5OejXFvtAAOu2TEYaX7-fmT5botzMnxVN-9R9vPSp-lLmq9tH-Rjcwblri-h4paf5weZyDy8blJMd07oQdeAul7exBrATzP0zFcK7Oqgixv-RmKz9pbUDkpZQvLFPwt5jryr7FXqH4SyNDlmsDlAncH6OumuseCaw3tguOGZCiN3dfpK0jn60NfWQWzs60R-cTTjphTa3k'
+  'BQCU5tnSRQDuj0H6R_OOg62jH07LkUS9fXri3vlcho7mvDPBtXkri-KjOToa9TMGQGyOVdVvNPy-wZqzOJQukOmveTU2sxfwn8k8Z2eTo-LAx6oxzNZ25qzwtM4KIQraczEfnaUWLHrV6cg_OwhSrU-zr7MCEqhm7O8'
 
 spotifyApi.setAccessToken(accessToken)
 
@@ -30,6 +30,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
+
   spotifyApi
     .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
       position: 1
@@ -46,7 +47,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     .catch(next)
 })
 
-//get song by ID
 //api/songs/
 router.get('/', async (req, res, next) => {
   try {
@@ -57,7 +57,6 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//find song where track name has sandstorm
 router.get('/getSong', async (req, res, next) => {
   try {
     const song = await fetch(
@@ -84,24 +83,6 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
-router.post('/addToPlaylist', (req, res, next) => {
-  let songId = req.body.id
-  spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
-      position: 1
-    })
-    .then(
-      data => {
-        console.log(')))))))))) ', data)
-        res.json(data)
-      },
-      err => {
-        console.log('Something went wrong!', err)
-      }
-    )
-    .catch(next)
-})
-
 router.get('/getCurrentlyPlaying', (req, res, next) => {
   spotifyApi
     .getMyCurrentPlayingTrack()
@@ -117,26 +98,9 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
     .catch(next)
 })
 
-// clientId, clientSecret and refreshToken has been set on the api object previous to this call.
-// spotifyApi.refreshAccessToken().then(
-//   function(data) {
-//     console.log('The access token has been refreshed!');
-
-//     // Save the access token so that it's used in future calls
-//     spotifyApi.setAccessToken(data.body['access_token']);
-//   },
-//   function(err) {
-//     console.log('Could not refresh access token', err);
-//   }
-// );
-
-//when a user search a song, check our DB first to see if we have that song, if we do, return that song to the user without pinging spotify
-
 router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
   try {
     const search = req.params.searchTerm
-
-    console.log('44444444: ', search)
     const {data} = await axios.get(
       `https://api.spotify.com/v1/search?q=${search}&type=track`,
       {
@@ -145,7 +109,6 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
         'Content-Type': 'application/json'
       }
     )
-
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
@@ -182,6 +145,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
+    //need to revise
     const playlistId = req.params.playlistId
     const selectedSong = req.body
     const addedSong = await Playlist_song.findOrCreate({
@@ -192,3 +156,16 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
     next(error)
   }
 })
+
+// clientId, clientSecret and refreshToken has been set on the api object previous to this call.
+// spotifyApi.refreshAccessToken().then(
+//   function(data) {
+//     console.log('The access token has been refreshed!');
+
+//     // Save the access token so that it's used in future calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function(err) {
+//     console.log('Could not refresh access token', err);
+//   }
+// );
