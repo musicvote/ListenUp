@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Song, Playlist, User} = require('../db/models')
+const {Song, Playlist, User, PlaylistSong} = require('../db/models')
 
 router.use('/songs', require('./songs'))
 

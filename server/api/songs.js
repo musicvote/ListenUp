@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Song, Playlist_song} = require('../db/models')
+const {Song, PlaylistSong, Playlist} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
@@ -12,18 +12,9 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDr3z6G7aUpErbjSVvg_hYiGE3TQQk4C0cSaOClwqJOa9nkeriUf-5MDMTq1Th7qUMKXVSjxFFTI9gAZIf97hn0Tg29tApXyzxLpLbgMGn3DzNOwRMrxeKP57r8NaMkFmE3aD0C4zVRabEXl2neZZQCSz59_VgHrWw'
+  'BQCR_s-z-RPNZ1uMEtBzRgtW5RAsfIJJxDOd6DmTM6vZIK4sfxF1C8ipjMeZms5iQA3XPDSAXvMGKdhnumrSY-G7vRU-xHhKAz8LSxgKn7H1vzWrHDG9bi4W7hFdnkjRLw-5DDZlaoMxeSz7Mha4RUoHCDTWb36ZiG4'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
-// router.get('/', async (req, res, next) => {
-//   try {
-//     console.log('Need this route to stop getting error')
-//     res.sendStatus(202)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
@@ -44,7 +35,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     .catch(next)
 })
 
-//api/songs/
 router.get('/', async (req, res, next) => {
   try {
     const songList = await Song.findAll()
@@ -143,7 +133,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
     //need to revise
-    const playlistId = req.params.playlistId
+    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
     console.log(selectedSong)
     const addedSong = await Song.findOrCreate({
@@ -153,14 +143,15 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
         artistName: selectedSong.artist,
         albumArtworkurl: selectedSong.imageUrl
       }
-      // include: [{}]
     })
-    // const addedToJoin = await Playlist_song.findOrCreate({
-    //   playlistId: playlistId,
-    //   spotifySongID: selectedSong.songId
-    // })
-
-    res.json(addedSong)
+    const addedToJoinTable = await PlaylistSong.findOrCreate({
+      where: {
+        playlistSpotifyPlaylistId: playlistId,
+        songSpotifySongID: selectedSong.songId,
+        hasPlayed: true
+      }
+    })
+    res.json(addedToJoinTable)
   } catch (error) {
     next(error)
   }

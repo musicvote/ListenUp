@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Song} = require('../server/db/models')
+const {User, Song, Playlist} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,6 +12,12 @@ async function seed() {
     User.create({id: 2, email: 'murphy@email.com', password: '123'})
   ])
 
+  const playlist = await Promise.all([
+    Playlist.create({
+      userId: 1,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
+    })
+  ])
   // const songs = await Promise.all([
   //   Song.create({
   //     songSpotifyId: '6PCUP3dWmTjcTtXY02oFdT',
