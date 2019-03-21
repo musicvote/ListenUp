@@ -1,16 +1,18 @@
 import axios from 'axios'
 
 //STATE AND REDUCER
-const initialState = {
+export const initialState = {
   songs: [],
-  currSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
+  currSong: {id: '7uTv9wHkO Ph5P9HFmkOE28'},
   deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
-  searchResult: ''
+  searchResult: []
 }
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
-const FIND_SONG = 'FIND_SONG'
+const FOUND_SONGS = 'FOUND_SONGS'
+const ADDED_SONG = 'ADDED_SONG'
+
 //ACTION CREATORS
 const getSongs = playlist => {
   return {
@@ -26,17 +28,26 @@ const gotNext = spotifyPlaying => {
   }
 }
 
-const findSong = song => {
+const foundFromSearch = searchResults => {
   return {
-    type: ADD_SONG,
-    searchInput
+    type: FOUND_SONGS,
+    searchResults
   }
 }
+
+const addedSongToDb = addedSong => {
+  return {
+    type: ADDED_SONG,
+    addedSong
+  }
+}
+
 //THUNK CREATORS
 export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
+      console.log(data)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -71,17 +82,27 @@ export const CheckFetchSpotify = () => {
   }
 }
 
-const token =
-  'Authorization: Bearer BQCGRAllyK3XMFmE0998kAiZ19GS_kGbe_9qyO8eD30rFyQdRDvjpmZLy5lSSGZAced8EOP-nxicWBDWXEBNoDS90wU1Rd1oxlHopWz-uILYAetJnzRMMc-lyLgSnWIJMpY-2_NzbFOFZ4VkT2Du9OyCk_yTP4BKUDalGQULfBavCQpVboGeD8X9DBadVWBGfc0O0I74fOKZ1a5elSx1nqv6FjXLnzQW1Fq4J3ZfS6_dCun0o3JR9VJGC-Zl95UQGrLVbKuMbDcc1LZD'
-
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
-    const {searchResult} = await axios.get(
-      'https://api.spotify.com/v1/search?q=dreams&type=track',
-      token
-    )
-    const action = dispatch(searchResult)
+    const {data} = await axios.get(`/api/songs/searchSpotify/${searchInput}`)
+    console.log('FROM THE THING: ', data)
+    const action = foundFromSearch(data)
     dispatch(action)
+  }
+}
+
+export const postSongToPlaylist = addedSongObj => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post(`/api/songs/addSong`, {
+        search: addedSongObj
+      })
+
+      const action = addedSongToDb(data)
+      dispatch(action)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
@@ -101,18 +122,24 @@ const playlistReducer = (state = initialState, action) => {
         currSong: action.spotifyPlaying
       }
     }
-    case FIND_SONG: {
+    case ADDED_SONG: {
       return {
         ...state,
-        searchResult: action.searchInput
+        songs: [...state.songs, action.addedSong]
       }
+    }
+    case FOUND_SONGS: {
+      let newState = {
+        ...state,
+        searchResult: [...action.searchResults]
+      }
+      console.log(newState)
+      return newState
     }
     default: {
       return state
     }
   }
 }
-
-// heartbeat isPlaying checker.
 
 export default playlistReducer

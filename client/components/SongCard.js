@@ -25,10 +25,9 @@ class SongCard extends React.Component {
         <h3>{this.props.song.artist}</h3>
         <h3>{this.props.song.songId}</h3>
         <h4>{this.state.count}</h4>
-        <div>
+        {/* <div>
           <VoteCount changeVote={this.changeVote} />
-        </div>
-
+        </div> */}
       </div>
     )
   }

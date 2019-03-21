@@ -1,21 +1,25 @@
 import React, {Component} from 'react'
+import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
+import {connect} from 'react-redux'
 
-export default class Searchbar extends Component {
+class Searchbar extends Component {
   constructor() {
     super()
     this.state = {
-      songName: ''
+      songName: '',
+      foundSongs: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.submitSongHandler = this.submitSongHandler.bind(this)
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     // this.props.addNewSongToPlaylist(this.state) !!!
-    this.setState({
-      songName: ''
-    })
+    await this.props.findMatches(this.state.songName)
+    console.log('7878787: ', this.props)
+    this.setState({songName: '', foundSongs: this.props.searchResult})
   }
 
   handleChange(event) {
@@ -23,9 +27,17 @@ export default class Searchbar extends Component {
       [event.target.name]: event.target.value
     })
   }
+  submitSongHandler(event) {
+    // const Number(event.target.value)
+    const repackagedObjFromEvtVal = this.state.foundSongs[event.target.value]
+    console.log('this is evt.target', repackagedObjFromEvtVal)
+    // this.props.songs.songPickedNowPost()
+  }
+
   render() {
     return (
-      <div>
+      <div id="searchbar">
+        <div />
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
@@ -39,24 +51,41 @@ export default class Searchbar extends Component {
             Submit
           </button>
         </form>
+
+        {this.state.foundSongs.length ? (
+          this.state.foundSongs.map((song, i) => {
+            return (
+              <div key={song.songId}>
+                <p>{`${song.artist} - ${song.songName}`}</p>
+                <button
+                  onClick={this.submitSongHandler}
+                  type="button"
+                  value={i}
+                >
+                  add
+                </button>
+              </div>
+            )
+          })
+        ) : (
+          <div>Not found</div>
+        )}
       </div>
     )
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     searchResult: state.songs,
-//   };
-// };
+const mapStateToProps = state => {
+  return {
+    searchResult: state.songs.searchResult
+  }
+}
 
-// const mapDispatchToProps = dispatch => {
-//   return {
+const mapDispatchToProps = dispatch => {
+  return {
+    findMatches: songName => dispatch(findSongFromSpotify(songName)),
+    songPickedNowPost: songObj => dispatch(postSongToPlaylist(songObj))
+  }
+}
 
-//   };
-// };
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(Searchbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Searchbar)
