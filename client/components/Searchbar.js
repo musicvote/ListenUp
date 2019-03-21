@@ -28,14 +28,9 @@ class Searchbar extends Component {
     })
   }
   submitSongHandler(event) {
-    console.log('this is evt.target', event.target.value, this.props)
-    const evtValArr = event.target.value.split('///')
-    const repackagedObjFromEvtVal = {
-      artist: evtValArr[0],
-      songName: evtValArr[1],
-      songId: evtValArr[2],
-      imageUrl: evtValArr[3]
-    }
+    // const Number(event.target.value)
+    const repackagedObjFromEvtVal = this.state.foundSongs[event.target.value]
+    console.log('this is evt.target', repackagedObjFromEvtVal)
     // this.props.songs.songPickedNowPost()
   }
 
@@ -58,17 +53,14 @@ class Searchbar extends Component {
         </form>
 
         {this.state.foundSongs.length ? (
-          this.state.foundSongs.map(song => {
+          this.state.foundSongs.map((song, i) => {
             return (
               <div key={song.songId}>
-                <p key={song.songId}>{song.label}</p>
+                <p>{`${song.artist} - ${song.songName}`}</p>
                 <button
-                  key={song.songId}
                   onClick={this.submitSongHandler}
                   type="button"
-                  value={`${song.artist}///${song.songName}///${
-                    song.songId
-                  }///${song.imageUrl}`}
+                  value={i}
                 >
                   add
                 </button>
