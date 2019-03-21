@@ -7,7 +7,8 @@ const Song = db.define('song', {
     allowNull: false
   },
   songName: {
-    type: Sequelize.TEXT
+    type: Sequelize.TEXT,
+    allowNull: false
   },
   artistName: {
     type: Sequelize.TEXT,

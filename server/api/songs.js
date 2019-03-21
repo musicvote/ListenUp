@@ -145,13 +145,13 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
     //need to revise
     const playlistId = req.params.playlistId
     const selectedSong = req.body.selectedSong
-    console.log('This is the added to db route!!', selectedSong)
     const addedSong = await Song.findOrCreate({
       where: {
         spotifySongID: selectedSong.songId,
         songName: selectedSong.songList,
         artistName: selectedSong.artist,
-        albumArtworkurl: selectedSong.imageUrl
+        albumArtworkurl: selectedSong.imageUrl,
+        playlistId: playlistId
       }
     })
     res.json(addedSong)
