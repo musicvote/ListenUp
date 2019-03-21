@@ -94,8 +94,9 @@ export const findSongFromSpotify = searchInput => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/songs/addSong`, {
-        search: addedSongObj
+      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+        selectedSong: addedSongObj
       })
 
       const action = addedSongToDb(data)

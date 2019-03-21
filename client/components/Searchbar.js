@@ -3,8 +3,8 @@ import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
 
 class Searchbar extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       songName: '',
       foundSongs: []
@@ -18,7 +18,6 @@ class Searchbar extends Component {
     event.preventDefault()
     // this.props.addNewSongToPlaylist(this.state) !!!
     await this.props.findMatches(this.state.songName)
-    console.log('7878787: ', this.props)
     this.setState({songName: '', foundSongs: this.props.searchResult})
   }
 
@@ -29,12 +28,13 @@ class Searchbar extends Component {
   }
   submitSongHandler(event) {
     // const Number(event.target.value)
-    const repackagedObjFromEvtVal = this.state.foundSongs[event.target.value]
-    console.log('this is evt.target', repackagedObjFromEvtVal)
-    // this.props.songs.songPickedNowPost()
+    const pickedSong = this.state.foundSongs[event.target.value]
+    console.log('this is evt.target', pickedSong)
+    this.props.songPickedNowPost(pickedSong)
   }
 
   render() {
+    console.log('************', this.props)
     return (
       <div id="searchbar">
         <div />

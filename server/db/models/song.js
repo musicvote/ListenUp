@@ -6,7 +6,7 @@ const Song = db.define('song', {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  name: {
+  songName: {
     type: Sequelize.TEXT,
     allowNull: false
   },
