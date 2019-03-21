@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQBruyUACT01-QC3VPA0kgMFsC1aM0G62yjabbZf7aVcU20HzhlJ8t54arkk7Ye2UaDEOa9OX-G270V8uwzgtDT8CPFbb0O78ybK1DoILgFOijawK2VQUpwEsSoIVAz29Ilt_lzGfYQmuCGtSuBlV9SyjH4usrRFXvs'
+  'BQDr3z6G7aUpErbjSVvg_hYiGE3TQQk4C0cSaOClwqJOa9nkeriUf-5MDMTq1Th7qUMKXVSjxFFTI9gAZIf97hn0Tg29tApXyzxLpLbgMGn3DzNOwRMrxeKP57r8NaMkFmE3aD0C4zVRabEXl2neZZQCSz59_VgHrWw'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -145,15 +145,21 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
     //need to revise
     const playlistId = req.params.playlistId
     const selectedSong = req.body.selectedSong
+    console.log(selectedSong)
     const addedSong = await Song.findOrCreate({
       where: {
         spotifySongID: selectedSong.songId,
-        songName: selectedSong.songList,
+        songName: selectedSong.songName,
         artistName: selectedSong.artist,
-        albumArtworkurl: selectedSong.imageUrl,
-        playlistId: playlistId
+        albumArtworkurl: selectedSong.imageUrl
       }
+      // include: [{}]
     })
+    // const addedToJoin = await Playlist_song.findOrCreate({
+    //   playlistId: playlistId,
+    //   spotifySongID: selectedSong.songId
+    // })
+
     res.json(addedSong)
   } catch (error) {
     next(error)
