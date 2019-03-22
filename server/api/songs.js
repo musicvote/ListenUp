@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Song, Playlist_song} = require('../db/models')
+const {Song, PlaylistSong, Playlist} = require('../db/models')
 const spotifyWebApi = require('spotify-web-api-node')
 const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
@@ -15,15 +15,6 @@ const accessToken =
   'BQDZ4zzLz9pB9gBnGG6dJK727fkyq5DLLjhsDy5e3Pg6eNyI7CjCrDDV2F5K8d1R-dniGv_X-Rc1Wu3cFzsXgFONjOvKjtLz3-UTigAwVOS6fraSdTVSz5G6LwptnV_oaR1HC_1hunk0vkA-EnZOctn7FAqn07AQ8g3iJ_RpXU11DPjr6quN7a-kYKm_9KGO2-QHNUuQCwzwhWm_uE94tNJti-DOUqen7OMDW3dfbH2P_J0aJhuJDwPgt-L7w_jpTVzaBC0vD3jR66lgfFH8awcNTMq1PNNmacE'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
-// router.get('/', async (req, res, next) => {
-//   try {
-//     console.log('Need this route to stop getting error')
-//     res.sendStatus(202)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
@@ -43,7 +34,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     .catch(next)
 })
 
-//api/songs/
 router.get('/', async (req, res, next) => {
   try {
     const songList = await Song.findAll()
@@ -127,7 +117,7 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
 router.get('/:playlistId/searchDb', async (req, res, next) => {
   try {
     const playlistId = req.params.playlistId
-    const allSongs = await Playlist_song.findAll({
+    const allSongs = await PlaylistSong.findAll({
       where: {playlistId}
     })
     if (allsongs) {
@@ -142,8 +132,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
-    //need to revise
-    const playlistId = req.params.playlistId
+    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
     const addedSong = await Song.findOrCreate({
       where: {
@@ -152,28 +141,32 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
         artistName: selectedSong.artist,
         albumArtworkurl: selectedSong.imageUrl
       }
-      // include: [{}]
     })
-    // const addedToJoin = await Playlist_song.findOrCreate({
-    //   playlistId: playlistId,
-    //   spotifySongID: selectedSong.songId
-    // })
-
-    res.json(addedSong)
+    const addedToJoinTable = await PlaylistSong.findOrCreate({
+      where: {
+        playlistSpotifyPlaylistId: playlistId,
+        songSpotifySongID: selectedSong.songId,
+        hasPlayed: true
+      }
+    })
+    res.json({addedSong, addedToJoinTable})
   } catch (error) {
     next(error)
   }
 })
 
-// clientId, clientSecret and refreshToken has been set on the api object previous to this call.
-// spotifyApi.refreshAccessToken().then(
-//   function(data) {
-//     console.log('The access token has been refreshed!');
-
-//     // Save the access token so that it's used in future calls
-//     spotifyApi.setAccessToken(data.body['access_token']);
-//   },
-//   function(err) {
-//     console.log('Could not refresh access token', err);
-//   }
-// );
+router.get('/:playlistId', async (req, res, next) => {
+  try {
+    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const singlePlaylist = await Playlist.findById(playlistId, {
+      where: {
+        spotifyPlaylistId: playlistId
+      },
+      include: [{model: Song}]
+    })
+    //need to eager load
+    res.json(singlePlaylist)
+  } catch (error) {
+    next(error)
+  }
+})

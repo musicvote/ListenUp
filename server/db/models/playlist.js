@@ -3,7 +3,8 @@ const db = require('../db')
 
 const Playlist = db.define('playlist', {
   spotifyPlaylistId: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.TEXT,
+    primaryKey: true,
     allowNull: false
   }
 })
