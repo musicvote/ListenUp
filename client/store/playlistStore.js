@@ -124,10 +124,12 @@ const playlistReducer = (state = initialState, action) => {
       }
     }
     case ADDED_SONG: {
-      return {
+      let newState = {
         ...state,
-        songs: [...state.songs, action.addedSong]
+        songs: [...state.songs, action.addedSong[0]]
       }
+      console.log('%%%%%%%: ', newState)
+      return newState
     }
     case FOUND_SONGS: {
       let newState = {

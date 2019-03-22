@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDr3z6G7aUpErbjSVvg_hYiGE3TQQk4C0cSaOClwqJOa9nkeriUf-5MDMTq1Th7qUMKXVSjxFFTI9gAZIf97hn0Tg29tApXyzxLpLbgMGn3DzNOwRMrxeKP57r8NaMkFmE3aD0C4zVRabEXl2neZZQCSz59_VgHrWw'
+  'BQBX82gWajwL0m9A6_gsXT-no6lm3Oe-prFuBQxaoxULErNaeGzHo0qjx1ayitoAtdU1Bpe88lSI46trlL30hmeTeIzeKtG-yypbkq0_GGq7EQFhdvjnwJlKNPIe4WESH9rFXY4WEhuht9kO1-ZQj8JZDKPKJpEQ8sBYxgvhfMndS7Xq7YDFUIZUsS1NhnoWMDRjUZKXwYWVAUYI3rg5AqgRk4UG82CMLqWUno_6-tcjWqNIxR61haH2PFtssgEZng2Z1a399hDdYLSysusxicpzaWBPEqQU9LY'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -106,12 +106,14 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
         'Content-Type': 'application/json'
       }
     )
+
+    console.log(data.tracks.items)
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
         songName: item.name,
         songId: item.id,
-        imageUrl: data.tracks.items[0].album.images[2].url
+        imageUrl: item.album.images[2].url
       }
       acc.push(makeItem)
       return acc

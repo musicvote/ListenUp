@@ -31,6 +31,7 @@ class Searchbar extends Component {
     const pickedSong = this.state.foundSongs[event.target.value]
     console.log('this is evt.target', pickedSong)
     this.props.songPickedNowPost(pickedSong)
+    this.setState({foundSongs: []})
   }
 
   render() {
@@ -55,14 +56,15 @@ class Searchbar extends Component {
         {this.state.foundSongs.length ? (
           this.state.foundSongs.map((song, i) => {
             return (
-              <div key={song.songId}>
+              <div className="listBorder" key={song.songId}>
+                <img src={song.imageUrl} />
                 <p>{`${song.artist} - ${song.songName}`}</p>
                 <button
                   onClick={this.submitSongHandler}
                   type="button"
                   value={i}
                 >
-                  add
+                  +
                 </button>
               </div>
             )
