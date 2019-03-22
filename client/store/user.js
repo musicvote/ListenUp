@@ -28,6 +28,7 @@ export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
+    console.log('res!!!', res)
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
