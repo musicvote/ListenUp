@@ -11,7 +11,7 @@ import Sidebar from './sidebar'
 import heartbeat from 'heartbeats'
 
 //Heartbeat config
-let heart = heartbeat.createHeart(30000)
+//let heart = heartbeat.createHeart(30000)
 
 export class Playlist extends React.Component {
   constructor(props) {
@@ -40,9 +40,7 @@ export class Playlist extends React.Component {
             </button>
           </div>
           {this.props.playlist.songs.map(song => {
-
             return <SongCard key={song.spotifySongID} song={song} />
-
           })}
         </div>
       </div>
@@ -55,11 +53,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => {
-  heart.createEvent(1, function() {
-    console.log('heartBeat')
-    const fire = () => dispatch(CheckFetchSpotify())
-    fire()
-  })
+  // heart.createEvent(1, function() {
+  //   console.log('heartBeat')
+  //   const fire = () => dispatch(CheckFetchSpotify())
+  //   fire()
+  // })
   return {
     fetchedPlaylist: () => dispatch(fetchPlaylist()),
     isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
