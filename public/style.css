@@ -28,6 +28,11 @@ form div {
   display: inline-block;
 }
 
+.listBorder button {
+  color: black;
+  width: 50px;
+}
+
 #player {
   position: fixed;
   height: 56px;
@@ -97,6 +102,14 @@ form div {
 
 .upvote-link {
   color: white;
+}
+
+.listBorder {
+  border: 2px solid white;
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  background-color: ;
 }
 
 #navbar {

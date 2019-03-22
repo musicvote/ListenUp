@@ -11,6 +11,7 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
+
 spotifyApi.setAccessToken(
   'BQAAF7b5qetY8QRHHw_wfW-JQ6c7YxPjFc3o_i5fKq6qhcDwk1MAbh8pjVxNPD6Eq8hFlFzaPecMMYVKO3nLYLDdc2fBla2pz8l5lPPZzDALDHAjU3mf8yv-qeCZTk8YbpTYxWmGbS41muCl_JULNTK8iwCdErS4OfjuFsHlQEtyj8-i7vtwtqzhFQPhIxtMHOpYyZdO0m8zT3B0vIqJoCH2cJj-5dyyydBwYLaLFb8I4TmIaNQQrzmG19ZZ-d-MDNguAplqFAOov-OZTPkSn3VVy7WiRfywfkY'
 )
@@ -26,7 +27,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     })
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {
@@ -115,12 +115,13 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
         'Content-Type': 'application/json'
       }
     )
+
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
         songName: item.name,
         songId: item.id,
-        imageUrl: data.tracks.items[0].album.images[2].url
+        imageUrl: item.album.images[2].url
       }
       acc.push(makeItem)
       return acc
@@ -153,7 +154,6 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
-    console.log(selectedSong)
     const addedSong = await Song.findOrCreate({
       where: {
         spotifySongID: selectedSong.songId,
@@ -190,4 +190,3 @@ router.get('/:playlistId', async (req, res, next) => {
     next(error)
   }
 })
-
