@@ -3,9 +3,8 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
-  id: {
+  spotifyId: {
     type: Sequelize.STRING,
-    primaryKey: true,
     allowNull: false
   },
   username: {
