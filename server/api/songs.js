@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQCR_s-z-RPNZ1uMEtBzRgtW5RAsfIJJxDOd6DmTM6vZIK4sfxF1C8ipjMeZms5iQA3XPDSAXvMGKdhnumrSY-G7vRU-xHhKAz8LSxgKn7H1vzWrHDG9bi4W7hFdnkjRLw-5DDZlaoMxeSz7Mha4RUoHCDTWb36ZiG4'
+  'BQBQND9uCPjYvvMdqThhGkrJibi3Tt6DwRkyQ6Knmo1hSFSndMwqWBH_gyN71Q9hZD0ZI1vYMztmfb2W0Ommmc1d5p5ISV6cenLhtPSSOtHYGewZIeEROTO5Mj_ldNBFEpue8xLgzlA60CV6Nm6UCfbmK-rvahTWJZE'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -117,7 +117,7 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
 router.get('/:playlistId/searchDb', async (req, res, next) => {
   try {
     const playlistId = req.params.playlistId
-    const allSongs = await Playlist_song.findAll({
+    const allSongs = await PlaylistSong.findAll({
       where: {playlistId}
     })
     if (allsongs) {
@@ -151,21 +151,27 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
         hasPlayed: true
       }
     })
-    res.json(addedToJoinTable)
+    res.json({addedSong, addedToJoinTable})
   } catch (error) {
     next(error)
   }
 })
 
-// clientId, clientSecret and refreshToken has been set on the api object previous to this call.
-// spotifyApi.refreshAccessToken().then(
-//   function(data) {
-//     console.log('The access token has been refreshed!');
+router.get('/:playlistId', async (req, res, next) => {
+  try {
+    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const singlePlaylist = await Playlist.findById(playlistId, {
+      where: {
+        spotifyPlaylistId: playlistId
+      },
+      include: [{model: Song}]
+    })
+    //need to eager load
+    res.json(singlePlaylist)
+  } catch (error) {
+    next(error)
+  }
+})
 
-//     // Save the access token so that it's used in future calls
-//     spotifyApi.setAccessToken(data.body['access_token']);
-//   },
-//   function(err) {
-//     console.log('Could not refresh access token', err);
-//   }
-// );
+//user needs to get to this playlist in this code/
+//when they click submit form
