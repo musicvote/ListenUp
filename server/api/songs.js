@@ -132,7 +132,6 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
-    //need to revise
     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
     console.log(selectedSong)
@@ -173,5 +172,3 @@ router.get('/:playlistId', async (req, res, next) => {
   }
 })
 
-//user needs to get to this playlist in this code/
-//when they click submit form
