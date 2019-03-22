@@ -47,7 +47,6 @@ export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
-      console.log(data)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -71,7 +70,6 @@ export const CheckFetchSpotify = () => {
         const {data} = await axios.post(`/api/songs/addToPlaylist`, {
           id: `5zhnwbZWsbfJFNcrdO3LYB`
         })
-        console.log('got here', data.body)
 
         const action = gotNext(data.body)
         dispatch(action)
@@ -85,7 +83,6 @@ export const CheckFetchSpotify = () => {
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
     const {data} = await axios.get(`/api/songs/searchSpotify/${searchInput}`)
-    console.log('FROM THE THING: ', data)
     const action = foundFromSearch(data)
     dispatch(action)
   }
@@ -128,7 +125,6 @@ const playlistReducer = (state = initialState, action) => {
         ...state,
         songs: [...state.songs, action.addedSong[0]]
       }
-      console.log('%%%%%%%: ', newState)
       return newState
     }
     case FOUND_SONGS: {
@@ -136,7 +132,6 @@ const playlistReducer = (state = initialState, action) => {
         ...state,
         searchResult: [...action.searchResults]
       }
-      console.log(newState)
       return newState
     }
     default: {

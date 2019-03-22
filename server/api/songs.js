@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQBX82gWajwL0m9A6_gsXT-no6lm3Oe-prFuBQxaoxULErNaeGzHo0qjx1ayitoAtdU1Bpe88lSI46trlL30hmeTeIzeKtG-yypbkq0_GGq7EQFhdvjnwJlKNPIe4WESH9rFXY4WEhuht9kO1-ZQj8JZDKPKJpEQ8sBYxgvhfMndS7Xq7YDFUIZUsS1NhnoWMDRjUZKXwYWVAUYI3rg5AqgRk4UG82CMLqWUno_6-tcjWqNIxR61haH2PFtssgEZng2Z1a399hDdYLSysusxicpzaWBPEqQU9LY'
+  'BQDZ4zzLz9pB9gBnGG6dJK727fkyq5DLLjhsDy5e3Pg6eNyI7CjCrDDV2F5K8d1R-dniGv_X-Rc1Wu3cFzsXgFONjOvKjtLz3-UTigAwVOS6fraSdTVSz5G6LwptnV_oaR1HC_1hunk0vkA-EnZOctn7FAqn07AQ8g3iJ_RpXU11DPjr6quN7a-kYKm_9KGO2-QHNUuQCwzwhWm_uE94tNJti-DOUqen7OMDW3dfbH2P_J0aJhuJDwPgt-L7w_jpTVzaBC0vD3jR66lgfFH8awcNTMq1PNNmacE'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -34,7 +34,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     })
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {
@@ -107,7 +106,6 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
       }
     )
 
-    console.log(data.tracks.items)
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
@@ -147,7 +145,6 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
     //need to revise
     const playlistId = req.params.playlistId
     const selectedSong = req.body.selectedSong
-    console.log(selectedSong)
     const addedSong = await Song.findOrCreate({
       where: {
         spotifySongID: selectedSong.songId,

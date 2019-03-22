@@ -29,13 +29,12 @@ class Searchbar extends Component {
   submitSongHandler(event) {
     // const Number(event.target.value)
     const pickedSong = this.state.foundSongs[event.target.value]
-    console.log('this is evt.target', pickedSong)
+
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})
   }
 
   render() {
-    console.log('************', this.props)
     return (
       <div id="searchbar">
         <div />
