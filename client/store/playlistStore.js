@@ -3,6 +3,7 @@ import createHeartbeat from 'redux-heartbeat'
 
 console.log(createHeartbeat(30000))
 //STATE AND REDUCER
+
 const initialState = {
   songs: [
     '17eu2pSgSUpIG1GFWBnODv',
@@ -13,11 +14,16 @@ const initialState = {
   ],
   currSong: '',
   deckSong: ''
+
 }
 
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
+const FOUND_SONGS = 'FOUND_SONGS'
+const ADDED_SONG = 'ADDED_SONG'
+const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
+
 //ACTION CREATORS
 const getSongs = playlist => {
   return {
@@ -33,11 +39,33 @@ const placeNextCurrDeck = newPlacement => {
   }
 }
 
+const foundFromSearch = searchResults => {
+  return {
+    type: FOUND_SONGS,
+    searchResults
+  }
+}
+
+const addedSongToDb = addedSong => {
+  return {
+    type: ADDED_SONG,
+    addedSong
+  }
+}
+
+const createPlaylist = playlistId => {
+  return {
+    type: CREATE_PLAYLIST,
+    playlistId
+  }
+}
+
 //THUNK CREATORS
 export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
+      console.log(data)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -79,6 +107,44 @@ export const CheckFetchSpotify = () => {
   }
 }
 
+export const findSongFromSpotify = searchInput => {
+  return async dispatch => {
+    const {data} = await axios.get(`/api/songs/searchSpotify/${searchInput}`)
+    console.log('FROM THE THING: ', data)
+    const action = foundFromSearch(data)
+    dispatch(action)
+  }
+}
+
+export const postSongToPlaylist = addedSongObj => {
+  return async dispatch => {
+    try {
+      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+        selectedSong: addedSongObj
+      })
+
+      const action = addedSongToDb(data)
+      dispatch(action)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const addPlaylistToDb = playlistId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post(`/api/create-playlist`)
+      const action = createPlaylist(data)
+      dispatch(action)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+//add song to playlist in our app
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SONGS: {
@@ -100,6 +166,21 @@ const playlistReducer = (state = initialState, action) => {
       console.log(newState)
       return newState
     }
+    case ADDED_SONG: {
+      return {
+        ...state,
+        songs: [...state.songs, action.addedSong]
+      }
+    }
+    case FOUND_SONGS: {
+      let newState = {
+        ...state,
+        searchResult: [...action.searchResults]
+      }
+      console.log(newState)
+      return newState
+    }
+    // case ADD_
     default: {
       console.log('same song state: ', state)
       return state

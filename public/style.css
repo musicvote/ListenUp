@@ -76,6 +76,10 @@ form div {
   max-width: 100px;
 }
 
+#searchbar {
+  margin: 0 200px;
+}
+
 /* The navigation menu links */
 .sidebar a {
   padding: 6px 8px 6px 16px;

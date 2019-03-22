@@ -1,68 +1,58 @@
-const router = require('express').Router()
 const passport = require('passport')
+const router = require('express').Router()
 const SpotifyStrategy = require('passport-spotify').Strategy
-
 const {User} = require('../db/models')
 module.exports = router
+const {client_id, client_secret, redirect_uri} = require('../../secrets')
 
-const client_id = 'a604e5f5813c4ad7b2fc27abc314d7d0'
-const client_secret = '4b8d6cc96fb245a39697cf3e542ae259'
-const redirect_uri = 'http://localhost:8888/callback'
+/**
+ * For OAuth keys and other secrets, your Node process will search
+ * process.env to find environment variables. On your production server,
+ * you will be able to set these environment variables with the appropriate
+ * values. In development, a good practice is to keep a separate file with
+ * these secrets that you only share with your team - it should NOT be tracked
+ * by git! In this case, you may use a file called `secrets.js`, which will
+ * set these environment variables like so:
+ *
+ * process.env.GOOGLE_CLIENT_ID = 'your google client id'
+ * process.env.GOOGLE_CLIENT_SECRET = 'your google client secret'
+ * process.env.GOOGLE_CALLBACK = '/your/google/callback'
+ */
 
-const scope =
-  'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate'
-
-router.get(
-  '/login',
-  passport.authenticate('spotify', {
-    scope,
-    failureRedirect: '/',
-    showDialog: true
-  })
-)
-
-router.get(
-  '/callback',
-  passport.authenticate('spotify', {failureRedirect: '/'}),
-  function(req, res) {
-    res.redirect('/home')
-  }
-)
-
-router.get('/me', function(req, res) {
-  if (req.user) res.json(req.user)
-  else res.json({})
-})
-
-router.get('/logout', (req, res) => {
-  req.logout()
-  req.session.destroy()
-  res.json({})
-})
-
-router.get('/refresh_token', function(req, res) {
-  // requesting access token from refresh token
-  let refresh_token = req.query.refresh_token
-  const authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-      Authorization:
-        'Basic ' +
-        new Buffer(client_id + ':' + client_secret).toString('base64')
-    },
-    form: {
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token
-    },
-    json: true
+if (!client_id || !client_secret) {
+  console.log('SPotify client ID / secret not found. Skipping Spotify OAuth.')
+} else {
+  const spotifyConfig = {
+    clientID: client_id,
+    clientSecret: client_secret,
+    callbackURL: redirect_uri
   }
 
-  request.post(authOptions, function(error, response, body) {
-    if (!error && response.statusCode === 200) {
-      var access_token = body.access_token
-      res.send({
-        access_token: access_token
+  const strategy = new SpotifyStrategy(
+    spotifyConfig,
+    (token, refreshToken, expires_in, profile, done) => {
+      const spotifyId = profile.id
+      // const name = profile.displayName
+      // const email = profile.emails[0].value
+
+      User.findOrCreate({
+        where: {id: spotifyId}
       })
+        .then(([user]) => done(null, user))
+        .catch(done)
     }
-  })
-})
+  )
+
+  passport.use(strategy)
+
+  // router.get('/', passport.authenticate('spotify', {scope: 'email'}))
+  router.get('/', passport.authenticate('spotify'))
+
+  router.get(
+    '/callback',
+    passport.authenticate('spotify', {
+      successRedirect: '/home',
+      failureRedirect: '/login'
+    })
+  )
+}

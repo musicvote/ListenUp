@@ -2,22 +2,21 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Song = db.define('song', {
-  songSpotifyId: {
+  spotifySongID: {
+    type: Sequelize.TEXT,
+    primaryKey: true,
+    allowNull: false
+  },
+  songName: {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  title: {
+  artistName: {
     type: Sequelize.TEXT,
     allowNull: false
   },
-  artist: {
-    type: Sequelize.STRING
-  },
-  voteCount: {
-    type: Sequelize.INTEGER,
-    validate: {
-      min: 0
-    }
+  albumArtworkurl: {
+    type: Sequelize.TEXT
   }
 })
 

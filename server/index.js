@@ -1,9 +1,6 @@
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
-const cors = require('cors')
-// const IP = process.env.SPOTIFY_CLIENT_ID
-// const redirect_uri = `${IP}/callback`;
 const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
@@ -13,28 +10,25 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-const SpotifyStrategy = require('passport-spotify').Strategy
 module.exports = app
-const {client_id, client_secret, redirect_uri} = require('../secrets')
-console.log(client_id, 'this is the clientID')
 
-const scope =
-  'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate'
-passport.use(
-  new SpotifyStrategy(
-    {
-      clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
-      callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
-    },
-    function(accessToken, refreshToken, expires_in, profile, done) {
-      profile.access_token = accessToken
-      profile.refresh_token = refreshToken
-      return done(null, profile)
-    }
-  )
-)
+// This is a global Mocha hook, used for resource cleanup.
+// Otherwise, Mocha v4+ never quits after tests.
+if (process.env.NODE_ENV === 'test') {
+  after('close the session store', () => sessionStore.stopExpiringSessions())
+}
 
+/**
+ * In your development environment, you can keep all of your
+ * app's secret API keys in a file called `secrets.js`, in your project
+ * root. This file is included in the .gitignore - it will NOT be tracked
+ * or show up on Github. On your production server, you can add these
+ * keys as environment variables, so that they can still be read by the
+ * Node process on process.env
+ */
+if (process.env.NODE_ENV !== 'production') require('../secrets')
+
+// passport registration
 passport.serializeUser((user, done) => done(null, user.id))
 
 passport.deserializeUser(async (id, done) => {
@@ -56,18 +50,16 @@ const createApp = () => {
 
   // compression middleware
   app.use(compression())
-  app.use(cors())
 
   // session middleware with passport
-  // app.use(
-  //   session({
-  //     secret: process.env.SESSION_SECRET || 'my best friend is Cody',
-  //     store: sessionStore,
-  //     resave: false,
-  //     saveUninitialized: false
-  //   })
-  // )
-
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false
+    })
+  )
   app.use(passport.initialize())
   app.use(passport.session())
 
@@ -77,39 +69,6 @@ const createApp = () => {
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
-
-  app.get('/', (req, res, next) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-  })
-
-  app.get(
-    '/login',
-    passport.authenticate('spotify', {
-      scope,
-      failureRedirect: '/',
-      showDialog: true
-    })
-  )
-
-  app.get(
-    '/callback',
-    passport.authenticate('spotify', {failureRedirect: '/'}),
-    function(req, res) {
-      //TODO: update/create a component to redirect home.
-      res.redirect('/playlist')
-    }
-  )
-
-  app.get('/me', function(req, res) {
-    if (req.user) res.json(req.user)
-    else res.json({})
-  })
-
-  app.get('/logout', (req, res) => {
-    req.logout()
-    req.session.destroy()
-    res.json({})
-  })
 
   // any remaining requests with an extension (.js, .css, etc.) send 404
   app.use((req, res, next) => {

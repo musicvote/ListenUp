@@ -1,51 +1,86 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Song} = require('../server/db/models')
+const {User, Song, Playlist, PlaylistSong} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({id: 1, email: 'cody@email.com', password: '123'}),
+    User.create({id: 2, email: 'murphy@email.com', password: '123'})
+  ])
+
+  const playlist = await Promise.all([
+    Playlist.create({
+      userId: 1,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
+    })
   ])
 
   const songs = await Promise.all([
     Song.create({
-      songSpotifyId: '6PCUP3dWmTjcTtXY02oFdT',
-      title: 'Castle on the Hill',
-      artist: 'Ed Sheeran',
-      voteCount: 3
+      spotifySongID: '6PCUP3dWmTjcTtXY02oFdT',
+      songName: 'Castle on the Hill',
+      artistName: 'Ed Sheeran',
+      albumArtworkurl:
+        'https://upload.wikimedia.org/wikipedia/en/thumb/2/27/Castle_On_The_Hill_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Castle_On_The_Hill_%28Official_Single_Cover%29_by_Ed_Sheeran.png'
     }),
     Song.create({
-      songSpotifyId: '3Du2K5dLzmduCNp6uwuaL0',
-      title: 'Sorry Not Sorry',
-      artist: 'Demi Lovato',
-      voteCount: 2
+      spotifySongID: '3Du2K5dLzmduCNp6uwuaL0',
+      songName: 'Sorry Not Sorry',
+      artistName: 'Demi Lovato',
+      albumArtworkurl:
+        'https://m.media-amazon.com/images/I/51ziXg-upfL._AA256_.jpg'
     }),
     Song.create({
-      songSpotifyId: '1uigwk5hNV84zRd5YQQRTk',
-      title: 'Pocketful of Sunshine',
-      artist: 'Natasha Bedingfield',
-      voteCount: 1
+      spotifySongID: '1uigwk5hNV84zRd5YQQRTk',
+      songName: 'Pocketful of Sunshine',
+      artistName: 'Natasha Bedingfield',
+      albumArtworkurl:
+        'https://c-sf.smule.com/sf/s21/arr/21/3f/ffea4bf2-d0b1-41af-a359-da25380595bc.jpg'
     }),
     Song.create({
-      songSpotifyId: '7BKLCZ1jbUBVqRi2FVlTVw',
-      title: 'Closer',
-      artist: 'The Chainsmokers',
-      voteCount: 1
+      spotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw',
+      songName: 'Closer',
+      artistName: 'The Chainsmokers',
+      albumArtworkurl:
+        'https://m.media-amazon.com/images/I/51gY5b2UJAL._AA256_.jpg'
     }),
     Song.create({
-      songSpotifyId: '1rfofaqEpACxVEHIZBJe6W',
-      title: 'Havana',
-      artist: 'Camila Cabello',
-      voteCount: 0
+      spotifySongID: '1rfofaqEpACxVEHIZBJe6W',
+      songName: 'Havana',
+      artistName: 'Camila Cabello',
+      albumArtworkurl:
+        'https://c-sf.smule.com/sf/s77/arr/c4/ff/c6d40372-0986-40fc-b2e0-9ef9b73c79d7.jpg'
     })
   ])
 
-  console.log(`seeded ${songs.length} songs successfully!!`)
+  const playlistSong = await Promise.all([
+    PlaylistSong.create({
+      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '6PCUP3dWmTjcTtXY02oFdT'
+    }),
+    PlaylistSong.create({
+      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '1uigwk5hNV84zRd5YQQRTk'
+    }),
+    PlaylistSong.create({
+      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '3Du2K5dLzmduCNp6uwuaL0'
+    }),
+    PlaylistSong.create({
+      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw'
+    }),
+    PlaylistSong.create({
+      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'
+    })
+  ])
+
+  console.log(`seeded songs successfully!!`)
 }
 
 // We've separated the `seed` function from the `runSeed` function.
