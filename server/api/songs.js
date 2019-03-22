@@ -11,8 +11,9 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
-const accessToken =
-  'BQBQND9uCPjYvvMdqThhGkrJibi3Tt6DwRkyQ6Knmo1hSFSndMwqWBH_gyN71Q9hZD0ZI1vYMztmfb2W0Ommmc1d5p5ISV6cenLhtPSSOtHYGewZIeEROTO5Mj_ldNBFEpue8xLgzlA60CV6Nm6UCfbmK-rvahTWJZE'
+spotifyApi.setAccessToken(
+  'BQAAF7b5qetY8QRHHw_wfW-JQ6c7YxPjFc3o_i5fKq6qhcDwk1MAbh8pjVxNPD6Eq8hFlFzaPecMMYVKO3nLYLDdc2fBla2pz8l5lPPZzDALDHAjU3mf8yv-qeCZTk8YbpTYxWmGbS41muCl_JULNTK8iwCdErS4OfjuFsHlQEtyj8-i7vtwtqzhFQPhIxtMHOpYyZdO0m8zT3B0vIqJoCH2cJj-5dyyydBwYLaLFb8I4TmIaNQQrzmG19ZZ-d-MDNguAplqFAOov-OZTPkSn3VVy7WiRfywfkY'
+)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -70,13 +71,31 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
+
+router.post('/addToPlaylist', (req, res, next) => {
+  let songId = req.body.id
+  spotifyApi
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
+    .then(
+      data => {
+        console.log(')))))))))) ', data)
+        res.json(data)
+      },
+      err => {
+        console.log('Something went wrong!', err)
+      }
+    )
+    .catch(next)
+})
+
 router.get('/getCurrentlyPlaying', (req, res, next) => {
   spotifyApi
     .getMyCurrentPlayingTrack()
     .then(
       data => {
         // Output items
-        res.json(data.body.item.id)
+        console.log('%%%%%%: ', data.body.is_playing)
+        res.json(data)
       },
       err => {
         console.log('Something went wrong!', err)
