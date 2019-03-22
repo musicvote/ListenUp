@@ -6,18 +6,22 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const JOIN_PARTY = 'JOIN_PARTY'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const defaultUser = {
+  user: {},
+  joinedParty: ''
+}
 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-
+export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
 /**
  * THUNK CREATORS
  */
@@ -61,10 +65,19 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
+    case GET_USER: {
       return action.user
-    case REMOVE_USER:
+    }
+    case REMOVE_USER: {
       return defaultUser
+    }
+    case JOIN_PARTY: {
+      return {
+        ...state,
+        joinedParty: action.partyCode
+      }
+    }
+
     default:
       return state
   }

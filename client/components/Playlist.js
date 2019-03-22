@@ -36,7 +36,7 @@ export class Playlist extends React.Component {
             </button>
           </div>
           {this.props.playlist.songs.map(song => {
-            return <SongCard key={song.songSpotifyId} song={song} />
+            return <SongCard key={song.spotifySongID} song={song} />
           })}
         </div>
       </div>

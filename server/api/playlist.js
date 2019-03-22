@@ -6,6 +6,7 @@ module.exports = router
 router.post('/create-playlist', async (req, res, next) => {
   try {
     playlistId = req.body
+
     const newPlaylist = await Playlist.Create(playlistId)
     res.status(200).json(newPlaylist)
   } catch (error) {
