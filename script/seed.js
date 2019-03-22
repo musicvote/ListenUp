@@ -8,13 +8,13 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({id: 1, email: 'cody@email.com', password: '123'}),
-    User.create({id: 2, email: 'murphy@email.com', password: '123'})
+    User.create({spotifyId: 1, email: 'cody@email.com', password: '123'}),
+    User.create({spotifyId: 2, email: 'murphy@email.com', password: '123'})
   ])
 
   const playlist = await Promise.all([
     Playlist.create({
-      userId: 1,
+      spotifyId: 1,
       spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
     })
   ])
@@ -59,23 +59,33 @@ async function seed() {
 
   const playlistSong = await Promise.all([
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 1,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '6PCUP3dWmTjcTtXY02oFdT'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 2,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '1uigwk5hNV84zRd5YQQRTk'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 3,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '3Du2K5dLzmduCNp6uwuaL0'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 4,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 5,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'
     })
   ])

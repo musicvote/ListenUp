@@ -60,7 +60,6 @@ const createApp = () => {
   app.use(passport.session())
 
   // auth and api routes
-  app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
   // static file-serving middleware
@@ -84,7 +83,7 @@ const createApp = () => {
     passport.authenticate('spotify', {failureRedirect: '/'}),
     function(req, res) {
       User.findOrCreate({
-        where: {id: req.user.id}
+        where: {spotifyId: req.user.id}
       })
       //TODO: update/create a component to direct to choose create playlist or join playlist
       res.redirect('/playlist')
