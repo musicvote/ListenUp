@@ -1,19 +1,21 @@
 import axios from 'axios'
+import createHeartbeat from 'redux-heartbeat'
 
+console.log(createHeartbeat(30000))
 //STATE AND REDUCER
+
 export const initialState = {
   songs: [],
   currSong: {id: '7uTv9wHkO Ph5P9HFmkOE28'},
   deckSong: {id: '7uTv9wHkOPh5P9HFmkOE28'},
-  searchResult: [],
-  playlists: []
+  searchResult: []
 }
+
 //ACTION TYPES
 const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
 const FOUND_SONGS = 'FOUND_SONGS'
 const ADDED_SONG = 'ADDED_SONG'
-const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 
 //ACTION CREATORS
 const getSongs = playlist => {
@@ -23,10 +25,10 @@ const getSongs = playlist => {
   }
 }
 
-const gotNext = spotifyPlaying => {
+const placeNextCurrDeck = newPlacement => {
   return {
     type: GOT_NEXT,
-    spotifyPlaying
+    newPlacement
   }
 }
 
@@ -44,19 +46,11 @@ const addedSongToDb = addedSong => {
   }
 }
 
-const createPlaylist = playlistId => {
-  return {
-    type: CREATE_PLAYLIST,
-    playlistId
-  }
-}
-
 //THUNK CREATORS
 export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/`)
-      console.log(data)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -70,20 +64,27 @@ export const CheckFetchSpotify = () => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
-      if (data === initialState.deckSong.id) {
-        //Same song is still playing
-        //hits reducer's defalt may not be needed but this will just keep the same state.
+      console.log('7777777777: ', data.body.item.id)
+
+      if (data.body.item.id !== initialState.songs[0]) {
+        //Different Song playing
+        console.log('Song Changed!')
+
+        initialState.songs.shift()
+        let newDeckSong = initialState.songs[1]
+        let newCurrSong = initialState.songs[0]
+        console.log('third song: ', initialState.songs[2])
+
+        await axios.post(`/api/songs/addToPlaylist`, {
+          id: initialState.songs[2]
+        })
+
+        const action = placeNextCurrDeck({newCurrSong, newDeckSong})
+        dispatch(action)
+      } else {
+        //Same song playing
         console.log('Same Song.')
         dispatch({type: 'SAME_SONG_PLAYING'})
-      } else {
-        console.log('Song Changed!')
-        const {data} = await axios.post(`/api/songs/addToPlaylist`, {
-          id: `5zhnwbZWsbfJFNcrdO3LYB`
-        })
-        console.log('got here', data.body)
-
-        const action = gotNext(data.body)
-        dispatch(action)
       }
     } catch (error) {
       console.log(error)
@@ -94,7 +95,6 @@ export const CheckFetchSpotify = () => {
 export const findSongFromSpotify = searchInput => {
   return async dispatch => {
     const {data} = await axios.get(`/api/songs/searchSpotify/${searchInput}`)
-    console.log('FROM THE THING: ', data)
     const action = foundFromSearch(data)
     dispatch(action)
   }
@@ -116,50 +116,44 @@ export const postSongToPlaylist = addedSongObj => {
   }
 }
 
-export const addPlaylistToDb = playlistId => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`/api/create-playlist`)
-      const action = createPlaylist(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 //add song to playlist in our app
-
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SONGS: {
-      return {
+      let newState = {
         ...state,
-        songs: [...action.playlist]
+        //songs: [...action.playlist],
+        currSong: state.songs[0],
+        deckSong: state.songs[1]
       }
+      console.log(newState)
+      return newState
     }
     case GOT_NEXT: {
-      return {
+      let newState = {
         ...state,
-        currSong: action.spotifyPlaying
+        currSong: action.newPlacement.newCurrSong,
+        deckSong: action.newPlacement.newDeckSong
       }
+      console.log(newState)
+      return newState
     }
     case ADDED_SONG: {
-      return {
+      let newState = {
         ...state,
-        songs: [...state.songs, action.addedSong]
+        songs: [...state.songs, action.addedSong[0]]
       }
+      return newState
     }
     case FOUND_SONGS: {
       let newState = {
         ...state,
         searchResult: [...action.searchResults]
       }
-      console.log(newState)
       return newState
     }
-    // case ADD_
     default: {
+      console.log('same song state: ', state)
       return state
     }
   }

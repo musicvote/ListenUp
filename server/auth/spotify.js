@@ -31,12 +31,13 @@ if (!client_id || !client_secret) {
   const strategy = new SpotifyStrategy(
     spotifyConfig,
     (token, refreshToken, expires_in, profile, done) => {
+      //spotifyId is a string made up of the spotify username
       const spotifyId = profile.id
-      // const name = profile.displayName
-      // const email = profile.emails[0].value
+      console.log('PROFILE', profile)
+      const username = profile.username
 
       User.findOrCreate({
-        where: {id: spotifyId}
+        where: {spotifyId: username}
       })
         .then(([user]) => done(null, user))
         .catch(done)

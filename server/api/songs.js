@@ -25,7 +25,6 @@ router.post('/addToPlaylist', (req, res, next) => {
     })
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {
@@ -70,13 +69,30 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
+router.post('/addToPlaylist', (req, res, next) => {
+  let songId = req.body.id
+  spotifyApi
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
+    .then(
+      data => {
+        console.log(')))))))))) ', data)
+        res.json(data)
+      },
+      err => {
+        console.log('Something went wrong!', err)
+      }
+    )
+    .catch(next)
+})
+
 router.get('/getCurrentlyPlaying', (req, res, next) => {
   spotifyApi
     .getMyCurrentPlayingTrack()
     .then(
       data => {
         // Output items
-        res.json(data.body.item.id)
+        console.log('%%%%%%: ', data.body.is_playing)
+        res.json(data)
       },
       err => {
         console.log('Something went wrong!', err)
@@ -96,12 +112,13 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
         'Content-Type': 'application/json'
       }
     )
+
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
         songName: item.name,
         songId: item.id,
-        imageUrl: data.tracks.items[0].album.images[2].url
+        imageUrl: item.album.images[2].url
       }
       acc.push(makeItem)
       return acc

@@ -20,14 +20,16 @@ class SongCard extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>{this.props.song.title}</h1>
-        <h3>{this.props.song.artist}</h3>
-        <h3>{this.props.song.songId}</h3>
-        <h4>{this.state.count}</h4>
-        {/* <div>
+      <div className="listBorder">
+        <img src={this.props.song.albumArtworkurl} />
+        <div className="searchbar">
+          <h1>{this.props.song.songName}</h1>
+          <h3>{this.props.song.artistName}</h3>
+          <h4>{this.state.count}</h4>
+        </div>
+        <div>
           <VoteCount changeVote={this.changeVote} />
-        </div> */}
+        </div>
       </div>
     )
   }

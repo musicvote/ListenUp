@@ -1,14 +1,25 @@
 const router = require('express').Router()
-const {Playlist} = require('../db/playlist')
+const {Playlist, User} = require('../db/models')
 module.exports = router
 
 //create a playlist in our DB - when someone clicks "create playlist" - they will send us their playlist URL
+
 router.post('/create-playlist', async (req, res, next) => {
   try {
-    playlistId = req.body
-    const newPlaylist = await Playlist.Create(playlistId)
+    const playlistId = req.body.id
+    const userId = req.user.id
+    // console.log('playlistId!!!!!!', playlistId)
+    // console.log('USERID%%%%', userId)
+    const matchedUser = await User.findOne({where: {id: userId}})
+    // console.log('!!!!!!!!!@@@@@ matchedUser', matchedUser)
+
+    const newPlaylist = await Playlist.create({
+      spotifyPlaylistId: playlistId,
+      userId: matchedUser.id
+    })
+    console.log('NEW PLAYLIST :)))', newPlaylist)
     res.status(200).json(newPlaylist)
   } catch (error) {
-    next(error)
+    console.log('error', error)
   }
 })
