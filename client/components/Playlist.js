@@ -18,7 +18,8 @@ export class Playlist extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      playlist: []
+      playlist: [],
+      isAdmin: false
     }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }
@@ -38,12 +39,17 @@ export class Playlist extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
-        <Heartbeat
-          heartbeatFunction={() => this.CheckSpotify()}
-          heartbeatInterval={10000}
-        />
+        {this.state.isAdmin ? (
+          <Heartbeat
+            heartbeatFunction={() => this.CheckSpotify()}
+            heartbeatInterval={10000}
+          />
+        ) : (
+          <div />
+        )}
 
         <h1>Playlist</h1>
         <Sidebar />
@@ -67,7 +73,8 @@ export class Playlist extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  playlist: state.songs
+  playlist: state.songs,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => {

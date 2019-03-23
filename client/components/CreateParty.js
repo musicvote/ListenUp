@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import {Button} from 'semantic-ui-react'
 
 export default class CreateParty extends Component {
@@ -7,6 +8,13 @@ export default class CreateParty extends Component {
     this.state = {
       playlistId: ''
     }
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   render() {
@@ -21,9 +29,14 @@ export default class CreateParty extends Component {
             placeholder="Search song name..."
             onChange={this.handleChange}
           />
-          <Button className="submit-btn" type="submit">
-            Submit
-          </Button>
+          {this.state.playlistId.length === 22 ? (
+            <Link to={`/playlist/${this.state.playlistId}`}>Create Party</Link>
+          ) : (
+            <p>
+              Please Copy and paste the 22 character Spotify Playlist Id in the
+              search box. we will use this to create your musicVote playlist
+            </p>
+          )}
         </form>
       </div>
     )

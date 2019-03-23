@@ -1,5 +1,6 @@
 import axios from 'axios'
 import createHeartbeat from 'redux-heartbeat'
+import socket from '../socket'
 //STATE AND REDUCER
 
 const initialState = {
@@ -60,6 +61,7 @@ export const fetchPlaylist = () => {
 
       const {data} = await axios.get(`/api/songs/${playlistId}`)
       const action = getSongs(data)
+      socket.emit('new-song', data)
       dispatch(action)
     } catch (error) {
       console.log(error)
@@ -72,8 +74,8 @@ export const CheckFetchSpotify = newPlacement => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
-      console.log('Changed Song.')
       if (data.id !== newPlacement.lastCurrSong.spotifySongID) {
+        console.log('Changed Song.')
         //Different Song playing
         await axios.post(`/api/songs/addToPlaylist`, {
           newSong: newPlacement.newDeckSong
@@ -83,6 +85,7 @@ export const CheckFetchSpotify = newPlacement => {
           newCurrSong: newPlacement.newCurrSong,
           newDeckSong: newPlacement.newDeckSong
         })
+
         dispatch(action)
       } else {
         //Same song playing

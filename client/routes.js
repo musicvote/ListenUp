@@ -7,7 +7,7 @@ import {
   Signup,
   UserHome,
   Playlist,
-  Player,
+  CreateParty,
   JoinParty
 } from './components'
 import {me} from './store'
@@ -26,10 +26,11 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+
+        <Route path="/playlist/" component={Playlist} />
         <Route exact path="/playlist" component={Playlist} />
         <Route exact path="/join_party" component={JoinParty} />
+        <Route exact path="/create_party" component={CreateParty} />
 
         {isLoggedIn && (
           <Switch>
