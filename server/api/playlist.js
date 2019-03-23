@@ -8,6 +8,9 @@ router.post('/create-playlist', async (req, res, next) => {
   try {
     const playlistId = req.body.id
     const userId = req.user.id
+
+    console.log('REQ.USER', req.user)
+
     // console.log('playlistId!!!!!!', playlistId)
     // console.log('USERID%%%%', userId)
     const matchedUser = await User.findOne({where: {id: userId}})

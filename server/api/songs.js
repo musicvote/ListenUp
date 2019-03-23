@@ -5,6 +5,7 @@ const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
 module.exports = router
 
+//don't delete this
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
@@ -12,7 +13,8 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDS6eoZvUd19bV1q2r32t0ZOgw0lfahpJ7nHaD4urlpf-SVeUwweJJO_TdIeLzH4ItEYLBrWaScmBcYq1XIl4D3p7UCG_bHWin0rJ-4QUqggV28oFxJP7NyTDOLplAf28aqP0Vwe6hvGHLljgdH807IuefOgDZrJTY'
+  'BQCpEBrdLUjHAIZ-_3q3tAPvr3RLqQhFnnUeQy6dDzyjJnCAaohMuHSBswLieqydpn7qZ6XD207y-ZOItOIWKJzo3qzpsIBtzsCcQrrys97sciQ_Chj7sUQkr4X5HsiRDdacHlpiaiIL2SfcG79KKpF7Vb_Qmrs3YuPjcuEQV7VeAAYg1vnBpGnljOENbs8vZ4aIdPorfuTZ5QUj6g2Cu96F_jx3rhHByfKT-jOgReDG3XvpzN8cIVHN3XZ_Y78VB9TJBcpvIyb69MTb'
+
 
 const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
 

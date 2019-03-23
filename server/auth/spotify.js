@@ -32,12 +32,11 @@ if (!client_id || !client_secret) {
     spotifyConfig,
     (token, refreshToken, expires_in, profile, done) => {
       //spotifyId is a string made up of the spotify username
-      const spotifyId = profile.id
+      const spotifyUsername = profile.id
       console.log('PROFILE', profile)
-      const username = profile.username
-
       User.findOrCreate({
-        where: {spotifyId: username}
+        where: {spotifyUsername}
+
       })
         .then(([user]) => done(null, user))
         .catch(done)

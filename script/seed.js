@@ -8,8 +8,9 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({spotifyId: 1, email: 'cody@email.com', password: '123'}),
-    User.create({spotifyId: 2, email: 'murphy@email.com', password: '123'})
+    User.create({spotifyUsername: 'em320xo'}),
+    User.create({spotifyUsername: 'murphy123'})
+
   ])
 
   const playlist = await Promise.all([

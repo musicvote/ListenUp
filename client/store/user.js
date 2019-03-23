@@ -9,6 +9,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const JOIN_PARTY = 'JOIN_PARTY'
 
+
 /**
  * INITIAL STATE
  */
@@ -29,6 +30,7 @@ const createdPlaylist = playlistUserObj => {
     playlistUserObj
   }
 }
+
 export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
 
 /**
@@ -106,12 +108,14 @@ export default function(state = defaultUser, action) {
       console.log('!!!!!!NEW STATE', newState)
       return newState
     }
+
     case JOIN_PARTY: {
       return {
         ...state,
         joinedParty: action.partyCode
       }
     }
+
     default:
       return state
   }
