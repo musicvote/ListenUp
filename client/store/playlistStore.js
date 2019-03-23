@@ -114,7 +114,7 @@ export const postSongToPlaylist = addedSongObj => {
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-
+      console.log(data, '**************data in the post song to playlist route')
       const action = addedSongToDb(data)
       dispatch(action)
     } catch (error) {
@@ -160,10 +160,7 @@ const playlistReducer = (state = initialState, action) => {
       return newState
     }
     case ADDED_SONG: {
-      let newState = {
-        ...state,
-        songs: [...state.songs, action.addedSong[0]]
-      }
+      let newState = {...state, songs: [...state.songs, action.addedSong]}
       return newState
     }
     case FOUND_SONGS: {

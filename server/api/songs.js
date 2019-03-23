@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQBgDmogfVlDiOPNapqkTYritSeTHVOHJedMgtLYbmxP4YZrpRGsQ0T8bWVYXSRWGjGtMWFyw6tY1-SlcNMeA0OdesiR7idrE4iPIoof-juUtAtpCH7m1nRLwQaJOs2VK203G9S-FsK-2mzQVs_saBdCc4fxIpbaP-BgOb-PHv94Wli114fnwAHI9QzugFJIRXoVwFjvXYtXmerlft1vVdd-16gZn1tEWvuDeR8J0KlTfyPVFfA0AxM_YU9XWKYTCtmH4PBXIy-q_aM4Q9ydCTsorre9MS5kPwk'
+  'BQAeAptCgqYv6wQfL-aUfbe6769kCmh31BKBc2k09Ax8rWlRiW8ADU9OktuyaoYblv74a5zFG-1Cej9An2oca6iLnqs_ldN1niSYWHObykPWbhvkCgWbDiFN8HgU0Ua_2g67b_dRLJhk7PmqDAjJ3h_NSy1e4-ZfRmA'
 
 spotifyApi.setAccessToken(accessToken)
 
@@ -129,50 +129,9 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
   }
 })
 
-// router.post('/:playlistId/addToDb', async (req, res, next) => {
-//   try {
-//     const selectedSong = req.body.selectedSong
-//     const addedSong = await Song.findOrCreate({
-//       where: {
-//         spotifySongID: selectedSong.songId,
-//         songName: selectedSong.songName,
-//         artistName: selectedSong.artist,
-//         albumArtworkurl: selectedSong.imageUrl
-//       }
-//     })
-//     const addedToJoinTable = await PlaylistSong.findOrCreate({
-//       where: {
-//         playlistSpotifyPlaylistId: playlistId,
-//         songSpotifySongID: selectedSong.songId,
-//         hasPlayed: true
-//       }
-//     })
-//     res.json({addedSong, addedToJoinTable})
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
-// router.get('/:playlistId', async (req, res, next) => {
-//   try {
-//     const playlistId = req.params.playlistId
-//     const data = await Playlist.findById(playlistId, {
-//       where: {
-//         spotifyPlaylistId: playlistId
-//       },
-//       include: [{model: Song}]
-//     })
-
-//     //need to eager load
-//     res.json(data.songs)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '2UM67sPEJ06egizfdFNIbg'
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
@@ -190,7 +149,7 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
         }
       })
       if (songInDb) {
-        console.log('SONG IS ALREADY IN THE DB')
+        console.log('SONG IS ALREADY IN THE DB', songInDb)
         res.status(204).send('Song is already on the playlist')
       } else {
         const songAddedToDb = await Song.create({
@@ -204,8 +163,9 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
           playlistId: playlist.id,
           songId: songAddedToDb.id
         })
-        console.log('NEW SONG IN THE DB')
-        res.json({songAddedToDb})
+        console.log('NEW SONG IN THE DB', songAddedToDb.dataValues.id)
+        const songAddedToReturn = songAddedToDb.dataValues
+        res.json(songAddedToReturn)
       }
     }
   } catch (error) {
