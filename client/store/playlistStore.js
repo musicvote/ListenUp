@@ -5,16 +5,9 @@ console.log(createHeartbeat(30000))
 //STATE AND REDUCER
 
 const initialState = {
-  songs: [
-    '17eu2pSgSUpIG1GFWBnODv',
-    '1BRwuvjhkgezmv1gcI6lT6',
-    '4SBQSroThFQ98U29IwnJ2g',
-    '3eCofNVG97J3lRyNhh0zPP',
-    '65tjr5cWJmsA8KHVvuC7b2'
-  ],
-  currSong: '',
-  deckSong: ''
-
+  songs: [],
+  currSong: {},
+  deckSong: {}
 }
 
 //ACTION TYPES
@@ -64,7 +57,10 @@ const createPlaylist = playlistId => {
 export const fetchPlaylist = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/songs/`)
+      //hardcoded for DEV
+      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+
+      const {data} = await axios.get(`/api/songs/${playlistId}`)
       const action = getSongs(data)
       dispatch(action)
     } catch (error) {
@@ -78,19 +74,24 @@ export const CheckFetchSpotify = () => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
-      console.log('7777777777: ', data.body.item.id)
 
-      if (data.body.item.id !== initialState.songs[0]) {
+      console.log('LOOK: ', data.id, initialState.currSong.spotifySongID)
+
+      if (data.id !== initialState.currSong.spotifySongID) {
         //Different Song playing
-        console.log('Song Changed!')
 
-        initialState.songs.shift()
-        let newDeckSong = initialState.songs[1]
-        let newCurrSong = initialState.songs[0]
-        console.log('third song: ', initialState.songs[2])
+        let newCurrSong = initialState.songs[1]
+        let newDeckSong = initialState.songs[2]
+
+        console.log(
+          'new deck song: ',
+          newDeckSong,
+          'initialState: ',
+          initialState
+        )
 
         await axios.post(`/api/songs/addToPlaylist`, {
-          id: initialState.songs[2]
+          newSong: newDeckSong
         })
 
         const action = placeNextCurrDeck({newCurrSong, newDeckSong})
@@ -148,20 +149,23 @@ const playlistReducer = (state = initialState, action) => {
     case GET_SONGS: {
       let newState = {
         ...state,
-        //songs: [...action.playlist],
-        currSong: state.songs[0],
-        deckSong: state.songs[1]
+        songs: [...action.playlist]
       }
-      console.log(newState)
+      initialState.songs = action.playlist
+      initialState.currSong = action.playlist[0]
+      initialState.deckSong = action.playlist[1]
+
       return newState
     }
+
     case GOT_NEXT: {
       let newState = {
         ...state,
+        songs: shiftFirstToLast(state.songs),
         currSong: action.newPlacement.newCurrSong,
         deckSong: action.newPlacement.newDeckSong
       }
-      console.log(newState)
+      console.log('from got next: ', newState)
       return newState
     }
     case ADDED_SONG: {
@@ -180,10 +184,15 @@ const playlistReducer = (state = initialState, action) => {
     }
     // case ADD_
     default: {
-      console.log('same song state: ', state)
       return state
     }
   }
+}
+
+function shiftFirstToLast(arrayOfSongs) {
+  let firstSong = arrayOfSongs.splice(0, 1)
+  arrayOfSongs.push(...firstSong)
+  return arrayOfSongs
 }
 
 export default playlistReducer

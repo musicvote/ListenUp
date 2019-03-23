@@ -11,7 +11,7 @@ import Sidebar from './sidebar'
 import heartbeat from 'heartbeats'
 
 //Heartbeat config
-let heart = heartbeat.createHeart(30000)
+let heart = heartbeat.createHeart(5000)
 
 export class Playlist extends React.Component {
   constructor(props) {
@@ -29,6 +29,7 @@ export class Playlist extends React.Component {
   }
 
   render() {
+    console.log('HEYHEY: ', this.props.playlist)
     return (
       <div>
         <h1>Playlist</h1>
@@ -39,11 +40,13 @@ export class Playlist extends React.Component {
               Check Spotify
             </button>
           </div>
-          {this.props.playlist.songs.map(song => {
-
-            return <SongCard key={song.spotifySongID} song={song} />
-
-          })}
+          {this.props.playlist.songs.length ? (
+            this.props.playlist.songs.map(song => {
+              return <SongCard key={song.spotifySongID} song={song} />
+            })
+          ) : (
+            <div>Sorry no songs</div>
+          )}
         </div>
       </div>
     )

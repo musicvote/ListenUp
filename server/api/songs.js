@@ -11,30 +11,11 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
-
 spotifyApi.setAccessToken(
-  'BQAAF7b5qetY8QRHHw_wfW-JQ6c7YxPjFc3o_i5fKq6qhcDwk1MAbh8pjVxNPD6Eq8hFlFzaPecMMYVKO3nLYLDdc2fBla2pz8l5lPPZzDALDHAjU3mf8yv-qeCZTk8YbpTYxWmGbS41muCl_JULNTK8iwCdErS4OfjuFsHlQEtyj8-i7vtwtqzhFQPhIxtMHOpYyZdO0m8zT3B0vIqJoCH2cJj-5dyyydBwYLaLFb8I4TmIaNQQrzmG19ZZ-d-MDNguAplqFAOov-OZTPkSn3VVy7WiRfywfkY'
+  'BQCwFbB5ELErjBMh6SeWbvB5kqJIqK31I9uAKHh_UMm8s6Cc3XKtCF9G1PWX6N1y8Ix-SbSRdyjTos0Q3De1-8oE4nLXf8et8HL57cGxhDZ4uNoHpJ-9XAGAwPTzOV5PEz2dWqkwelJtohiKMFssK07aYa3CfwBnANmTEGi2QjQnpI5hWu4K80tBxCHeQX2VfaR8iXIuL27HNTtbk8uAJGx-IUlQ-LMqZSCy2UasF0veuWt2Cl_mGHPy1PF0hfAouJTH1LyhsBIn-LAGDBIRNROfbKYGQ3KJbf8'
 )
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
-router.post('/addToPlaylist', (req, res, next) => {
-  let songId = req.body.id
-
-  spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
-      position: 1
-    })
-    .then(
-      data => {
-        res.json(data)
-      },
-      err => {
-        console.log('Something went wrong!', err)
-      }
-    )
-    .catch(next)
-})
 
 router.get('/', async (req, res, next) => {
   try {
@@ -71,9 +52,9 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
-
 router.post('/addToPlaylist', (req, res, next) => {
-  let songId = req.body.id
+  let songId = req.body.newSong.spotifySongID
+  console.log('inside addToPlay;list route: ', songId)
   spotifyApi
     .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
     .then(
@@ -93,9 +74,7 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
     .getMyCurrentPlayingTrack()
     .then(
       data => {
-        // Output items
-        console.log('%%%%%%: ', data.body.is_playing)
-        res.json(data)
+        res.json(data.body.item)
       },
       err => {
         console.log('Something went wrong!', err)
@@ -152,7 +131,6 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:playlistId/addToDb', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
     const addedSong = await Song.findOrCreate({
       where: {
@@ -177,15 +155,16 @@ router.post('/:playlistId/addToDb', async (req, res, next) => {
 
 router.get('/:playlistId', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-    const singlePlaylist = await Playlist.findById(playlistId, {
+    const playlistId = req.params.playlistId
+    const data = await Playlist.findById(playlistId, {
       where: {
         spotifyPlaylistId: playlistId
       },
       include: [{model: Song}]
     })
+
     //need to eager load
-    res.json(singlePlaylist)
+    res.json(data.songs)
   } catch (error) {
     next(error)
   }
