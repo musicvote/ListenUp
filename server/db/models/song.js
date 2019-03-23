@@ -4,7 +4,6 @@ const db = require('../db')
 const Song = db.define('song', {
   spotifySongID: {
     type: Sequelize.TEXT,
-    primaryKey: true,
     allowNull: false
   },
   songName: {

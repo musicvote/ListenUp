@@ -5,6 +5,7 @@ const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
 module.exports = router
 
+//don't delete this
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
@@ -130,42 +131,101 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
   }
 })
 
-router.post('/:playlistId/addToDb', async (req, res, next) => {
+// router.post('/:playlistId/addToDb', async (req, res, next) => {
+//   try {
+//     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+//     const selectedSong = req.body.selectedSong
+//     console.log(selectedSong)
+//     const addedSong = await Song.findOrCreate({
+//       where: {
+//         spotifySongID: selectedSong.songId,
+//         songName: selectedSong.songName,
+//         artistName: selectedSong.artist,
+//         albumArtworkurl: selectedSong.imageUrl
+//       }
+//     })
+//     const addedToJoinTable = await PlaylistSong.findOrCreate({
+//       where: {
+//         playlistSpotifyPlaylistId: playlistId,
+//         songSpotifySongID: selectedSong.songId,
+//         hasPlayed: true
+//       }
+//     })
+//     res.json({addedSong, addedToJoinTable})
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
+// router.get('/:playlistId', async (req, res, next) => {
+//   try {
+//     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+//     const singlePlaylist = await Playlist.findById(playlistId, {
+//       where: {
+//         spotifyPlaylistId: playlistId
+//       },
+//       include: [{model: Song}]
+//     })
+//     //need to eager load
+//     res.json(singlePlaylist)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
+router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '2UM67sPEJ06egizfdFNIbg'
     const selectedSong = req.body.selectedSong
-    console.log(selectedSong)
-    const addedSong = await Song.findOrCreate({
-      where: {
-        spotifySongID: selectedSong.songId,
-        songName: selectedSong.songName,
-        artistName: selectedSong.artist,
-        albumArtworkurl: selectedSong.imageUrl
-      }
+
+    const playlist = await Playlist.findOne({
+      where: {spotifyPlaylistId: spotifyPlaylistId}
     })
-    const addedToJoinTable = await PlaylistSong.findOrCreate({
-      where: {
-        playlistSpotifyPlaylistId: playlistId,
-        songSpotifySongID: selectedSong.songId,
-        hasPlayed: true
+    if (!playlist) {
+      res.status(204).send('Playlist does not exit')
+    } else {
+      const songInDb = await Song.findOne({
+        where: {
+          spotifySongID: selectedSong.songId,
+          songName: selectedSong.songName,
+          artistName: selectedSong.artist,
+          albumArtworkurl: selectedSong.imageUrl
+        }
+      })
+      if (songInDb) {
+        console.log('SONG IS ALREADY IN THE DB')
+        res.status(204).send('Song is already on the playlist')
+      } else {
+        const songAddedToDb = await Song.create({
+          spotifySongID: selectedSong.songId,
+          songName: selectedSong.songName,
+          artistName: selectedSong.artist,
+          albumArtworkurl: selectedSong.imageUrl,
+          playlistId: playlist.id
+        })
+        const addedToJoinTable = await PlaylistSong.create({
+          playlistId: playlist.id,
+          songId: songAddedToDb.id
+        })
+        console.log('NEW SONG IN THE DB')
+        res.json({songAddedToDb})
       }
-    })
-    res.json({addedSong, addedToJoinTable})
+    }
   } catch (error) {
     next(error)
   }
 })
 
-router.get('/:playlistId', async (req, res, next) => {
+router.get('/:spotifyPlaylistId', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-    const singlePlaylist = await Playlist.findById(playlistId, {
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const singlePlaylist = await Playlist.findOne({
       where: {
-        spotifyPlaylistId: playlistId
+        spotifyPlaylistId: spotifyPlaylistId
       },
       include: [{model: Song}]
     })
-    //need to eager load
+
     res.json(singlePlaylist)
   } catch (error) {
     next(error)

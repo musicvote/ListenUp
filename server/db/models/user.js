@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
-  spotifyId: {
+  spotifyUsername: {
     type: Sequelize.TEXT
   }
 })
