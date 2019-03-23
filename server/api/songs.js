@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDlb32clCOu8nvFoVoq5W2XGgdvtShW2IQQwcD40Gq5RvJitDGt6OsPea9cJ-GVSrav5m6HY09BQHCabQsVqH3swul0EQEOhAhvIhI9-2skhmBJJrlooa1roqbriQDZIJjkx33iAnbbCKe9__4ut0DwfDLq-bhK7QU'
+  'BQDS6eoZvUd19bV1q2r32t0ZOgw0lfahpJ7nHaD4urlpf-SVeUwweJJO_TdIeLzH4ItEYLBrWaScmBcYq1XIl4D3p7UCG_bHWin0rJ-4QUqggV28oFxJP7NyTDOLplAf28aqP0Vwe6hvGHLljgdH807IuefOgDZrJTY'
 
 const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -132,7 +132,7 @@ router.get('/:spotifyPlaylistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '2UM67sPEJ06egizfdFNIbg'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
