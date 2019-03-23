@@ -11,10 +11,8 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
-
-spotifyApi.setAccessToken(
-  'BQAAF7b5qetY8QRHHw_wfW-JQ6c7YxPjFc3o_i5fKq6qhcDwk1MAbh8pjVxNPD6Eq8hFlFzaPecMMYVKO3nLYLDdc2fBla2pz8l5lPPZzDALDHAjU3mf8yv-qeCZTk8YbpTYxWmGbS41muCl_JULNTK8iwCdErS4OfjuFsHlQEtyj8-i7vtwtqzhFQPhIxtMHOpYyZdO0m8zT3B0vIqJoCH2cJj-5dyyydBwYLaLFb8I4TmIaNQQrzmG19ZZ-d-MDNguAplqFAOov-OZTPkSn3VVy7WiRfywfkY'
-)
+const accessToken =
+  'BQCpEBrdLUjHAIZ-_3q3tAPvr3RLqQhFnnUeQy6dDzyjJnCAaohMuHSBswLieqydpn7qZ6XD207y-ZOItOIWKJzo3qzpsIBtzsCcQrrys97sciQ_Chj7sUQkr4X5HsiRDdacHlpiaiIL2SfcG79KKpF7Vb_Qmrs3YuPjcuEQV7VeAAYg1vnBpGnljOENbs8vZ4aIdPorfuTZ5QUj6g2Cu96F_jx3rhHByfKT-jOgReDG3XvpzN8cIVHN3XZ_Y78VB9TJBcpvIyb69MTb'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 

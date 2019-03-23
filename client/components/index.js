@@ -9,5 +9,7 @@ export {default as Player} from './Player'
 export {default as Playlist} from './Playlist'
 export {default as SongCard} from './SongCard'
 export {default as VoteCount} from './VoteCount'
+export {Login, Signup, AuthForm } from './AuthForm'
+export {default as CreatePlaylist} from './CreatePlaylist'
 export {default as JoinParty} from './JoinParty'
-export {Login, Signup} from './auth-form'
+

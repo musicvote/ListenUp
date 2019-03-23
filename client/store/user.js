@@ -6,14 +6,18 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const JOIN_PARTY = 'JOIN_PARTY'
+
 
 /**
  * INITIAL STATE
  */
 const defaultUser = {
   user: {},
-  joinedParty: ''
+  joinedParty: '',
+  currentPlaylist: ''
+
 }
 
 /**
@@ -21,14 +25,20 @@ const defaultUser = {
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const createdPlaylist = playlistUserObj => {
+  return {
+    type: CREATE_PLAYLIST,
+    playlistUserObj
+  }
+}
 export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
+
 /**
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    console.log('res!!!', res)
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -61,6 +71,27 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const addPlaylistToDb = playlistId => {
+  return async dispatch => {
+    try {
+      console.log('defaultUser.id', defaultUser.user.id)
+      const {data} = await axios.post(`/api/playlist/create-playlist`, {
+        id: playlistId
+      })
+      console.log('$$$$$defaultUser.user', defaultUser.user.id)
+
+      if (!data) {
+        throw error
+      } else {
+        const action = createdPlaylist(data)
+        dispatch(action)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
@@ -69,8 +100,13 @@ export default function(state = defaultUser, action) {
     case GET_USER: {
       return action.user
     }
-    case REMOVE_USER: {
+    case REMOVE_USER: 
       return defaultUser
+
+    case CREATE_PLAYLIST: {
+      let newState = {...state, currentPlaylist: action.playlistId}
+      console.log('!!!!!!NEW STATE', newState)
+      return newState
     }
     case JOIN_PARTY: {
       return {
@@ -78,7 +114,6 @@ export default function(state = defaultUser, action) {
         joinedParty: action.partyCode
       }
     }
-
     default:
       return state
   }

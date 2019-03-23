@@ -7,20 +7,20 @@ import Searchbar from './Searchbar'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div id="navbar">
-    <h1>Music Vote:Democrotizing your music listening experience</h1>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link to="/home">Home</Link>
           <Link to="/playlist">Playlist</Link>
+          <Searchbar />
 
           <a href="#" onClick={handleClick}>
             Logout
           </a>
         </div>
       ) : (
-        <div>{/* <a href="/callback">{displayName} with Spotify</a> */}</div>
+        <div />
       )}
     </nav>
     <hr />
