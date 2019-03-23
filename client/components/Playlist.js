@@ -9,29 +9,43 @@ import SongCard from './SongCard'
 import Player from './Player'
 import Sidebar from './sidebar'
 import heartbeat from 'heartbeats'
+import Heartbeat from 'react-heartbeat'
 
 //Heartbeat config
-let heart = heartbeat.createHeart(5000)
+//let heart = heartbeat.createHeart(5000)
 
 export class Playlist extends React.Component {
   constructor(props) {
     super(props)
-
+    this.state = {
+      playlist: []
+    }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }
   componentDidMount() {
-    this.props.fetchedPlaylist()
+    this.props.fetchedPlaylist().then(() => {
+      this.setState({playlist: this.props.playlist.songs})
+    })
   }
 
   CheckSpotify() {
-    this.props.isSongDone()
-    //this.props.moveToDeck()
+    this.props.isSongDone({
+      newDeckSong: this.state.playlist[2],
+      newCurrSong: this.state.playlist[1],
+      lastCurrSong: this.state.playlist[0]
+    })
+    this.setState({playlist: this.props.playlist.songs})
   }
 
   render() {
-    console.log('HEYHEY: ', this.props.playlist)
+    console.log('HOWDY: ', this.props.playlist.songs)
     return (
       <div>
+        <Heartbeat
+          heartbeatFunction={() => this.CheckSpotify()}
+          heartbeatInterval={10000}
+        />
+
         <h1>Playlist</h1>
         <Sidebar />
         <div id="playlist">
@@ -58,11 +72,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => {
-  heart.createEvent(1, function() {
-    console.log('heartBeat')
-    const fire = () => dispatch(CheckFetchSpotify())
-    fire()
-  })
+  // heart.createEvent(1, function() {
+  //   console.log('heartBeat')
+  //   const fire = () => dispatch(CheckFetchSpotify())
+  //   fire()
+  // })
   return {
     fetchedPlaylist: () => dispatch(fetchPlaylist()),
     isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),

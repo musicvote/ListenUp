@@ -69,7 +69,7 @@ export const fetchPlaylist = () => {
   }
 }
 
-export const CheckFetchSpotify = () => {
+export const CheckFetchSpotify = newPlacement => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
@@ -77,24 +77,16 @@ export const CheckFetchSpotify = () => {
 
       console.log('LOOK: ', data.id, initialState.currSong.spotifySongID)
 
-      if (data.id !== initialState.currSong.spotifySongID) {
+      if (data.id !== newPlacement.lastCurrSong.spotifySongID) {
         //Different Song playing
-
-        let newCurrSong = initialState.songs[1]
-        let newDeckSong = initialState.songs[2]
-
-        console.log(
-          'new deck song: ',
-          newDeckSong,
-          'initialState: ',
-          initialState
-        )
-
         await axios.post(`/api/songs/addToPlaylist`, {
-          newSong: newDeckSong
+          newSong: newPlacement.newDeckSong
         })
 
-        const action = placeNextCurrDeck({newCurrSong, newDeckSong})
+        const action = placeNextCurrDeck({
+          newCurrSong: newPlacement.newCurrSong,
+          newDeckSong: newPlacement.newDeckSong
+        })
         dispatch(action)
       } else {
         //Same song playing
