@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQBQND9uCPjYvvMdqThhGkrJibi3Tt6DwRkyQ6Knmo1hSFSndMwqWBH_gyN71Q9hZD0ZI1vYMztmfb2W0Ommmc1d5p5ISV6cenLhtPSSOtHYGewZIeEROTO5Mj_ldNBFEpue8xLgzlA60CV6Nm6UCfbmK-rvahTWJZE'
+  'BQCpEBrdLUjHAIZ-_3q3tAPvr3RLqQhFnnUeQy6dDzyjJnCAaohMuHSBswLieqydpn7qZ6XD207y-ZOItOIWKJzo3qzpsIBtzsCcQrrys97sciQ_Chj7sUQkr4X5HsiRDdacHlpiaiIL2SfcG79KKpF7Vb_Qmrs3YuPjcuEQV7VeAAYg1vnBpGnljOENbs8vZ4aIdPorfuTZ5QUj6g2Cu96F_jx3rhHByfKT-jOgReDG3XvpzN8cIVHN3XZ_Y78VB9TJBcpvIyb69MTb'
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -171,4 +171,3 @@ router.get('/:playlistId', async (req, res, next) => {
     next(error)
   }
 })
-
