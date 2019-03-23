@@ -15,18 +15,18 @@ const spotifyApi = new spotifyWebApi({
 const accessToken =
   'BQCpEBrdLUjHAIZ-_3q3tAPvr3RLqQhFnnUeQy6dDzyjJnCAaohMuHSBswLieqydpn7qZ6XD207y-ZOItOIWKJzo3qzpsIBtzsCcQrrys97sciQ_Chj7sUQkr4X5HsiRDdacHlpiaiIL2SfcG79KKpF7Vb_Qmrs3YuPjcuEQV7VeAAYg1vnBpGnljOENbs8vZ4aIdPorfuTZ5QUj6g2Cu96F_jx3rhHByfKT-jOgReDG3XvpzN8cIVHN3XZ_Y78VB9TJBcpvIyb69MTb'
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+
+const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.id
 
   spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
+    .addTracksToPlaylist(spotifyPlaylistId, [`spotify:track:${songId}`], {
       position: 1
     })
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {
@@ -71,13 +71,30 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
+router.post('/addToPlaylist', (req, res, next) => {
+  let songId = req.body.id
+  spotifyApi
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
+    .then(
+      data => {
+        console.log(')))))))))) ', data)
+        res.json(data)
+      },
+      err => {
+        console.log('Something went wrong!', err)
+      }
+    )
+    .catch(next)
+})
+
 router.get('/getCurrentlyPlaying', (req, res, next) => {
   spotifyApi
     .getMyCurrentPlayingTrack()
     .then(
       data => {
         // Output items
-        res.json(data.body.item.id)
+        console.log('%%%%%%: ', data.body.is_playing)
+        res.json(data)
       },
       err => {
         console.log('Something went wrong!', err)
@@ -97,12 +114,13 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
         'Content-Type': 'application/json'
       }
     )
+
     const allItems = data.tracks.items.reduce((acc, item) => {
       let makeItem = {
         artist: item.artists[0].name,
         songName: item.name,
         songId: item.id,
-        imageUrl: data.tracks.items[0].album.images[2].url
+        imageUrl: item.album.images[2].url
       }
       acc.push(makeItem)
       return acc
@@ -115,11 +133,11 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
 })
 
 //returns all songs in the database
-router.get('/:playlistId/searchDb', async (req, res, next) => {
+router.get('/:spotifyPlaylistId/searchDb', async (req, res, next) => {
   try {
-    const playlistId = req.params.playlistId
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
     const allSongs = await PlaylistSong.findAll({
-      where: {playlistId}
+      where: {spotifyPlaylistId}
     })
     if (allsongs) {
       res.json(allSongs)
@@ -130,48 +148,6 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
     next(error)
   }
 })
-
-// router.post('/:playlistId/addToDb', async (req, res, next) => {
-//   try {
-//     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-//     const selectedSong = req.body.selectedSong
-//     console.log(selectedSong)
-//     const addedSong = await Song.findOrCreate({
-//       where: {
-//         spotifySongID: selectedSong.songId,
-//         songName: selectedSong.songName,
-//         artistName: selectedSong.artist,
-//         albumArtworkurl: selectedSong.imageUrl
-//       }
-//     })
-//     const addedToJoinTable = await PlaylistSong.findOrCreate({
-//       where: {
-//         playlistSpotifyPlaylistId: playlistId,
-//         songSpotifySongID: selectedSong.songId,
-//         hasPlayed: true
-//       }
-//     })
-//     res.json({addedSong, addedToJoinTable})
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
-// router.get('/:playlistId', async (req, res, next) => {
-//   try {
-//     const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-//     const singlePlaylist = await Playlist.findById(playlistId, {
-//       where: {
-//         spotifyPlaylistId: playlistId
-//       },
-//       include: [{model: Song}]
-//     })
-//     //need to eager load
-//     res.json(singlePlaylist)
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {

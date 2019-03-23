@@ -36,6 +36,7 @@ if (!client_id || !client_secret) {
       console.log('PROFILE', profile)
       User.findOrCreate({
         where: {spotifyUsername}
+
       })
         .then(([user]) => done(null, user))
         .catch(done)

@@ -7,6 +7,8 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
+const JOIN_PARTY = 'JOIN_PARTY'
+
 
 /**
  * INITIAL STATE
@@ -28,6 +30,8 @@ const createdPlaylist = playlistUserObj => {
     playlistUserObj
   }
 }
+
+export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
 
 /**
  * THUNK CREATORS
@@ -93,15 +97,25 @@ export const addPlaylistToDb = playlistId => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
+    case GET_USER: {
       return action.user
+    }
     case REMOVE_USER:
       return defaultUser
+
     case CREATE_PLAYLIST: {
       let newState = {...state, currentPlaylist: action.playlistId}
       console.log('!!!!!!NEW STATE', newState)
       return newState
     }
+
+    case JOIN_PARTY: {
+      return {
+        ...state,
+        joinedParty: action.partyCode
+      }
+    }
+
     default:
       return state
   }

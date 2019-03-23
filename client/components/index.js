@@ -12,3 +12,5 @@ export {default as VoteCount} from './VoteCount'
 export {Login, Signup} from './AuthForm'
 export {default as CreatePlaylist} from './CreatePlaylist'
 export {default as AuthForm} from './AuthForm'
+export {default as JoinParty} from './JoinParty'
+
