@@ -10,13 +10,11 @@ const AuthForm = props => {
 
   return (
     <div>
-      {/* <form onSubmit={handleSubmit} name={name}>
-        <div>
-      </form> */}
-
-      <Button size="massive">
-        <a href="/callback">{displayName} with Spotify</a>
-      </Button>
+      <div>
+        <Button size="massive">
+          <a href="/auth/spotify">{displayName} with spotify</a>
+        </Button>
+      </div>{' '}
     </div>
   )
 }
@@ -57,13 +55,3 @@ const mapDispatch = dispatch => {
 }
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-
-/**
- * PROP TYPES
- */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
