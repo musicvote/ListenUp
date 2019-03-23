@@ -4,7 +4,7 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
+export {default as UserHome} from './UserHome'
 export {default as Player} from './Player'
 export {default as Playlist} from './Playlist'
 export {default as SongCard} from './SongCard'

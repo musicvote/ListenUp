@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button} from 'semantic-ui-react'
+//import {Button} from 'semantic-ui-react'
 
 /*** COMPONENT*/
 const AuthForm = props => {
@@ -12,9 +12,6 @@ const AuthForm = props => {
     <div>
       <div>
         <form onSubmit={handleSubmit} name={name}>
-          <div>
-            <button type="submit">{displayName}</button>
-          </div>
           {error && error.response && <div> {error.response.data} </div>}
         </form>
         <a href="/auth/spotify">{displayName} with spotify</a>
@@ -61,7 +58,6 @@ const mapDispatch = dispatch => {
 }
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
 
 /**
  * PROP TYPES

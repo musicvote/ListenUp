@@ -5,29 +5,37 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import Searchbar from './Searchbar'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div id="navbar">
-    <h1>Music Vote:Democrotizing your music listening experience</h1>
-    <nav>
-      <div>
-        {/* The navbar will show these links after you log in */}
-        <Link to="/home">Home</Link>
-        <Link to="/playlist">Playlist</Link>
+const Navbar = ({isLoggedIn, handleClick}) => {
+  console.log('logged in ', isLoggedIn)
+  return (
+    <div id="navbar">
+      <h1>Music Vote:Democrotizing your music listening experience</h1>
+      <nav>
+        {isLoggedIn.id ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home">Home</Link>
+            <Link to="/playlist">Playlist</Link>
 
-        <a href="#" onClick={handleClick}>
-          Logout
-        </a>
-      </div>
-    </nav>
-    <hr />
-  </div>
-)
-
+            <a href="/" onClick={handleClick}>
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div>Please click below to log in with Spotify.</div>
+        )}
+      </nav>
+      <hr />
+    </div>
+  )
+}
 /**
  * CONTAINER
  */
 const mapState = state => {
-  return {}
+  return {
+    isLoggedIn: state.user.user
+  }
 }
 
 const mapDispatch = dispatch => {
@@ -43,7 +51,3 @@ export default connect(mapState, mapDispatch)(Navbar)
 /**
  * PROP TYPES
  */
-Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
-}

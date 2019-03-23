@@ -223,6 +223,8 @@ router.get('/:spotifyPlaylistId', async (req, res, next) => {
       include: [{model: Song}]
     })
 
+    console.log()
+
     res.json(singlePlaylist)
   } catch (error) {
     next(error)

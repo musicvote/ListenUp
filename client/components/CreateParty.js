@@ -1,44 +1,66 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {Button} from 'semantic-ui-react'
+import React from 'react'
+import {connect} from 'react-redux'
+import {joinParty} from '../store/playlistStore'
 
-export default class CreateParty extends Component {
+export class CreateParty extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      playlistId: ''
+      partyCode: '',
+      partyExists: false
     }
-    this.handleChange = this.handleChange.bind(this)
+    this.changeHandler = this.changeHandler.bind(this)
+    this.submitHandler = this.submitHandler.bind(this)
   }
 
-  handleChange(event) {
+  async changeHandler(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
+    if (this.state.partyCode.length === 22) {
+      const backFromDB = await this.props.findParty(this.state.partyCode)
+      if (backFromDB) {
+        this.setState({partyExists: true})
+      }
+    }
+  }
+
+  submitHandler(evt) {
+    evt.preventdefault()
+    // redirect to the socket room
   }
 
   render() {
     return (
-      <div id="create-playlist">
-        <div />
-        <form onSubmit={this.handleSubmit}>
+      <div>
+        <form onSubmit={this.submitHandler}>
+          <label>Copy and paste your Spotify playlist Url.</label>
           <input
+            name="partyCode"
             type="text"
-            className="input"
-            name="playlistId"
-            placeholder="Search song name..."
-            onChange={this.handleChange}
+            value={this.state.partyCode}
+            onChange={this.changeHandler}
+            placeholder="Enter Party Code"
           />
-          {this.state.playlistId.length === 22 ? (
-            <Link to={`/playlist/${this.state.playlistId}`}>Create Party</Link>
+          {this.state.partyExists ? (
+            <button type="submit">Create Party</button>
           ) : (
-            <p>
-              Please Copy and paste the 22 character Spotify Playlist Id in the
-              search box. we will use this to create your musicVote playlist
-            </p>
+            <button disabled type="submit">
+              Create Party
+            </button>
           )}
         </form>
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  partyJoined: state.user.partyIn
+})
+
+const mapDispatchToProps = dispatch => ({
+  findParty: code => dispatch(findThatParty(code))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateParty)

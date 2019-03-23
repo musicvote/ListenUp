@@ -2,14 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {
-  Login,
-  Signup,
-  UserHome,
-  Playlist,
-  CreateParty,
-  JoinParty
-} from './components'
+import {Login, UserHome, Playlist, CreateParty, JoinParty} from './components'
 import {me} from './store'
 
 /**
@@ -31,8 +24,8 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             <Route path="/playlist/" component={Playlist} />
             <Route exact path="/playlist" component={Playlist} />
-            <Route exact path="/join_party" component={JoinParty} />
-            <Route exact path="/create_party" component={CreateParty} />
+            <Route exact path="/join" component={JoinParty} />
+            <Route exact path="/create" component={CreateParty} />
           </Switch>
         ) : (
           <Route component={Login} />

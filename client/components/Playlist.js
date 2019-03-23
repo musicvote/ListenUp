@@ -6,9 +6,8 @@ import {
   placeTopTwoToSpotify
 } from '../store/playlistStore'
 import SongCard from './SongCard'
-import Player from './Player'
+import Searchbar from './Searchbar'
 import Sidebar from './sidebar'
-import heartbeat from 'heartbeats'
 import Heartbeat from 'react-heartbeat'
 
 //Heartbeat config
@@ -19,7 +18,7 @@ export class Playlist extends React.Component {
     super(props)
     this.state = {
       playlist: [],
-      isAdmin: true
+      isAdmin: false
     }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }
@@ -53,12 +52,8 @@ export class Playlist extends React.Component {
 
         <h1>Playlist</h1>
         <Sidebar />
+        <Searchbar />
         <div id="playlist">
-          <div>
-            <button type="button" onClick={this.CheckSpotify}>
-              Check Spotify
-            </button>
-          </div>
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.spotifySongID} song={song} />
