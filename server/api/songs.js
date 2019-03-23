@@ -11,9 +11,10 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
-spotifyApi.setAccessToken(
-  'BQCyGJlk5bqOD8MRj9MZPGdHHzDPrlnKv2fkjD00ofqaDCy5RSZSISBKniPWHY4bihbHNWMlNs6Ce0mvffiPyxPw1JQ6INBueb-XAWf970qAI8RoS9hxMQaDuUk9ubNHu0KEcli19RfcKXuiRXMlwSF7c7FgO8P1d-2XQSnlOObeShWjrSUAxtNbL-it-vwhRbaX--WavvUdd4pfI-1pwmopa2pbQPgRYF0T844HneHXeamDBgJCe-0EOV6diKeheDoAn-vScGeaDtk6MrIGsR33U6L27j5xMG0'
-)
+const accessToken =
+  'BQBgDmogfVlDiOPNapqkTYritSeTHVOHJedMgtLYbmxP4YZrpRGsQ0T8bWVYXSRWGjGtMWFyw6tY1-SlcNMeA0OdesiR7idrE4iPIoof-juUtAtpCH7m1nRLwQaJOs2VK203G9S-FsK-2mzQVs_saBdCc4fxIpbaP-BgOb-PHv94Wli114fnwAHI9QzugFJIRXoVwFjvXYtXmerlft1vVdd-16gZn1tEWvuDeR8J0KlTfyPVFfA0AxM_YU9XWKYTCtmH4PBXIy-q_aM4Q9ydCTsorre9MS5kPwk'
+
+spotifyApi.setAccessToken(accessToken)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
@@ -54,12 +55,11 @@ router.get('/search', async (req, res, next) => {
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.newSong.spotifySongID
-  console.log('inside addToPlay;list route: ', songId)
+
   spotifyApi
     .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {

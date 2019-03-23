@@ -38,7 +38,6 @@ export class Playlist extends React.Component {
   }
 
   render() {
-    console.log('HOWDY: ', this.props.playlist.songs)
     return (
       <div>
         <Heartbeat
@@ -72,11 +71,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => {
-  // heart.createEvent(1, function() {
-  //   console.log('heartBeat')
-  //   const fire = () => dispatch(CheckFetchSpotify())
-  //   fire()
-  // })
   return {
     fetchedPlaylist: () => dispatch(fetchPlaylist()),
     isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
