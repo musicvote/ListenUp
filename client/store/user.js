@@ -7,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const JOIN_PARTY = 'JOIN_PARTY'
+const CREATE_PARTY = 'CREATE_PARTY'
 
 /**
  * INITIAL STATE
@@ -14,7 +15,7 @@ const JOIN_PARTY = 'JOIN_PARTY'
 const defaultUser = {
   user: {},
   joinedParty: '',
-  currentPlaylist: ''
+  createdPlaylist: ''
 }
 
 /**
@@ -23,6 +24,13 @@ const defaultUser = {
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
 export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
+const createParty = playlistId => {
+  return {
+    type: CREATE_PARTY,
+    playlistId
+  }
+}
+
 /**
  * THUNK CREATORS
  */
@@ -61,6 +69,27 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const addedPlaylistToDb = playlistId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.post(`/api/playlist/create-playlist`, {
+        id: playlistId
+      })
+      console.log('data', data)
+      // console.log('playlistId', spotifyPlaylistId)
+
+      if (!data) {
+        throw error
+      } else {
+        const action = createParty(data)
+        dispatch(action)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 /**
  * REDUCER
  */
@@ -80,7 +109,12 @@ export default function(state = defaultUser, action) {
         joinedParty: action.partyCode
       }
     }
-
+    case CREATE_PARTY: {
+      return {
+        ...state,
+        createdPlaylist: action.playlistId
+      }
+    }
     default:
       return state
   }

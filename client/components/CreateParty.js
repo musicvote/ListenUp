@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {joinParty} from '../store/playlistStore'
+import {addedPlaylistToDb} from '../store/user'
 
 export class CreateParty extends React.Component {
   constructor(props) {
@@ -9,45 +9,48 @@ export class CreateParty extends React.Component {
       partyCode: '',
       partyExists: false
     }
-    this.changeHandler = this.changeHandler.bind(this)
-    this.submitHandler = this.submitHandler.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  async changeHandler(event) {
+  handleSubmit(event) {
+    event.preventDefault()
+    this.props.addedPlaylistToDb(this.state.partyCode)
+    //  redirect to the socket room
+  }
+
+  //event.target = partyCode
+  //event.target.value = input into the playlistId form
+  async handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
     if (this.state.partyCode.length === 22) {
-      const backFromDB = await this.props.findParty(this.state.partyCode)
+      const backFromDB = await this.props.addedPlaylistToDb(
+        this.state.partyCode
+      )
       if (backFromDB) {
         this.setState({partyExists: true})
       }
     }
   }
 
-  submitHandler(evt) {
-    evt.preventdefault()
-    // redirect to the socket room
-  }
-
   render() {
     return (
       <div>
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.handleSubmit}>
           <label>Copy and paste your Spotify playlist Url.</label>
           <input
             name="partyCode"
             type="text"
             value={this.state.partyCode}
-            onChange={this.changeHandler}
+            onChange={this.handleChange}
             placeholder="Enter Party Code"
           />
           {this.state.partyExists ? (
             <button type="submit">Create Party</button>
           ) : (
-            <button disabled type="submit">
-              Create Party
-            </button>
+            <button type="submit">Create Party</button>
           )}
         </form>
       </div>
@@ -56,11 +59,12 @@ export class CreateParty extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  partyJoined: state.user.partyIn
+  partyCreated: state.user.createdPlaylist
 })
 
+//was findParty @zach
 const mapDispatchToProps = dispatch => ({
-  findParty: code => dispatch(findThatParty(code))
+  addedPlaylistToDb: playlistId => dispatch(addedPlaylistToDb(playlistId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateParty)
