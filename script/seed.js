@@ -8,13 +8,13 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({id: 1, email: 'cody@email.com', password: '123'}),
-    User.create({id: 2, email: 'murphy@email.com', password: '123'})
+    User.create({spotifyId: 1, email: 'cody@email.com', password: '123'}),
+    User.create({spotifyId: 2, email: 'murphy@email.com', password: '123'})
   ])
 
   const playlist = await Promise.all([
     Playlist.create({
-      userId: 1,
+      spotifyId: 1,
       spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
     })
   ])
@@ -25,57 +25,67 @@ async function seed() {
       songName: 'Castle on the Hill',
       artistName: 'Ed Sheeran',
       albumArtworkurl:
-        'https://upload.wikimedia.org/wikipedia/en/thumb/2/27/Castle_On_The_Hill_%28Official_Single_Cover%29_by_Ed_Sheeran.png/220px-Castle_On_The_Hill_%28Official_Single_Cover%29_by_Ed_Sheeran.png'
+        'https://i.scdn.co/image/6f2621d1552021fd87898d69899e214c0a977417'
     }),
     Song.create({
       spotifySongID: '3Du2K5dLzmduCNp6uwuaL0',
       songName: 'Sorry Not Sorry',
       artistName: 'Demi Lovato',
       albumArtworkurl:
-        'https://m.media-amazon.com/images/I/51ziXg-upfL._AA256_.jpg'
+        'https://i.scdn.co/image/08a57cb98fc4cf781c064124630f99524e62a312'
     }),
     Song.create({
       spotifySongID: '1uigwk5hNV84zRd5YQQRTk',
       songName: 'Pocketful of Sunshine',
       artistName: 'Natasha Bedingfield',
       albumArtworkurl:
-        'https://c-sf.smule.com/sf/s21/arr/21/3f/ffea4bf2-d0b1-41af-a359-da25380595bc.jpg'
+        'https://i.scdn.co/image/014f38920ba75a4efd3488b4626cf6e16f94c9e5'
     }),
     Song.create({
       spotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw',
       songName: 'Closer',
       artistName: 'The Chainsmokers',
       albumArtworkurl:
-        'https://m.media-amazon.com/images/I/51gY5b2UJAL._AA256_.jpg'
+        'https://i.scdn.co/image/57ba46d39d710e99ae524b279cae3a3981ace43f'
     }),
     Song.create({
       spotifySongID: '1rfofaqEpACxVEHIZBJe6W',
       songName: 'Havana',
       artistName: 'Camila Cabello',
       albumArtworkurl:
-        'https://c-sf.smule.com/sf/s77/arr/c4/ff/c6d40372-0986-40fc-b2e0-9ef9b73c79d7.jpg'
+        'https://i.scdn.co/image/014f38920ba75a4efd3488b4626cf6e16f94c9e5'
     })
   ])
 
   const playlistSong = await Promise.all([
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 1,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '6PCUP3dWmTjcTtXY02oFdT'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 2,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '1uigwk5hNV84zRd5YQQRTk'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 3,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '3Du2K5dLzmduCNp6uwuaL0'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 4,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw'
     }),
     PlaylistSong.create({
-      playlistSpotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      playlistId: 1,
+      songId: 5,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'
     })
   ])
