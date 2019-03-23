@@ -13,7 +13,8 @@ const JOIN_PARTY = 'JOIN_PARTY'
  */
 const defaultUser = {
   user: {},
-  joinedParty: ''
+  joinedParty: '',
+  currentPlaylist: ''
 }
 
 /**
@@ -65,12 +66,14 @@ export const logout = () => async dispatch => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER: {
-      return action.user
-    }
-    case REMOVE_USER: {
-      return defaultUser
-    }
+    case GET_USER:
+      return {...state, user: action.user}
+    case REMOVE_USER:
+      return {
+        user: {},
+        joinedParty: '',
+        currentPlaylist: ''
+      }
     case JOIN_PARTY: {
       return {
         ...state,

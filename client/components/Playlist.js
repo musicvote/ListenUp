@@ -19,7 +19,7 @@ export class Playlist extends React.Component {
     super(props)
     this.state = {
       playlist: [],
-      isAdmin: false
+      isAdmin: true
     }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }

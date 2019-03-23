@@ -9,19 +9,15 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div id="navbar">
     <h1>Music Vote:Democrotizing your music listening experience</h1>
     <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/playlist">Playlist</Link>
+      <div>
+        {/* The navbar will show these links after you log in */}
+        <Link to="/home">Home</Link>
+        <Link to="/playlist">Playlist</Link>
 
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>{/* <a href="/callback">{displayName} with Spotify</a> */}</div>
-      )}
+        <a href="#" onClick={handleClick}>
+          Logout
+        </a>
+      </div>
     </nav>
     <hr />
   </div>
@@ -31,9 +27,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  * CONTAINER
  */
 const mapState = state => {
-  return {
-    isLoggedIn: !!state.user.id
-  }
+  return {}
 }
 
 const mapDispatch = dispatch => {

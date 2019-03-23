@@ -57,10 +57,11 @@ export const fetchPlaylist = () => {
   return async dispatch => {
     try {
       //hardcoded for DEV
-      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+      //const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
-      const {data} = await axios.get(`/api/songs/${playlistId}`)
-      const action = getSongs(data)
+      const {data} = await axios.get(`/api/songs/${`ngknjkgd`}`)
+
+      const action = getSongs(data.songs)
       socket.emit('new-song', data)
       dispatch(action)
     } catch (error) {
