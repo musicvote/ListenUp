@@ -27,7 +27,7 @@ class Searchbar extends Component {
     })
   }
   submitSongHandler(event) {
-    // const Number(event.target.value)
+    event.preventDefault()
     const pickedSong = this.state.foundSongs[event.target.value]
 
     this.props.songPickedNowPost(pickedSong)

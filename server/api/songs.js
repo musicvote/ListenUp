@@ -11,30 +11,12 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
+const accessToken =
+  'BQDlPU33jkrYvPAgPZMnFjJH3jBcTkQdDZlOsnNxfQluD2177pDNYTPYuViPuXBdDiuXspgVR3Z_3ty3QSyo8smCSXgRS4XadwQjkEH_9h4rYsMd-5Ti69D9GtNk3qiaCUrWoFPF2W8d6o0v7mpJtEc_K32cshQckqQ'
 
-spotifyApi.setAccessToken(
-  'BQAAF7b5qetY8QRHHw_wfW-JQ6c7YxPjFc3o_i5fKq6qhcDwk1MAbh8pjVxNPD6Eq8hFlFzaPecMMYVKO3nLYLDdc2fBla2pz8l5lPPZzDALDHAjU3mf8yv-qeCZTk8YbpTYxWmGbS41muCl_JULNTK8iwCdErS4OfjuFsHlQEtyj8-i7vtwtqzhFQPhIxtMHOpYyZdO0m8zT3B0vIqJoCH2cJj-5dyyydBwYLaLFb8I4TmIaNQQrzmG19ZZ-d-MDNguAplqFAOov-OZTPkSn3VVy7WiRfywfkY'
-)
+spotifyApi.setAccessToken(accessToken)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
-router.post('/addToPlaylist', (req, res, next) => {
-  let songId = req.body.id
-
-  spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
-      position: 1
-    })
-    .then(
-      data => {
-        res.json(data)
-      },
-      err => {
-        console.log('Something went wrong!', err)
-      }
-    )
-    .catch(next)
-})
 
 router.get('/', async (req, res, next) => {
   try {
@@ -50,7 +32,6 @@ router.get('/getSong', async (req, res, next) => {
     const song = await fetch(
       'https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl'
     )
-
     res.json(song.body.item)
   } catch (error) {
     next(error)
@@ -59,7 +40,6 @@ router.get('/getSong', async (req, res, next) => {
 
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
-  //Playlist method - gets particular playlist
   //returns json object with all the tracks within a playlist
   try {
     const albumResult = await spotifyApi.getArtistAlbums(
@@ -71,14 +51,13 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
-
 router.post('/addToPlaylist', (req, res, next) => {
-  let songId = req.body.id
+  let songId = req.body.newSong.spotifySongID
+
   spotifyApi
     .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
     .then(
       data => {
-        console.log(')))))))))) ', data)
         res.json(data)
       },
       err => {
@@ -93,9 +72,7 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
     .getMyCurrentPlayingTrack()
     .then(
       data => {
-        // Output items
-        console.log('%%%%%%: ', data.body.is_playing)
-        res.json(data)
+        res.json(data.body.item)
       },
       err => {
         console.log('Something went wrong!', err)
@@ -150,41 +127,62 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
   }
 })
 
-router.post('/:playlistId/addToDb', async (req, res, next) => {
+router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
-    const addedSong = await Song.findOrCreate({
-      where: {
-        spotifySongID: selectedSong.songId,
-        songName: selectedSong.songName,
-        artistName: selectedSong.artist,
-        albumArtworkurl: selectedSong.imageUrl
-      }
+
+    const playlist = await Playlist.findOne({
+      where: {spotifyPlaylistId: spotifyPlaylistId}
     })
-    const addedToJoinTable = await PlaylistSong.findOrCreate({
-      where: {
-        playlistSpotifyPlaylistId: playlistId,
-        songSpotifySongID: selectedSong.songId,
-        hasPlayed: true
+    if (!playlist) {
+      res.status(204).send('Playlist does not exit')
+    } else {
+      const songInDb = await Song.findOne({
+        where: {
+          spotifySongID: selectedSong.songId,
+          songName: selectedSong.songName,
+          artistName: selectedSong.artist,
+          albumArtworkurl: selectedSong.imageUrl
+        }
+      })
+      if (songInDb) {
+        console.log('SONG IS ALREADY IN THE DB', songInDb)
+        res.status(204).send('Song is already on the playlist')
+      } else {
+        const songAddedToDb = await Song.create({
+          spotifySongID: selectedSong.songId,
+          songName: selectedSong.songName,
+          artistName: selectedSong.artist,
+          albumArtworkurl: selectedSong.imageUrl,
+          playlistId: playlist.id
+        })
+        const addedToJoinTable = await PlaylistSong.create({
+          playlistId: playlist.id,
+          songId: songAddedToDb.id
+        })
+        console.log('NEW SONG IN THE DB', songAddedToDb.dataValues.id)
+        const songAddedToReturn = songAddedToDb.dataValues
+        res.json(songAddedToReturn)
       }
-    })
-    res.json({addedSong, addedToJoinTable})
+    }
   } catch (error) {
     next(error)
   }
 })
 
-router.get('/:playlistId', async (req, res, next) => {
+router.get('/:spotifyPlaylistId', async (req, res, next) => {
   try {
-    const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-    const singlePlaylist = await Playlist.findById(playlistId, {
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const singlePlaylist = await Playlist.findOne({
       where: {
-        spotifyPlaylistId: playlistId
+        spotifyPlaylistId: spotifyPlaylistId
       },
       include: [{model: Song}]
     })
-    //need to eager load
+
+    console.log()
+
     res.json(singlePlaylist)
   } catch (error) {
     next(error)

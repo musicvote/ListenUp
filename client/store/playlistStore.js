@@ -1,20 +1,12 @@
 import axios from 'axios'
 import createHeartbeat from 'redux-heartbeat'
-
-console.log(createHeartbeat(30000))
+import socket from '../socket'
 //STATE AND REDUCER
 
 const initialState = {
-  songs: [
-    '17eu2pSgSUpIG1GFWBnODv',
-    '1BRwuvjhkgezmv1gcI6lT6',
-    '4SBQSroThFQ98U29IwnJ2g',
-    '3eCofNVG97J3lRyNhh0zPP',
-    '65tjr5cWJmsA8KHVvuC7b2'
-  ],
-  currSong: '',
-  deckSong: ''
-
+  songs: [],
+  currSong: {},
+  deckSong: {}
 }
 
 //ACTION TYPES
@@ -64,8 +56,13 @@ const createPlaylist = playlistId => {
 export const fetchPlaylist = () => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/songs/`)
-      const action = getSongs(data)
+      //hardcoded for DEV
+      //const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+
+      const {data} = await axios.get(`/api/songs/${`ngknjkgd`}`)
+
+      const action = getSongs(data.songs)
+      socket.emit('new-song', data)
       dispatch(action)
     } catch (error) {
       console.log(error)
@@ -73,27 +70,23 @@ export const fetchPlaylist = () => {
   }
 }
 
-export const CheckFetchSpotify = () => {
+export const CheckFetchSpotify = newPlacement => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
-      console.log('7777777777: ', data.body.item.id)
-
-      if (data.body.item.id !== initialState.songs[0]) {
+      if (data.id !== newPlacement.lastCurrSong.spotifySongID) {
+        console.log('Changed Song.')
         //Different Song playing
-        console.log('Song Changed!')
-
-        initialState.songs.shift()
-        let newDeckSong = initialState.songs[1]
-        let newCurrSong = initialState.songs[0]
-        console.log('third song: ', initialState.songs[2])
-
         await axios.post(`/api/songs/addToPlaylist`, {
-          id: initialState.songs[2]
+          newSong: newPlacement.newDeckSong
         })
 
-        const action = placeNextCurrDeck({newCurrSong, newDeckSong})
+        const action = placeNextCurrDeck({
+          newCurrSong: newPlacement.newCurrSong,
+          newDeckSong: newPlacement.newDeckSong
+        })
+
         dispatch(action)
       } else {
         //Same song playing
@@ -121,11 +114,19 @@ export const postSongToPlaylist = addedSongObj => {
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-
-      const action = addedSongToDb(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
+      if (!data) {
+        //Placeholder. this is when the song selected is already on the playlist
+        throw Error
+      } else {
+        console.log(
+          data,
+          '**************data in the post song to playlist route'
+        )
+        const action = addedSongToDb(data)
+        dispatch(action)
+      }
+    } catch (Error) {
+      console.log(Error)
     }
   }
 }
@@ -133,7 +134,7 @@ export const postSongToPlaylist = addedSongObj => {
 export const addPlaylistToDb = playlistId => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/create-playlist`)
+      const {data} = await axios.post(`/api/playlist/create-playlist`)
       const action = createPlaylist(data)
       dispatch(action)
     } catch (error) {
@@ -148,27 +149,26 @@ const playlistReducer = (state = initialState, action) => {
     case GET_SONGS: {
       let newState = {
         ...state,
-        //songs: [...action.playlist],
-        currSong: state.songs[0],
-        deckSong: state.songs[1]
+        songs: [...action.playlist]
       }
-      console.log(newState)
+      initialState.songs = action.playlist
+      initialState.currSong = action.playlist[0]
+      initialState.deckSong = action.playlist[1]
+
       return newState
     }
+
     case GOT_NEXT: {
       let newState = {
         ...state,
+        songs: shiftFirstToLast(state.songs),
         currSong: action.newPlacement.newCurrSong,
         deckSong: action.newPlacement.newDeckSong
       }
-      console.log(newState)
       return newState
     }
     case ADDED_SONG: {
-      let newState = {
-        ...state,
-        songs: [...state.songs, action.addedSong[0]]
-      }
+      let newState = {...state, songs: [...state.songs, action.addedSong]}
       return newState
     }
     case FOUND_SONGS: {
@@ -180,10 +180,15 @@ const playlistReducer = (state = initialState, action) => {
     }
     // case ADD_
     default: {
-      console.log('same song state: ', state)
       return state
     }
   }
+}
+
+function shiftFirstToLast(arrayOfSongs) {
+  let firstSong = arrayOfSongs.splice(0, 1)
+  arrayOfSongs.push(...firstSong)
+  return arrayOfSongs
 }
 
 export default playlistReducer
