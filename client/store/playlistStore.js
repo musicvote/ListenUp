@@ -143,18 +143,6 @@ export const addPlaylistToDb = playlistId => {
   }
 }
 
-export const addPlaylistToDb = playlistId => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`/api/playlist/create-playlist`)
-      const action = createPlaylist(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 //add song to playlist in our app
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
