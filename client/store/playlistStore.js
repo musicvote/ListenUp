@@ -114,11 +114,19 @@ export const postSongToPlaylist = addedSongObj => {
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-      console.log(data, '**************data in the post song to playlist route')
-      const action = addedSongToDb(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
+      if (!data) {
+        //Placeholder. this is when the song selected is already on the playlist
+        throw Error
+      } else {
+        console.log(
+          data,
+          '**************data in the post song to playlist route'
+        )
+        const action = addedSongToDb(data)
+        dispatch(action)
+      }
+    } catch (Error) {
+      console.log(Error)
     }
   }
 }
