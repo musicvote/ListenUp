@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+router.use('/playlist', require('./playlist'))
 router.use('/songs', require('./songs'))
 router.use('/playlist', require('./playlist'))
 

@@ -14,7 +14,6 @@ const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
 const FOUND_SONGS = 'FOUND_SONGS'
 const ADDED_SONG = 'ADDED_SONG'
-const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 
 //ACTION CREATORS
 const getSongs = playlist => {
@@ -42,13 +41,6 @@ const addedSongToDb = addedSong => {
   return {
     type: ADDED_SONG,
     addedSong
-  }
-}
-
-const createPlaylist = playlistId => {
-  return {
-    type: CREATE_PLAYLIST,
-    playlistId
   }
 }
 
@@ -123,18 +115,6 @@ export const postSongToPlaylist = addedSongObj => {
   }
 }
 
-export const addPlaylistToDb = playlistId => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`/api/create-playlist`)
-      const action = createPlaylist(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-
 //add song to playlist in our app
 const playlistReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -170,7 +150,6 @@ const playlistReducer = (state = initialState, action) => {
       }
       return newState
     }
-    // case ADD_
     default: {
       return state
     }

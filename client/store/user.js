@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const JOIN_PARTY = 'JOIN_PARTY'
 const CREATE_PARTY = 'CREATE_PARTY'
 
@@ -30,7 +31,6 @@ const createParty = playlistId => {
     playlistId
   }
 }
-
 /**
  * THUNK CREATORS
  */

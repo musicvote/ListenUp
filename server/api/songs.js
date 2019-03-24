@@ -5,6 +5,7 @@ const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
 module.exports = router
 
+//don't delete this
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
@@ -16,7 +17,7 @@ const accessToken =
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -113,11 +114,11 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
 })
 
 //returns all songs in the database
-router.get('/:playlistId/searchDb', async (req, res, next) => {
+router.get('/:spotifyPlaylistId/searchDb', async (req, res, next) => {
   try {
-    const playlistId = req.params.playlistId
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
     const allSongs = await PlaylistSong.findAll({
-      where: {playlistId}
+      where: {spotifyPlaylistId}
     })
     if (allsongs) {
       res.json(allSongs)
