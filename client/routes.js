@@ -2,10 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-
-import {UserHome, Playlist, CreatePlaylist, Login, Navbar, JoinParty} from './components'
-
-//AuthForm is exported as Login
+import {Login, UserHome, Playlist, CreateParty, JoinParty} from './components'
 import {me} from './store'
 
 /**
@@ -17,25 +14,22 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    const {id} = this.props.user
 
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route exact path="/" component={Login} />
-        {isLoggedIn && (
+        {id ? (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-
-            <Route path="/create" component={CreatePlaylist} />
-            <Route path="/playlist" component={Playlist} />
-            <Route path="/" component={UserHome} />
-
-            <Route exact path="/join_party" component={JoinParty} />
+            <Route path="/home" component={UserHome} />
+            <Route path="/playlist/" component={Playlist} />
+            <Route exact path="/playlist" component={Playlist} />
+            <Route exact path="/join" component={JoinParty} />
+            <Route exact path="/create" component={CreateParty} />
           </Switch>
+        ) : (
+          <Route component={Login} />
         )}
-        {/* Displays our Login component as a fallback */}
-        <Route path="/login" component={Login} />
       </Switch>
     )
   }
@@ -46,9 +40,10 @@ class Routes extends Component {
  */
 const mapState = state => {
   return {
+    user: state.user.user
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    // isLoggedIn: !!state.user.id
   }
 }
 

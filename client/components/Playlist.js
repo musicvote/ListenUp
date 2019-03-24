@@ -6,42 +6,61 @@ import {
   placeTopTwoToSpotify
 } from '../store/playlistStore'
 import SongCard from './SongCard'
-import Player from './Player'
+import Searchbar from './Searchbar'
 import Sidebar from './sidebar'
-import heartbeat from 'heartbeats'
+import Heartbeat from 'react-heartbeat'
 
 //Heartbeat config
-let heart = heartbeat.createHeart(30000)
+//let heart = heartbeat.createHeart(5000)
 
 export class Playlist extends React.Component {
   constructor(props) {
     super(props)
-
+    this.state = {
+      playlist: [],
+      isAdmin: false
+    }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }
   componentDidMount() {
-    this.props.fetchedPlaylist()
+    this.props.fetchedPlaylist().then(() => {
+      this.setState({playlist: this.props.playlist.songs})
+    })
   }
 
   CheckSpotify() {
-    this.props.isSongDone()
-    //this.props.moveToDeck()
+    this.props.isSongDone({
+      newDeckSong: this.state.playlist[2],
+      newCurrSong: this.state.playlist[1],
+      lastCurrSong: this.state.playlist[0]
+    })
+    this.setState({playlist: this.props.playlist.songs})
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
+        {this.state.isAdmin ? (
+          <Heartbeat
+            heartbeatFunction={() => this.CheckSpotify()}
+            heartbeatInterval={10000}
+          />
+        ) : (
+          <div />
+        )}
+
         <h1>Playlist</h1>
         <Sidebar />
+        <Searchbar />
         <div id="playlist">
-          <div>
-            <button type="button" onClick={this.CheckSpotify}>
-              Check Spotify
-            </button>
-          </div>
-          {this.props.playlist.songs.map(song => {
-            return <SongCard key={song.spotifySongID} song={song} />
-          })}
+          {this.props.playlist.songs.length ? (
+            this.props.playlist.songs.map(song => {
+              return <SongCard key={song.spotifySongID} song={song} />
+            })
+          ) : (
+            <div>Sorry no songs</div>
+          )}
         </div>
       </div>
     )
@@ -49,15 +68,11 @@ export class Playlist extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  playlist: state.songs
+  playlist: state.songs,
+  user: state.user
 })
 
 const mapDispatchToProps = dispatch => {
-  heart.createEvent(1, function() {
-    console.log('heartBeat')
-    const fire = () => dispatch(CheckFetchSpotify())
-    fire()
-  })
   return {
     fetchedPlaylist: () => dispatch(fetchPlaylist()),
     isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),

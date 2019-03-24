@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const {Song, Playlist, User, PlaylistSong} = require('../db/models')
 
 router.use('/playlist', require('./playlist'))
 router.use('/songs', require('./songs'))
+router.use('/playlist', require('./playlist'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found', '******')

@@ -8,7 +8,7 @@ const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const JOIN_PARTY = 'JOIN_PARTY'
-
+const CREATE_PARTY = 'CREATE_PARTY'
 
 /**
  * INITIAL STATE
@@ -16,7 +16,7 @@ const JOIN_PARTY = 'JOIN_PARTY'
 const defaultUser = {
   user: {},
   joinedParty: '',
-  currentPlaylist: ''
+  createdPlaylist: ''
 }
 
 /**
@@ -24,15 +24,13 @@ const defaultUser = {
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const createdPlaylist = playlistUserObj => {
+export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
+const createParty = playlistId => {
   return {
-    type: CREATE_PLAYLIST,
-    playlistUserObj
+    type: CREATE_PARTY,
+    playlistId
   }
 }
-
-export const joinParty = partyCode => ({type: JOIN_PARTY, partyCode})
-
 /**
  * THUNK CREATORS
  */
@@ -71,19 +69,19 @@ export const logout = () => async dispatch => {
   }
 }
 
-export const addPlaylistToDb = playlistId => {
+export const addedPlaylistToDb = playlistId => {
   return async dispatch => {
     try {
-      console.log('defaultUser.id', defaultUser.user.id)
       const {data} = await axios.post(`/api/playlist/create-playlist`, {
         id: playlistId
       })
-      console.log('$$$$$defaultUser.user', defaultUser.user.id)
+      console.log('data', data)
+      // console.log('playlistId', spotifyPlaylistId)
 
       if (!data) {
         throw error
       } else {
-        const action = createdPlaylist(data)
+        const action = createParty(data)
         dispatch(action)
       }
     } catch (error) {
@@ -97,25 +95,26 @@ export const addPlaylistToDb = playlistId => {
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER: {
-      return action.user
-    }
+    case GET_USER:
+      return {...state, user: action.user}
     case REMOVE_USER:
-      return defaultUser
-
-    case CREATE_PLAYLIST: {
-      let newState = {...state, currentPlaylist: action.playlistId}
-      console.log('!!!!!!NEW STATE', newState)
-      return newState
-    }
-
+      return {
+        user: {},
+        joinedParty: '',
+        currentPlaylist: ''
+      }
     case JOIN_PARTY: {
       return {
         ...state,
         joinedParty: action.partyCode
       }
     }
-
+    case CREATE_PARTY: {
+      return {
+        ...state,
+        createdPlaylist: action.playlistId
+      }
+    }
     default:
       return state
   }
