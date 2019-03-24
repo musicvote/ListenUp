@@ -43,6 +43,3 @@ router.get('/me', (req, res) => {
 })
 
 router.use('/spotify', require('./spotify'))
-
-// const scope =
-//   'user-read-private user-read-email user-read-playback-state user-modify-playback-state streaming user-read-birthdate'

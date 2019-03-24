@@ -126,7 +126,7 @@ export const postSongToPlaylist = addedSongObj => {
 export const addPlaylistToDb = playlistId => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/create-playlist`)
+      const {data} = await axios.post(`/api/playlist/create-playlist`)
       const action = createPlaylist(data)
       dispatch(action)
     } catch (error) {

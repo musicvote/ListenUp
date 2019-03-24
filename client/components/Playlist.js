@@ -13,7 +13,7 @@ import Heartbeat from 'react-heartbeat'
 //Heartbeat config
 //let heart = heartbeat.createHeart(5000)
 
-export class Playlist extends React.Component {
+class Playlist extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -56,7 +56,7 @@ export class Playlist extends React.Component {
         <div id="playlist">
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
-              return <SongCard key={song.spotifySongID} song={song} />
+              return <SongCard key={song.id} song={song} />
             })
           ) : (
             <div>Sorry no songs</div>
