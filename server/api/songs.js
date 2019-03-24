@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDlPU33jkrYvPAgPZMnFjJH3jBcTkQdDZlOsnNxfQluD2177pDNYTPYuViPuXBdDiuXspgVR3Z_3ty3QSyo8smCSXgRS4XadwQjkEH_9h4rYsMd-5Ti69D9GtNk3qiaCUrWoFPF2W8d6o0v7mpJtEc_K32cshQckqQ'
+  'BQAQBcWiu_LUFsR3h99DOqwkqs3djGA5ibA6WW5ZUhVRRMqJ6_7cY-mUjRPjtfyG5263tz4OHph_COcEOIbc68uQ4dd1JFygYywtMOEjT2gnuHCbzngZo_bJ1wkZQa_QPnBd1r3yCYgaxHB8EzZAAuWEXklLgvUkkm_xbWo3Pwm8W-CdaghOu15nLpN_bOjOt21RqO9-QQd4ry2-qhHAdDEybhmcQBSqpeyw5afWYF_X8Y3GiASKmo02UmJiZ1hpbSbTMKDRlIV3hpRFOg-NGUZM-2nnG90SVyc'
 
 spotifyApi.setAccessToken(accessToken)
 
@@ -51,11 +51,32 @@ router.get('/search', async (req, res, next) => {
   }
 })
 
+router.delete('/removeFromPlaylist', (req, res, next) => {
+  let removeSongId = req.body.lastCurrSongId
+  console.log('TCL: removeSongId', removeSongId)
+
+  var tracks = [{uri: `spotify:track:${removeSongId}`}]
+
+  spotifyApi
+    .removeTracksFromPlaylist(playlistId, tracks)
+    .then(
+      function(data) {
+        console.log('Tracks removed from playlist!')
+      },
+      function(err) {
+        console.log('Something went wrong!', err)
+      }
+    )
+    .catch(next)
+})
+
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.newSong.spotifySongID
 
   spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
+      position: 2
+    })
     .then(
       data => {
         res.json(data)

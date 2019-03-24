@@ -76,17 +76,28 @@ export const CheckFetchSpotify = newPlacement => {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
       if (data.id !== newPlacement.lastCurrSong.spotifySongID) {
-        console.log('Changed Song.')
         //Different Song playing
-        await axios.post(`/api/songs/addToPlaylist`, {
+        console.log('Changed Song.')
+
+        const postedSong = await axios.post(`/api/songs/addToPlaylist`, {
           newSong: newPlacement.newDeckSong
         })
 
+        if (postedSong.status === 200) {
+          axios.delete(`/api/songs/removeFromPlaylist`, {
+            data: {
+              lastCurrSongId: newPlacement.lastCurrSong.spotifySongID
+            }
+          })
+        }
         const action = placeNextCurrDeck({
           newCurrSong: newPlacement.newCurrSong,
           newDeckSong: newPlacement.newDeckSong
         })
-
+        console.log('GOT HERE TO THE END OF CHECKFETCH ', {
+          newCurrSong: newPlacement.newCurrSong,
+          newDeckSong: newPlacement.newDeckSong
+        })
         dispatch(action)
       } else {
         //Same song playing

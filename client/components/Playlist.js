@@ -51,11 +51,6 @@ class Playlist extends React.Component {
         <Sidebar />
         <Searchbar />
         <div id="playlist">
-          <div>
-            <button type="button" onClick={this.CheckSpotify}>
-              Check Spotify
-            </button>
-          </div>
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.id} song={song} />
