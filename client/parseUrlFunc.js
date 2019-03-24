@@ -11,3 +11,14 @@ export default function parseSpotifyUrl(url) {
     }
   }
 }
+
+// handleSubmit(event) {
+//   event.preventDefault()
+//   this.props.addedPlaylistToDb(this.state.newPlaylistId)
+//   if (this.state.newPlaylistId.length === 22) {
+//     this.props.addedPlaylistToDb(this.state.newPlaylist)
+//   } else {
+//     const parsedUrl = parseSpotifyUrl(this.state.newPlaylist)
+//     this.props.addedPlaylistToDb(parsedUrl)
+//   }
+// }
