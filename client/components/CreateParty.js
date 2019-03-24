@@ -1,8 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addedPlaylistToDb} from '../store/user'
-import {parseSpotifyUrl} from '../parseUrlFunc'
-import {Link} from 'react-router-dom'
+import parseSpotifyUrl from '../parseUrlFunc'
 // import {Button} from 'semantic-ui-react'
 
 export class CreateParty extends React.Component {
@@ -17,9 +16,14 @@ export class CreateParty extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.addedPlaylistToDb(this.state.newPlaylistId)
-    console.log('inside handleSubmit')
-    this.props.history.push(`/playlist/${this.state.newPlaylistId}`)
+    if (this.state.newPlaylistId.length === 22) {
+      this.props.addedPlaylistToDb(this.state.newPlaylistId)
+      this.props.history.push(`/playlist/${this.state.newPlaylistId}`)
+    } else {
+      const parsedPlaylistId = parseSpotifyUrl(this.state.newPlaylistId)
+      this.props.addedPlaylistToDb(parsedPlaylistId)
+      this.props.history.push(`/playlist/${parsedPlaylistId}`)
+    }
   }
 
   //event.target = newPlaylistId
@@ -31,7 +35,6 @@ export class CreateParty extends React.Component {
   }
 
   render() {
-    console.log('this.state line 40', this.state)
     return (
       <div id="create-playlist">
         <form onSubmit={this.handleSubmit}>
