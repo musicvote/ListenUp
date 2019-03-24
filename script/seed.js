@@ -39,7 +39,7 @@ async function seed() {
       songName: 'Pocketful of Sunshine',
       artistName: 'Natasha Bedingfield',
       albumArtworkurl:
-        'https://i.scdn.co/image/014f38920ba75a4efd3488b4626cf6e16f94c9e5'
+        'https://i.scdn.co/image/f8ef64112c3186e1bfa672ee9e15fd74008e7231'
     }),
     Song.create({
       spotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw',
@@ -89,7 +89,6 @@ async function seed() {
       songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'
     })
   ])
-
   console.log(`seeded songs successfully!!`)
 }
 

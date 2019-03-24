@@ -5,7 +5,6 @@ const {client_id, client_secret, redirect_uri} = require('../../secrets')
 const axios = require('axios')
 module.exports = router
 
-//don't delete this
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
@@ -13,11 +12,11 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQCVNcHQkv8qmoOlOCcjM6uf8BY9IUmA-odxEeOlzXsjJi-zu70EsuH0vhjFPvaOylNLi4MKwRHIZzsunP9Mc8No_oEyAKCQECE6J50gPSDM16m4CPFr_2VRJaTRHuzwo0gPZTbd9DF9ulrL1KkB2FRgIsB9Og9CtFE'
+  'BQDC2MWSXaa0ChXp3B2jpY4pohN4ARrVEmKyqu6etCWa73RrcdWjnK7ZOQWm7-7bgOlTZRGA1kQywqXGyHRZkdPkGJ-cFiQoMqmu3wc2X5v6E_jA0eCb44B9iJ3xvOsB_l3H3RlDplYlTrp66fi_h4dFQzEIEhG8Qts'
 
 spotifyApi.setAccessToken(accessToken)
 
-const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -33,7 +32,6 @@ router.get('/getSong', async (req, res, next) => {
     const song = await fetch(
       'https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl'
     )
-
     res.json(song.body.item)
   } catch (error) {
     next(error)
@@ -42,7 +40,6 @@ router.get('/getSong', async (req, res, next) => {
 
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
-  //Playlist method - gets particular playlist
   //returns json object with all the tracks within a playlist
   try {
     const albumResult = await spotifyApi.getArtistAlbums(
@@ -114,11 +111,11 @@ router.get('/searchSpotify/:searchTerm', async (req, res, next) => {
 })
 
 //returns all songs in the database
-router.get('/:spotifyPlaylistId/searchDb', async (req, res, next) => {
+router.get('/:playlistId/searchDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = req.params.spotifyPlaylistId
+    const playlistId = req.params.playlistId
     const allSongs = await PlaylistSong.findAll({
-      where: {spotifyPlaylistId}
+      where: {playlistId}
     })
     if (allsongs) {
       res.json(allSongs)

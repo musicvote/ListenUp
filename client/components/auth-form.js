@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 //import {Button} from 'semantic-ui-react'
 
-/*** COMPONENT*/
+/*** COMPONENT Keep!*/
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
