@@ -1,13 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addedPlaylistToDb} from '../store/user'
+import {parseSpotifyUrl} from '../parseUrlFunc'
+import {Link} from 'react-router-dom'
+import {Button} from 'semantic-ui-react'
 
 export class CreateParty extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      partyCode: '',
-      partyExists: false
+      newPlaylistId: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -15,42 +17,42 @@ export class CreateParty extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.addedPlaylistToDb(this.state.partyCode)
+    this.props.addedPlaylistToDb(this.state.newPlaylistId)
     //  redirect to the socket room
   }
 
-  //event.target = partyCode
-  //event.target.value = input into the playlistId form
+  //event.target = newPlaylistId
+  //event.target.value = input into the newPlaylistId form
   async handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     })
-    if (this.state.partyCode.length === 22) {
-      const backFromDB = await this.props.addedPlaylistToDb(
-        this.state.partyCode
-      )
-      if (backFromDB) {
-        this.setState({partyExists: true})
-      }
-    }
   }
 
   render() {
+    console.log('this.state line 40', this.state)
     return (
-      <div>
+      <div id="create-playlist">
         <form onSubmit={this.handleSubmit}>
           <label>Copy and paste your Spotify playlist Url.</label>
           <input
-            name="partyCode"
+            name="newPlaylistId"
             type="text"
-            value={this.state.partyCode}
+            value={this.state.newPlaylistId}
             onChange={this.handleChange}
             placeholder="Enter Party Code"
           />
-          {this.state.partyExists ? (
-            <button type="submit">Create Party</button>
+          {/* clicking create playlist makes a row in the playlist table and changes the url to the /playlist/newPlaylistId */}
+          {this.state.newPlaylistId.length === 22 ? (
+            <Button size="small">
+              <a href={`/playlist/${this.state.newPlaylistId}`}>Create Party</a>
+            </Button>
           ) : (
-            <button type="submit">Create Party</button>
+            <p>
+              Please Copy and paste the 22 character Spotify Playlist link into
+              the input field. We will use this to create your musicVote
+              playlist
+            </p>
           )}
         </form>
       </div>
@@ -62,7 +64,6 @@ const mapStateToProps = state => ({
   partyCreated: state.user.createdPlaylist
 })
 
-//was findParty @zach
 const mapDispatchToProps = dispatch => ({
   addedPlaylistToDb: playlistId => dispatch(addedPlaylistToDb(playlistId))
 })
