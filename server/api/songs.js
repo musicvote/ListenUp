@@ -32,7 +32,6 @@ router.get('/getSong', async (req, res, next) => {
     const song = await fetch(
       'https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl'
     )
-
     res.json(song.body.item)
   } catch (error) {
     next(error)
@@ -41,7 +40,6 @@ router.get('/getSong', async (req, res, next) => {
 
 //get songs from spotify
 router.get('/search', async (req, res, next) => {
-  //Playlist method - gets particular playlist
   //returns json object with all the tracks within a playlist
   try {
     const albumResult = await spotifyApi.getArtistAlbums(

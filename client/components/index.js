@@ -11,5 +11,4 @@ export {default as SongCard} from './SongCard'
 export {default as VoteCount} from './VoteCount'
 export {default as JoinParty} from './JoinParty'
 export {default as CreateParty} from './CreateParty'
-
 export {Login, Signup} from './auth-form'
