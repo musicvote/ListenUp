@@ -2,35 +2,26 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-//import {Button} from 'semantic-ui-react'
+import {Button, Grid, Segment} from 'semantic-ui-react'
 
 /*** COMPONENT Keep!*/
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {displayName} = props
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSubmit} name={name}>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-        <a href="/auth/spotify">{displayName} with spotify</a>
+      <h1 className="welcome-message">Welcome to Music Vote</h1>
+      <div className="login-button">
+        <Grid.Column textAlign="center">
+          <Button size="massive">
+            <a href="/auth/spotify">{displayName} with spotify</a>
+          </Button>
+        </Grid.Column>
       </div>
-
-      {/* <Button size="massive">
-        <a href="/callback">{displayName} with Spotify</a>
-      </Button> */}
     </div>
   )
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 const mapLogin = state => {
   return {
     name: 'login',

@@ -12,8 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDlPU33jkrYvPAgPZMnFjJH3jBcTkQdDZlOsnNxfQluD2177pDNYTPYuViPuXBdDiuXspgVR3Z_3ty3QSyo8smCSXgRS4XadwQjkEH_9h4rYsMd-5Ti69D9GtNk3qiaCUrWoFPF2W8d6o0v7mpJtEc_K32cshQckqQ'
-
+  'BQCrim7l4eN85vO3IQP5jAVTzWQxpSMPT3mLhSqBJf9dPZ5TFDujIrmJwT7lVF_IutVzXJznGnbheeC24vrtJYlyzclMEQCGgD_ekmu5mNCAPCcFkwCv0HxPxfo_EI0LbclsGtA3iNOu7Pbz7Gr3FybiH087l6EFB-A'
 spotifyApi.setAccessToken(accessToken)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'

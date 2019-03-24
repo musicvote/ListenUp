@@ -3,35 +3,29 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import Searchbar from './Searchbar'
+import {Container} from 'semantic-ui-react'
 
 const Navbar = ({isLoggedIn, handleClick}) => {
   console.log('logged in ', isLoggedIn)
   return (
-    <div id="navbar">
-      <h1>Music Vote:Democrotizing your music listening experience</h1>
+    <div>
       <nav>
         {isLoggedIn.id ? (
           <div>
+            <h1>Music Vote: Democrotizing your music listening experience</h1>
             {/* The navbar will show these links after you log in */}
             <Link to="/home">Home</Link>
             <Link to="/playlist">Playlist</Link>
-
             <a href="/" onClick={handleClick}>
               Logout
             </a>
           </div>
-        ) : (
-          <div>Please click below to log in with Spotify.</div>
-        )}
+        ) : null}
       </nav>
-      <hr />
     </div>
   )
 }
-/**
- * CONTAINER
- */
+//Container
 const mapState = state => {
   return {
     isLoggedIn: state.user.user
@@ -47,7 +41,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
-
-/**
- * PROP TYPES
- */

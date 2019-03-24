@@ -109,13 +109,11 @@ form div {
   display: flex;
   justify-content: space-between;
   width: 400px;
-  background-color: ;
 }
 
 #navbar {
   margin-left: 160px; /* Same as the width of the sidebar */
   padding: 0px 10px;
-  color: #f1f1f1;
 }
 
 .navbar-link hover {
@@ -130,4 +128,36 @@ form div {
   border: 1px solid aqua;
   padding: 15px;
   margin-top: 5px;
+}
+
+.welcome-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  color: aqua;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
+.login-button button {
+  display: flex;
+  justify-content: center;
+}
+
+.userHome-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+button.join-create-button {
+  display: flex;
 }

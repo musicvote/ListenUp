@@ -7,8 +7,6 @@ import AuthForm from './auth-form'
 export default function Homepage() {
   return (
     <div>
-      <h1>Music Vote:Democrotizing your music listening experience</h1>
-      <Navbar />
       <AuthForm />
     </div>
   )
