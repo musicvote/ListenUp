@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
+import {Input, Button} from 'semantic-ui-react'
 
 class Searchbar extends Component {
   constructor(props) {
@@ -37,9 +38,9 @@ class Searchbar extends Component {
   render() {
     return (
       <div id="searchbar">
-        <div />
         <form onSubmit={this.handleSubmit}>
-          <input
+          <Input
+            icon={{name: 'search', circular: true, link: 'submit'}}
             type="text"
             className="input"
             name="songName"
@@ -47,9 +48,9 @@ class Searchbar extends Component {
             value={this.state.songName}
             onChange={this.handleChange}
           />
-          <button className="submit-btn" type="submit">
+          <Button className="submit-btn" type="submit">
             Submit
-          </button>
+          </Button>
         </form>
 
         {this.state.foundSongs.length ? (
@@ -58,13 +59,12 @@ class Searchbar extends Component {
               <div className="listBorder" key={song.songId}>
                 <img src={song.imageUrl} />
                 <p>{`${song.artist} - ${song.songName}`}</p>
-                <button
+                <Button
+                  icon="plus"
                   onClick={this.submitSongHandler}
                   type="button"
                   value={i}
-                >
-                  +
-                </button>
+                />
               </div>
             )
           })

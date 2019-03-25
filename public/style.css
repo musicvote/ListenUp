@@ -18,9 +18,21 @@ label {
   display: block;
 }
 
+/* navbar styling */
+.nav {
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+}
 nav a {
   display: inline-block;
   margin: 1em;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1em;
 }
 
 form div {
@@ -59,7 +71,7 @@ form div {
 
 #sidebar section {
   text-align: left;
-  padding-left: 10px;
+  padding-left: 6px;
 }
 
 #sidebar a {
@@ -71,9 +83,24 @@ form div {
   border-bottom: 2px solid #00aaaa;
 }
 
+/*playlist component */
 #playlist {
-  margin-left: 160px; /* Same as the width of the sidebar */
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  margin-left: 15em; /*Same as the width of the sidebar */
+  margin-top: 2em;
   padding: 0px 10px;
+}
+
+/*songcard */
+.songcard {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #00aaaa;
+  border-bottom: 2em;
+  width: 80vw;
+  color: black;
 }
 
 #logo {
@@ -83,6 +110,7 @@ form div {
 
 #searchbar {
   margin: 0 200px;
+  color: black;
 }
 
 /* The navigation menu links */
@@ -96,12 +124,9 @@ form div {
 .sidebar-link {
   color: white;
 }
-.navbar-link {
-  color: white;
-}
 
 .upvote-link {
-  color: white;
+  color: aqua;
 }
 
 .listBorder {
@@ -110,12 +135,6 @@ form div {
   justify-content: space-between;
   width: 400px;
 }
-
-#navbar {
-  margin-left: 160px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
-}
-
 .navbar-link hover {
   border-bottom: 2px solid #00aaaa;
 }
@@ -130,6 +149,7 @@ form div {
   margin-top: 5px;
 }
 
+/* login page*/
 .welcome-message {
   display: flex;
   justify-content: center;
@@ -144,12 +164,12 @@ form div {
   align-items: center;
   height: 40vh;
 }
-
 .login-button button {
   display: flex;
   justify-content: center;
 }
 
+/* homepage*/
 .userHome-page {
   display: flex;
   flex-direction: column;

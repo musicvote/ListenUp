@@ -1,5 +1,6 @@
 import React from 'react'
 import VoteCount from './VoteCount'
+import {Image, List} from 'semantic-ui-react'
 
 class SongCard extends React.Component {
   constructor(props) {
@@ -20,16 +21,24 @@ class SongCard extends React.Component {
 
   render() {
     return (
-      <div className="listBorder">
-        <img src={this.props.song.albumArtworkurl} />
-        <div className="searchbar">
-          <h1>{this.props.song.songName}</h1>
-          <h3>{this.props.song.artistName}</h3>
-          <h4>{this.state.count}</h4>
-        </div>
-        <div>
-          <VoteCount changeVote={this.changeVote} />
-        </div>
+      <div className="songcard">
+        <List celled>
+          <List.Item>
+            <div id="Playlist-album-Image">
+              <Image src={this.props.song.albumArtworkurl} />
+            </div>
+            <List.Content>
+              <div>
+                <List.Header>{this.props.song.songName}</List.Header>
+                <List.Description>
+                  {this.props.song.artistName}
+                </List.Description>
+              </div>
+              <List.Description> Likes: {this.state.count}</List.Description>
+              <VoteCount changeVote={this.changeVote} />
+            </List.Content>
+          </List.Item>
+        </List>
       </div>
     )
   }

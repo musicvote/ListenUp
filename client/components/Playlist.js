@@ -49,11 +49,10 @@ class Playlist extends React.Component {
         ) : (
           <div />
         )}
-
-        <h1>Playlist</h1>
         <Sidebar />
         <Searchbar />
         <div id="playlist">
+          <h1>Playlist</h1>
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.id} song={song} />
