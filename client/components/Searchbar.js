@@ -52,25 +52,26 @@ class Searchbar extends Component {
             Submit
           </Button>
         </form>
-
-        {this.state.foundSongs.length ? (
-          this.state.foundSongs.map((song, i) => {
-            return (
-              <div className="listBorder" key={song.songId}>
-                <img src={song.imageUrl} />
-                <p>{`${song.artist} - ${song.songName}`}</p>
-                <Button
-                  icon="plus"
-                  onClick={this.submitSongHandler}
-                  type="button"
-                  value={i}
-                />
-              </div>
-            )
-          })
-        ) : (
-          <div>Not found</div>
-        )}
+        <div className="search-result">
+          {this.state.foundSongs.length ? (
+            this.state.foundSongs.map((song, i) => {
+              return (
+                <div className="listBorder" key={song.songId}>
+                  <img src={song.imageUrl} />
+                  <p>{`${song.artist} - ${song.songName}`}</p>
+                  <Button
+                    icon="plus"
+                    onClick={this.submitSongHandler}
+                    type="button"
+                    value={i}
+                  />
+                </div>
+              )
+            })
+          ) : (
+            <div>Not found</div>
+          )}
+        </div>
       </div>
     )
   }

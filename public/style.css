@@ -40,11 +40,6 @@ form div {
   display: inline-block;
 }
 
-.listBorder button {
-  color: black;
-  width: 50px;
-}
-
 #player {
   position: fixed;
   height: 56px;
@@ -100,7 +95,7 @@ form div {
   border-bottom: 2px solid #00aaaa;
   border-bottom: 2em;
   width: 80vw;
-  color: black;
+  color: aqua;
 }
 
 #logo {
@@ -128,12 +123,15 @@ form div {
 .upvote-link {
   color: aqua;
 }
-
+/*search result styling */
 .listBorder {
-  border: 2px solid white;
+  border: 1px solid white;
   display: flex;
+  /* flex-wrap: wrap;      need for song portion only*/
   justify-content: space-between;
+  align-content: center;
   width: 400px;
+  color: aqua;
 }
 .navbar-link hover {
   border-bottom: 2px solid #00aaaa;
