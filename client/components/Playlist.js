@@ -15,6 +15,7 @@ class Playlist extends React.Component {
     super(props)
     this.state = {
       playlist: [],
+      playlistFromPath: '',
       isAdmin: false
     }
     this.CheckSpotify = this.CheckSpotify.bind(this)
@@ -26,7 +27,8 @@ class Playlist extends React.Component {
     this.props.fetchedPlaylist(playlistFromPath).then(() => {
       this.setState({
         playlist: this.props.playlist.songs,
-        isAdmin: this.props.playlist.isAdmin
+        isAdmin: this.props.playlist.isAdmin,
+        playlistFromPath
       })
     })
   }
@@ -41,6 +43,7 @@ class Playlist extends React.Component {
   }
 
   render() {
+    console.log('Playlist State: ', this.state.playlistFromPath)
     return (
       <div>
         {this.state.isAdmin ? (
@@ -54,7 +57,7 @@ class Playlist extends React.Component {
 
         <h1>Playlist</h1>
         <Sidebar />
-        <Searchbar />
+        <Searchbar playlist={this.state.playlistFromPath} />
         <div id="playlist">
           <div>
             <button type="button" onClick={this.CheckSpotify}>

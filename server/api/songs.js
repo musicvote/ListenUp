@@ -12,11 +12,11 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQAw5QtCm5gDz0gnrj6XXjnr8EfcuyY13raeJq-iQwfQrnznixi8CgCiW4ko_AJG31fjaKl4FezNJnDm9uTGfiyLKZJceSA_5e1aHrqYtN3pT2Tr0QROnO7quoivtbueUBU2XlVqwiWcg3bLkU0myjZKwgAuoPUSGY4heIZsPsPkDJbRoFH3I5_daM9v9Dsnc7hDgQAsJt7h-TCvhfk_7l4yJGudmFWkX8S3uAZTWNtsZzRGWtJHU_-K6LppginB_lEFih7lDPnQyPgb-DWoLylr_RQ213mF5XQ'
+  'BQAjC-G_fvvCdovNY8dmvZftj8niEDpaVTxR3ixxf2kcD0Q2kHNogWZLVLl35YX0KZOLM4nmfKF6ux8ldRcmLzRvbNBh_BCseDiikAByNq1lNq0_wQy18tZGDYQUb2xDkQBwGR8mzqPrpOp_1ykLRSbvgmhofLFL_6KN4x5OyMkw4jaJkHrStJJYYXMXhUP5PYxSlG-PpQvzqWHPKVWRpW8F-f2aRwK1BGOJu9oqkR9DK_5imRlyTN6Zqhpy3TxSCfQOVGN-GaCxFE-LwSyo5A89AA3nzuhojoY'
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '5NASiveas4k209RBgVvH5B'
+const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -136,7 +136,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({

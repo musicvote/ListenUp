@@ -4,6 +4,7 @@ import socket from '../socket'
 
 const initialState = {
   songs: [],
+  actingPlaylist: '',
   currSong: {},
   deckSong: {},
   isAdmin: false
@@ -133,10 +134,14 @@ export const checkIsAdmin = playlistId => {
   }
 }
 
-export const postSongToPlaylist = addedSongObj => {
+export const postSongToPlaylist = (addedSongObj, playlistId) => {
   return async dispatch => {
     try {
-      const playlistId = '5NASiveas4k209RBgVvH5B'
+      console.log(
+        'the addedSongObj from postSongToPlaylistThunk: ',
+        addedSongObj,
+        playlistId
+      )
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })

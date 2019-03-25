@@ -30,11 +30,12 @@ class Searchbar extends Component {
     event.preventDefault()
     const pickedSong = this.state.foundSongs[event.target.value]
 
-    this.props.songPickedNowPost(pickedSong)
+    this.props.songPickedNowPost(pickedSong, this.props.playlistId)
     this.setState({foundSongs: []})
   }
 
   render() {
+    console.log('In searchbar', this.props)
     return (
       <div id="searchbar">
         <div />
@@ -85,7 +86,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     findMatches: songName => dispatch(findSongFromSpotify(songName)),
-    songPickedNowPost: songObj => dispatch(postSongToPlaylist(songObj))
+    songPickedNowPost: (songObj, playlistId) =>
+      dispatch(postSongToPlaylist(songObj, playlistId))
   }
 }
 
