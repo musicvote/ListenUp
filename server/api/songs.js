@@ -8,15 +8,15 @@ module.exports = router
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
-  callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
+  callbackURL: process.env.SPOTIFY_CALLBACK || redirect_uri
 })
 
 const accessToken =
-  'BQBy7h9lRLI_yT2_nCEuh7sAW0-e1Zrg7-5BKvP3CzFwZPcJ3ERz4h3XtHdwNd39EgaxHPPu578MN74bQtbSUDMh2isMkshfrdy4xpTTqYAv4j66JGRdy2ye-dJscrXaBiMMBrXA54AM6ZDBcQG2GzZLd6yyiGyr9Iw4vEhJe-vfUJHnbEKl-KBK_C3Wy2VM3uwolihqrFUUY40irI-tXa_94jVPaRYdrKHct9ao_tVFBeJhNfJT-bBoAa4OIQayGidA0G8teC8t35Y14xMh26RB_BUwugUWczo'
+  'BQAw5QtCm5gDz0gnrj6XXjnr8EfcuyY13raeJq-iQwfQrnznixi8CgCiW4ko_AJG31fjaKl4FezNJnDm9uTGfiyLKZJceSA_5e1aHrqYtN3pT2Tr0QROnO7quoivtbueUBU2XlVqwiWcg3bLkU0myjZKwgAuoPUSGY4heIZsPsPkDJbRoFH3I5_daM9v9Dsnc7hDgQAsJt7h-TCvhfk_7l4yJGudmFWkX8S3uAZTWNtsZzRGWtJHU_-K6LppginB_lEFih7lDPnQyPgb-DWoLylr_RQ213mF5XQ'
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '5NASiveas4k209RBgVvH5B'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -33,19 +33,6 @@ router.get('/getSong', async (req, res, next) => {
       'https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl'
     )
     res.json(song.body.item)
-  } catch (error) {
-    next(error)
-  }
-})
-
-//get songs from spotify
-router.get('/search', async (req, res, next) => {
-  //returns json object with all the tracks within a playlist
-  try {
-    const albumResult = await spotifyApi.getArtistAlbums(
-      '43ZHCT0cAZBISjO8DG9PnE'
-    )
-    res.json(albumResult)
   } catch (error) {
     next(error)
   }
@@ -149,7 +136,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
@@ -201,9 +188,6 @@ router.get('/:spotifyPlaylistId', async (req, res, next) => {
       },
       include: [{model: Song}]
     })
-
-    console.log()
-
     res.json(singlePlaylist)
   } catch (error) {
     next(error)
