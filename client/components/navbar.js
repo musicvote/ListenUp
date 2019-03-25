@@ -6,7 +6,7 @@ import {logout} from '../store'
 import Searchbar from './Searchbar'
 
 const Navbar = ({isLoggedIn, handleClick}) => {
-  console.log('logged in ', isLoggedIn)
+  // console.log('isLoggedIn ', isLoggedIn)
   return (
     <div id="navbar">
       <h1>Music Vote:Democrotizing your music listening experience</h1>
