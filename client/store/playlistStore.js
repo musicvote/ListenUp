@@ -1,12 +1,12 @@
 import axios from 'axios'
-import createHeartbeat from 'redux-heartbeat'
 import socket from '../socket'
 //STATE AND REDUCER
 
 const initialState = {
   songs: [],
   currSong: {},
-  deckSong: {}
+  deckSong: {},
+  isAdmin: false
 }
 
 //ACTION TYPES
@@ -15,6 +15,7 @@ const GOT_NEXT = 'GOT_NEXT'
 const FOUND_SONGS = 'FOUND_SONGS'
 const ADDED_SONG = 'ADDED_SONG'
 const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
+const IS_ADMIN = 'IS_ADMIN'
 
 //ACTION CREATORS
 const getSongs = playlist => {
@@ -44,6 +45,12 @@ const addedSongToDb = addedSong => {
     addedSong
   }
 }
+const adminChecked = isAdmin => {
+  return {
+    type: IS_ADMIN,
+    isAdmin
+  }
+}
 
 const createPlaylist = playlistId => {
   return {
@@ -53,13 +60,10 @@ const createPlaylist = playlistId => {
 }
 
 //THUNK CREATORS
-export const fetchPlaylist = () => {
+export const fetchPlaylist = playlistId => {
   return async dispatch => {
     try {
-      //hardcoded for DEV
-      //const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
-      const {data} = await axios.get(`/api/songs/${`ngknjkgd`}`)
+      const {data} = await axios.get(`/api/songs/${playlistId}`)
 
       const action = getSongs(data.songs)
       socket.emit('new-song', data)
@@ -76,12 +80,20 @@ export const CheckFetchSpotify = newPlacement => {
       const {data} = await axios.get(`/api/songs/getCurrentlyPlaying`)
       //The next/on deck song is playing
       if (data.id !== newPlacement.lastCurrSong.spotifySongID) {
-        console.log('Changed Song.')
         //Different Song playing
-        await axios.post(`/api/songs/addToPlaylist`, {
+        console.log('Changed Song.')
+
+        const postedSong = await axios.post(`/api/songs/addToPlaylist`, {
           newSong: newPlacement.newDeckSong
         })
 
+        if (postedSong.status === 200) {
+          axios.delete(`/api/songs/removeFromPlaylist`, {
+            data: {
+              lastCurrSongId: newPlacement.lastCurrSong.spotifySongID
+            }
+          })
+        }
         const action = placeNextCurrDeck({
           newCurrSong: newPlacement.newCurrSong,
           newDeckSong: newPlacement.newDeckSong
@@ -107,6 +119,20 @@ export const findSongFromSpotify = searchInput => {
   }
 }
 
+export const checkIsAdmin = playlistId => {
+  return async dispatch => {
+    const {data} = await axios.get('/api/playlist/usersPlaylist')
+
+    if (data === playlistId) {
+      let actionTrue = adminChecked(true)
+      dispatch(actionTrue)
+    } else {
+      let actionFalse = adminChecked(false)
+      dispatch(actionFalse)
+    }
+  }
+}
+
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
@@ -125,8 +151,8 @@ export const postSongToPlaylist = addedSongObj => {
         const action = addedSongToDb(data)
         dispatch(action)
       }
-    } catch (Error) {
-      console.log(Error)
+    } catch (error) {
+      console.log(error)
     }
   }
 }
@@ -157,7 +183,10 @@ const playlistReducer = (state = initialState, action) => {
 
       return newState
     }
-
+    case IS_ADMIN: {
+      let newState = {...state, isAdmin: action.isAdmin}
+      return newState
+    }
     case GOT_NEXT: {
       let newState = {
         ...state,

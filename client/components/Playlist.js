@@ -3,15 +3,12 @@ import {connect} from 'react-redux'
 import {
   fetchPlaylist,
   CheckFetchSpotify,
-  placeTopTwoToSpotify
+  checkIsAdmin
 } from '../store/playlistStore'
 import SongCard from './SongCard'
 import Searchbar from './Searchbar'
 import Sidebar from './sidebar'
 import Heartbeat from 'react-heartbeat'
-
-//Heartbeat config
-//let heart = heartbeat.createHeart(5000)
 
 class Playlist extends React.Component {
   constructor(props) {
@@ -22,9 +19,15 @@ class Playlist extends React.Component {
     }
     this.CheckSpotify = this.CheckSpotify.bind(this)
   }
-  componentDidMount() {
-    this.props.fetchedPlaylist().then(() => {
-      this.setState({playlist: this.props.playlist.songs})
+  async componentDidMount() {
+    let playlistFromPath = this.props.location.pathname.split('/')[2]
+    const isAdmin = await this.props.isAdminCheck(playlistFromPath)
+
+    this.props.fetchedPlaylist(playlistFromPath).then(() => {
+      this.setState({
+        playlist: this.props.playlist.songs,
+        isAdmin: this.props.playlist.isAdmin
+      })
     })
   }
 
@@ -38,7 +41,6 @@ class Playlist extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         {this.state.isAdmin ? (
@@ -74,9 +76,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchedPlaylist: () => dispatch(fetchPlaylist()),
+    fetchedPlaylist: playlistId => dispatch(fetchPlaylist(playlistId)),
     isSongDone: nextOnDeck => dispatch(CheckFetchSpotify(nextOnDeck)),
-    placeTopTwo: () => dispatch(placeTopTwoToSpotify())
+    isAdminCheck: userId => dispatch(checkIsAdmin(userId))
   }
 }
 
