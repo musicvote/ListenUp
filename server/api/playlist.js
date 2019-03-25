@@ -26,7 +26,6 @@ router.post('/create-playlist', async (req, res, next) => {
       spotifyPlaylistId: playlistId,
       userId: matchedUser.id
     })
-
     res.status(200).json(newPlaylist)
   } catch (error) {
     console.log('error', error)
