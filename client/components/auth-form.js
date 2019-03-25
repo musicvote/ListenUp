@@ -62,9 +62,9 @@ export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 /**
  * PROP TYPES
  */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
+// AuthForm.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   displayName: PropTypes.string.isRequired,
+//   handleSubmit: PropTypes.func.isRequired,
+//   error: PropTypes.object
+// }
