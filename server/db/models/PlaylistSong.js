@@ -8,7 +8,7 @@ const PlaylistSong = db.define('playlistSong', {
   },
   voteCount: {
     type: Sequelize.INTEGER,
-    defaultValue: 0
+    defaultValue: 1
   }
 })
 

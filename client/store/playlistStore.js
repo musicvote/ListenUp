@@ -136,7 +136,7 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+      const playlistId = '5NASiveas4k209RBgVvH5B'
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
