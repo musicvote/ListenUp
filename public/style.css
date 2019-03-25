@@ -120,14 +120,14 @@ form div {
   color: white;
 }
 
-.upvote-link {
+/* .upvote-link {
   color: aqua;
-}
+} */
 /*search result styling */
 .listBorder {
   border: 1px solid white;
   display: flex;
-  /* flex-wrap: wrap;      need for song portion only*/
+  /* flex-wrap: wrap;      need to update wrap for song seartch portion only*/
   justify-content: space-between;
   align-content: center;
   width: 400px;
@@ -161,10 +161,6 @@ form div {
   justify-content: center;
   align-items: center;
   height: 40vh;
-}
-.login-button button {
-  display: flex;
-  justify-content: center;
 }
 
 /* homepage*/

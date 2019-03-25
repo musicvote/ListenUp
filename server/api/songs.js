@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDPZ8AAQ0xcyCR0813N67DIhj6muH9bBkAriACE68_LoaUwcOd2SGeFYYnvQ3U8sXLKnqFDpcGVwZZ7DngoA4JCpK-FrnF2-l6_tZr5MEz3zOQUY--ZzNnoCarYaZ7Gq8FtlhkmvaK2LPl5AgmB-e3y7_1rVBfiKoQ'
+  'BQCWp6b7YsRreK8H_83OwLfdbAT6ZN4mhqF0lz85BPfMG9hGArWt-S0snRLN-9q11tCNQ5L2aGAxo0etoKy6cYFV6pCKcIQVijQCt1HbFfsPBztsmNCjdnooJ7VtM4mtsnaDX0bLXUDj_Ny-Jcg9jmdzieFN4o1ww-w'
 spotifyApi.setAccessToken(accessToken)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
@@ -74,6 +74,7 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
         res.json(data.body.item)
       },
       err => {
+        text
         console.log('Something went wrong!', err)
       }
     )

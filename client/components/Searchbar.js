@@ -30,7 +30,6 @@ class Searchbar extends Component {
   submitSongHandler(event) {
     event.preventDefault()
     const pickedSong = this.state.foundSongs[event.target.value]
-
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})
   }
@@ -40,7 +39,7 @@ class Searchbar extends Component {
       <div id="searchbar">
         <form onSubmit={this.handleSubmit}>
           <Input
-            icon={{name: 'search', circular: true, link: 'submit'}}
+            icon={{name: 'search', circular: true, link: 'true'}}
             type="text"
             className="input"
             name="songName"
@@ -53,24 +52,22 @@ class Searchbar extends Component {
           </Button>
         </form>
         <div className="search-result">
-          {this.state.foundSongs.length ? (
-            this.state.foundSongs.map((song, i) => {
-              return (
-                <div className="listBorder" key={song.songId}>
-                  <img src={song.imageUrl} />
-                  <p>{`${song.artist} - ${song.songName}`}</p>
-                  <Button
-                    icon="plus"
-                    onClick={this.submitSongHandler}
-                    type="button"
-                    value={i}
-                  />
-                </div>
-              )
-            })
-          ) : (
-            <div>Not found</div>
-          )}
+          {this.state.foundSongs.length
+            ? this.state.foundSongs.map((song, i) => {
+                return (
+                  <div className="listBorder" key={song.songId}>
+                    <img src={song.imageUrl} />
+                    <p>{`${song.artist} - ${song.songName}`}</p>
+                    <Button
+                      icon="plus"
+                      onClick={this.submitSongHandler}
+                      type="button"
+                      value={i}
+                    />
+                  </div>
+                )
+              })
+            : null}
         </div>
       </div>
     )
