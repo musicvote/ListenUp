@@ -22,7 +22,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
-            <Route exact path="/playlist/" component={Playlist} />
+            <Route path="/playlist/" component={Playlist} />
             <Route exact path="/playlist" component={Playlist} />
             <Route exact path="/join" component={JoinParty} />
             <Route exact path="/create" component={CreateParty} />

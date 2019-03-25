@@ -75,8 +75,6 @@ export const addedPlaylistToDb = playlistId => {
       const {data} = await axios.post(`/api/playlist/create-playlist`, {
         id: playlistId
       })
-      console.log('data', data)
-      // console.log('playlistId', spotifyPlaylistId)
 
       if (!data) {
         throw error

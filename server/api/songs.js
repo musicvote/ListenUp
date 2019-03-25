@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQAQBcWiu_LUFsR3h99DOqwkqs3djGA5ibA6WW5ZUhVRRMqJ6_7cY-mUjRPjtfyG5263tz4OHph_COcEOIbc68uQ4dd1JFygYywtMOEjT2gnuHCbzngZo_bJ1wkZQa_QPnBd1r3yCYgaxHB8EzZAAuWEXklLgvUkkm_xbWo3Pwm8W-CdaghOu15nLpN_bOjOt21RqO9-QQd4ry2-qhHAdDEybhmcQBSqpeyw5afWYF_X8Y3GiASKmo02UmJiZ1hpbSbTMKDRlIV3hpRFOg-NGUZM-2nnG90SVyc'
+  'BQBy7h9lRLI_yT2_nCEuh7sAW0-e1Zrg7-5BKvP3CzFwZPcJ3ERz4h3XtHdwNd39EgaxHPPu578MN74bQtbSUDMh2isMkshfrdy4xpTTqYAv4j66JGRdy2ye-dJscrXaBiMMBrXA54AM6ZDBcQG2GzZLd6yyiGyr9Iw4vEhJe-vfUJHnbEKl-KBK_C3Wy2VM3uwolihqrFUUY40irI-tXa_94jVPaRYdrKHct9ao_tVFBeJhNfJT-bBoAa4OIQayGidA0G8teC8t35Y14xMh26RB_BUwugUWczo'
 
 spotifyApi.setAccessToken(accessToken)
 
@@ -53,7 +53,6 @@ router.get('/search', async (req, res, next) => {
 
 router.delete('/removeFromPlaylist', (req, res, next) => {
   let removeSongId = req.body.lastCurrSongId
-  console.log('TCL: removeSongId', removeSongId)
 
   var tracks = [{uri: `spotify:track:${removeSongId}`}]
 
@@ -194,10 +193,11 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
 
 router.get('/:spotifyPlaylistId', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
+
     const singlePlaylist = await Playlist.findOne({
       where: {
-        spotifyPlaylistId: spotifyPlaylistId
+        spotifyPlaylistId
       },
       include: [{model: Song}]
     })
