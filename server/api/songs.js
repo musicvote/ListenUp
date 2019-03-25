@@ -11,8 +11,7 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
 })
 
-const accessToken =
-  'BQCWp6b7YsRreK8H_83OwLfdbAT6ZN4mhqF0lz85BPfMG9hGArWt-S0snRLN-9q11tCNQ5L2aGAxo0etoKy6cYFV6pCKcIQVijQCt1HbFfsPBztsmNCjdnooJ7VtM4mtsnaDX0bLXUDj_Ny-Jcg9jmdzieFN4o1ww-w'
+const accessToken = 'BQDC4fJbR4WSS70AKc6KWxcOoDHzz7G-g1FWwyavRJgQUGK5iJMEctg0L2Nk8DjpfJWlUUcxrs0SyjAKxjIQ8WbiZfi1V_0sSeV7NaJzjX-OdtusZFcRk0Z99jogmOWC9O3LAUQJHS_LvOo9ACNCJwA84apFOOXhHkw'
 spotifyApi.setAccessToken(accessToken)
 
 const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
-import {Input, Button} from 'semantic-ui-react'
+import {Input, Button, Icon} from 'semantic-ui-react'
 
 class Searchbar extends Component {
   constructor(props) {

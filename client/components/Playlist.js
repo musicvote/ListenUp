@@ -49,7 +49,7 @@ class Playlist extends React.Component {
         ) : (
           <div />
         )}
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Searchbar />
         <div id="playlist">
           <h1>Playlist</h1>
