@@ -8,13 +8,15 @@ module.exports = router
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
-  callbackURL: process.env.SPOTIFY_CLIENT_ID || redirect_uri
+  callbackURL: process.env.SPOTIFY_CALLBACK || redirect_uri
 })
 
-const accessToken = 'BQDC4fJbR4WSS70AKc6KWxcOoDHzz7G-g1FWwyavRJgQUGK5iJMEctg0L2Nk8DjpfJWlUUcxrs0SyjAKxjIQ8WbiZfi1V_0sSeV7NaJzjX-OdtusZFcRk0Z99jogmOWC9O3LAUQJHS_LvOo9ACNCJwA84apFOOXhHkw'
+const accessToken =
+  'BQDC4fJbR4WSS70AKc6KWxcOoDHzz7G-g1FWwyavRJgQUGK5iJMEctg0L2Nk8DjpfJWlUUcxrs0SyjAKxjIQ8WbiZfi1V_0sSeV7NaJzjX-OdtusZFcRk0Z99jogmOWC9O3LAUQJHS_LvOo9ACNCJwA84apFOOXhHkw'
+
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '5NASiveas4k209RBgVvH5B'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -36,24 +38,31 @@ router.get('/getSong', async (req, res, next) => {
   }
 })
 
-//get songs from spotify
-router.get('/search', async (req, res, next) => {
-  //returns json object with all the tracks within a playlist
-  try {
-    const albumResult = await spotifyApi.getArtistAlbums(
-      '43ZHCT0cAZBISjO8DG9PnE'
+router.delete('/removeFromPlaylist', (req, res, next) => {
+  let removeSongId = req.body.lastCurrSongId
+
+  var tracks = [{uri: `spotify:track:${removeSongId}`}]
+
+  spotifyApi
+    .removeTracksFromPlaylist(playlistId, tracks)
+    .then(
+      function(data) {
+        console.log('Tracks removed from playlist!')
+      },
+      function(err) {
+        console.log('Something went wrong!', err)
+      }
     )
-    res.json(albumResult)
-  } catch (error) {
-    next(error)
-  }
+    .catch(next)
 })
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.newSong.spotifySongID
 
   spotifyApi
-    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`])
+    .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
+      position: 2
+    })
     .then(
       data => {
         res.json(data)
@@ -128,7 +137,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
@@ -172,16 +181,14 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
 
 router.get('/:spotifyPlaylistId', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
+
     const singlePlaylist = await Playlist.findOne({
       where: {
-        spotifyPlaylistId: spotifyPlaylistId
+        spotifyPlaylistId
       },
       include: [{model: Song}]
     })
-
-    console.log()
-
     res.json(singlePlaylist)
   } catch (error) {
     next(error)

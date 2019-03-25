@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({isLoggedIn, handleClick}) => {
-  console.log('logged in ', isLoggedIn)
+  // console.log('isLoggedIn ', isLoggedIn)
   return (
     <div>
       <nav className="nav">

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {auth} from '../store'
 import {Button, Grid, Segment} from 'semantic-ui-react'
 
-/*** COMPONENT Keep!*/
+// COMPONENT Keep!
 const AuthForm = props => {
   const {displayName} = props
 
@@ -49,13 +49,3 @@ const mapDispatch = dispatch => {
 }
 
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-
-/**
- * PROP TYPES
- */
-AuthForm.propTypes = {
-  name: PropTypes.string.isRequired,
-  displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
-}
