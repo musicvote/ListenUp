@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Playlist, User} = require('../db/models')
+const {Playlist, PlaylistSong, User} = require('../db/models')
 module.exports = router
 
 //create a playlist in our DB - when someone clicks "create playlist" - they will send us their playlist URL
@@ -35,24 +35,48 @@ router.post('/create-playlist', async (req, res, next) => {
   }
 })
 
+// router.put('/:playlistId/vote/:songId', async (req, res, next) => {
+//   try {
+//     const songId = req.params.songId
+//     const playlistId = req.params.playlistId
+//     const updatedVoteCount = await PlaylistSong.update(
+//       {
+//         voteCount
+//       },
+//       {
+//         where: {
+//           songId,
+//           playlistId
+//         },
+//         returning: true,
+//         plain: true
+//       }
+//     )
+//     res.status(200).json(updatedVoteCount)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
 router.put('/:playlistId/vote/:songId', async (req, res, next) => {
   try {
+    let voteCount = req.body.voteCount
     const songId = req.params.songId
     const playlistId = req.params.playlistId
-    const updatedVoteCount = await PlaylistSong.update(
+    voteCount++
+
+    const [numRows, updatedVoteCount] = await PlaylistSong.update(
       {
         voteCount
       },
       {
-        where: {
-          songId,
-          playlistId
-        },
+        where: {playlistId: 6, songId},
         returning: true,
         plain: true
       }
     )
-    res.status(204).end()
+
+    res.status(200).json(updatedVoteCount)
   } catch (error) {
     next(error)
   }

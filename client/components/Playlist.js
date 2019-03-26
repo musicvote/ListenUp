@@ -40,6 +40,18 @@ class Playlist extends React.Component {
     this.setState({playlist: this.props.playlist.songs})
   }
 
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.songs) {
+  //     if (this.props !== prevProps) {
+  //       this.props.fetchedPlaylist(this.props)
+  //     }
+  //   }
+  // }
+
+  forceUpdate() {
+    this.forceUpdate()
+  }
+
   render() {
     return (
       <div>
@@ -58,7 +70,13 @@ class Playlist extends React.Component {
         <div id="playlist">
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
-              return <SongCard key={song.id} song={song} />
+              return (
+                <SongCard
+                  key={song.id}
+                  song={song}
+                  forceUpdate={this.forceUpdate}
+                />
+              )
             })
           ) : (
             <div>Sorry no songs</div>

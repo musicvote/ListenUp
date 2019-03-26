@@ -1,5 +1,10 @@
 import axios from 'axios'
 import socket from '../socket'
+import {
+  shiftFirstToLast,
+  reorderSongs,
+  increaseVoteForSong
+} from '../helperFuncs'
 //STATE AND REDUCER
 
 const initialState = {
@@ -68,6 +73,8 @@ const updateVote = songId => {
 }
 
 //THUNK CREATORS
+const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
+
 export const fetchPlaylist = playlistId => {
   return async dispatch => {
     try {
@@ -144,7 +151,7 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
+      // const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
       const res = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
@@ -179,10 +186,16 @@ export const addPlaylistToDb = playlistId => {
   }
 }
 
-export const updateVotesInDb = songId => {
+export const updateVotesInDb = (songId, voteCount) => {
   return async dispatch => {
     try {
-      const {data} = await axios.put('/:playlistId/vote/:songId')
+      const {data} = await axios.put(
+        `/api/playlist/${playlistId}/vote/${songId}`,
+        {
+          voteCount
+        }
+      )
+      console.log('data from update thunk', data)
       const action = updateVote(data)
       dispatch(action)
     } catch (error) {
@@ -234,20 +247,15 @@ const playlistReducer = (state = initialState, action) => {
     case UPDATE_VOTE_COUNT: {
       let newState = {
         ...state,
-        songs: [...state.songs.songs[0].playlistSong.voteCount, action]
+        songs: increaseVoteForSong(state.songs, action.songId)
       }
+      console.log('newState inside VOTE COUNT action', newState)
       return newState
     }
     default: {
       return state
     }
   }
-}
-
-function shiftFirstToLast(arrayOfSongs) {
-  let firstSong = arrayOfSongs.splice(0, 1)
-  arrayOfSongs.push(...firstSong)
-  return arrayOfSongs
 }
 
 export default playlistReducer

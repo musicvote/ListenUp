@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addedPlaylistToDb} from '../store/user'
-import parseSpotifyUrl from '../parseUrlFunc'
+import {parseSpotifyUrl} from '../helperFuncs'
 // import {Button} from 'semantic-ui-react'
 
 export class CreateParty extends React.Component {
