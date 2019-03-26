@@ -42,7 +42,7 @@ class Playlist extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="main-component">
         {this.state.isAdmin ? (
           <Heartbeat
             heartbeatFunction={() => this.CheckSpotify()}
@@ -51,16 +51,10 @@ class Playlist extends React.Component {
         ) : (
           <div />
         )}
-
-        <h1>Playlist</h1>
-        <Sidebar />
         <Searchbar />
-        <div id="playlist">
-          <div>
-            <button type="button" onClick={this.CheckSpotify}>
-              Check Spotify
-            </button>
-          </div>
+        <div>
+          <h1 id="playlist-header">Playlist</h1>
+
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.id} song={song} />

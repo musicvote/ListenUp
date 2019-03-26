@@ -1,29 +1,24 @@
 import React from 'react'
-import {Button} from 'semantic-ui-react'
+import {Button, Grid} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 
-/**
- * COMPONENT
- */
 export const UserHome = ({user}) => {
   return (
-    <div>
+    <div className="userHome-page">
       <h3>{`Welcome ${user.spotifyUsername}`} </h3>
-      <Button size="massive">
-        <a href="/create"> Create Playlist</a>
-      </Button>
-      <br />
-      <br />
-      <Button size="massive">
-        <a href="/join"> Join Playlist</a>
-      </Button>
+      <div>
+        <Button fluid size="massive">
+          <a href="/create"> Create Playlist</a>
+        </Button>
+        <br />
+        <Button fluid size="massive">
+          <a href="/join"> Join Playlist</a>
+        </Button>
+      </div>
     </div>
   )
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
     user: state.user.user
@@ -32,9 +27,7 @@ const mapState = state => {
 
 export default connect(mapState)(UserHome)
 
-// /**
-//  * PROP TYPES
-//  */
+//  PROP TYPES
 // UserHome.propTypes = {
 //   email: PropTypes.string
 // }
