@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {addedPlaylistToDb} from '../store/user'
 import parseSpotifyUrl from '../parseUrlFunc'
 import {Input, Button, Header} from 'semantic-ui-react'
+import {toast} from 'react-toastify'
 
 export class CreateParty extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ export class CreateParty extends React.Component {
   }
 
   handleSubmit(event) {
+    toast.info(<div>'Playlist created!'</div>)
     event.preventDefault()
     if (this.state.newPlaylistId.length === 22) {
       this.props.addedPlaylistToDb(this.state.newPlaylistId)
