@@ -12,7 +12,7 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQBOYmPr91SvPrxXEiqa_GV-z2KN4yjGDr7WzliEi8Qe0uj5d90312jmzizvXBcE2cHGg437s5YsPCD-Ot6PcqsgwKsmf5mUE8urXLP203rSOrEzDemq2Bs0AqoWVYCiWA_a1mVdATpYc62gGHA5xmt7vH6tC7kqX28'
+  'BQDytj_RfgY246m2s6rdTmEMlcwF0jx-x3Ii9kOTGUplUpAg13Pk_Ui9LSU69eYbQbe-maM2TRnlCOIQjfn5qed9_zmb6tWlam8QImViHWC0EqAcGiK5lGeGQk9x_AC5SRrN3Zlp4t_K0qk54s5xakdWm_yABtDmU9c'
 
 spotifyApi.setAccessToken(accessToken)
 

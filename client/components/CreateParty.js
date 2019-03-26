@@ -38,9 +38,7 @@ export class CreateParty extends React.Component {
     return (
       <div className="create-party-input">
         <form onSubmit={this.handleSubmit}>
-          <Header as="h3" color="teal">
-            Copy and paste your Spotify playlist Url
-          </Header>
+          <Header as="h3">Copy and paste your Spotify playlist Url</Header>
           <Input
             name="newPlaylistId"
             type="text"
@@ -49,7 +47,7 @@ export class CreateParty extends React.Component {
             placeholder="Enter Party Code"
           />
           {/* clicking create playlist makes a row in the playlist table and changes the url to the /playlist/newPlaylistId */}
-          <Button type="submit">create party</Button>
+          <Button type="submit">Create party</Button>
         </form>
       </div>
     )

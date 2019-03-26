@@ -20,9 +20,9 @@ class SongCard extends React.Component {
   }
 
   render() {
-    {
-      console.log(this.props.song)
-    }
+    // {
+    //   console.log(this.props.song)
+    // }
     return (
       <Grid divided="vertically" columns={3}>
         <Grid.Row className="playlist-Rows">

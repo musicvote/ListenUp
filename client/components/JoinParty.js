@@ -20,8 +20,6 @@ export default class JoinParty extends Component {
   render() {
     return (
       <div id="join-playlist">
-        <div />
-
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
             <input
