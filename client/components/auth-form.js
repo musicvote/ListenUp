@@ -10,7 +10,7 @@ const AuthForm = props => {
 
   return (
     <div>
-      <h1 className="welcome-message">Welcome to Music Vote</h1>
+      <h1 className="welcome-message">Welcome to ListenUp</h1>
       <div className="login-button">
         <Grid.Column textAlign="center">
           <Button size="massive">

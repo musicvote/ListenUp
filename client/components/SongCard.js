@@ -1,6 +1,6 @@
 import React from 'react'
 import VoteCount from './VoteCount'
-import {Image, List} from 'semantic-ui-react'
+import {Grid, Image} from 'semantic-ui-react'
 
 class SongCard extends React.Component {
   constructor(props) {
@@ -20,26 +20,30 @@ class SongCard extends React.Component {
   }
 
   render() {
+    {
+      console.log(this.props.song)
+    }
     return (
-      <div className="songcard">
-        <List celled>
-          <List.Item>
-            <div id="Playlist-album-Image">
-              <Image src={this.props.song.albumArtworkurl} />
-            </div>
-            <List.Content>
-              <div>
-                <List.Header>{this.props.song.songName}</List.Header>
-                <List.Description>
-                  {this.props.song.artistName}
-                </List.Description>
-              </div>
-              <List.Description> Likes: {this.state.count}</List.Description>
-              <VoteCount changeVote={this.changeVote} />
-            </List.Content>
-          </List.Item>
-        </List>
-      </div>
+      <Grid divided="vertically" columns={3}>
+        <Grid.Row className="playlist-Rows">
+          <Grid.Column width={3}>
+            <Image src={this.props.song.albumArtworkurl} centered rounded />
+          </Grid.Column>
+          <Grid.Column width={7}>
+            <Grid.Row verticalAlign="bottom" textAlign="right">
+              {this.props.song.songName}
+            </Grid.Row>
+            <Grid.Row verticalAlign="bottom">
+              {' '}
+              {this.props.song.artistName}
+            </Grid.Row>
+          </Grid.Column>
+          <Grid.Column>
+            <Grid.Row>Likes: {this.state.count}</Grid.Row>
+            <VoteCount changeVote={this.changeVote} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     )
   }
 }

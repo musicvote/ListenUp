@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
-import {Input, Button, Icon} from 'semantic-ui-react'
+import {Input, Button, Form} from 'semantic-ui-react'
 
 class Searchbar extends Component {
   constructor(props) {
@@ -36,21 +36,22 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <div id="searchbar">
-        <form onSubmit={this.handleSubmit}>
-          <Input
-            icon={{name: 'search', circular: true, link: 'true'}}
-            type="text"
-            className="input"
-            name="songName"
-            placeholder="Search song name..."
-            value={this.state.songName}
-            onChange={this.handleChange}
-          />
-          <Button className="submit-btn" type="submit">
-            Submit
-          </Button>
-        </form>
+      <div>
+        <div className="searchbar">
+          <form onSubmit={this.handleSubmit}>
+            <Input
+              type="text"
+              className="input"
+              name="songName"
+              placeholder="Search song name..."
+              value={this.state.songName}
+              onChange={this.handleChange}
+            />
+            <Button className="submit-btn" type="submit">
+              Submit
+            </Button>
+          </form>
+        </div>
         <div className="search-result">
           {this.state.foundSongs.length
             ? this.state.foundSongs.map((song, i) => {

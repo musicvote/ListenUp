@@ -5,13 +5,12 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({isLoggedIn, handleClick}) => {
-  // console.log('isLoggedIn ', isLoggedIn)
   return (
     <div>
       <nav className="nav">
         {isLoggedIn.id ? (
           <div>
-            <h1>Music Vote: Democrotizing your music listening experience</h1>
+            <h1>ListenUp: Crowdsource your playlist</h1>
             {/* The navbar will show these links after you log in */}
             <div className="nav-links">
               <Link to="/home">Home</Link>

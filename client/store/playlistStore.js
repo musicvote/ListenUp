@@ -203,7 +203,7 @@ const playlistReducer = (state = initialState, action) => {
     case FOUND_SONGS: {
       let newState = {
         ...state,
-        searchResult: [...action.searchResults]
+        searchResult: [...action.searchResults.slice(0, 10)]
       }
       return newState
     }

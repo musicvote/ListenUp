@@ -16,6 +16,10 @@ async function seed() {
     Playlist.create({
       spotifyId: 1,
       spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
+    }),
+    Playlist.create({
+      spotifyId: 3,
+      spotifyPlaylistId: '5NASiveas4k209RBgVvH5B'
     })
   ])
 
@@ -84,6 +88,36 @@ async function seed() {
     }),
     PlaylistSong.create({
       playlistId: 1,
+      songId: 5,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'
+    }),
+    PlaylistSong.create({
+      playlistId: 2,
+      songId: 1,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '6PCUP3dWmTjcTtXY02oFdT'
+    }),
+    PlaylistSong.create({
+      playlistId: 2,
+      songId: 2,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '1uigwk5hNV84zRd5YQQRTk'
+    }),
+    PlaylistSong.create({
+      playlistId: 2,
+      songId: 3,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '3Du2K5dLzmduCNp6uwuaL0'
+    }),
+    PlaylistSong.create({
+      playlistId: 2,
+      songId: 4,
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      songSpotifySongID: '7BKLCZ1jbUBVqRi2FVlTVw'
+    }),
+    PlaylistSong.create({
+      playlistId: 2,
       songId: 5,
       spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
       songSpotifySongID: '1rfofaqEpACxVEHIZBJe6W'

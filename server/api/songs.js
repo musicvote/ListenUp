@@ -8,11 +8,11 @@ module.exports = router
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
-  callbackURL: process.env.SPOTIFY_CALLBACK || redirect_uri
+  callbackURL: process.env.SPOTIFY_CALLBACK || redspotifyPlaylistIdirect_uri
 })
 
 const accessToken =
-  'BQDC4fJbR4WSS70AKc6KWxcOoDHzz7G-g1FWwyavRJgQUGK5iJMEctg0L2Nk8DjpfJWlUUcxrs0SyjAKxjIQ8WbiZfi1V_0sSeV7NaJzjX-OdtusZFcRk0Z99jogmOWC9O3LAUQJHS_LvOo9ACNCJwA84apFOOXhHkw'
+  'BQBOYmPr91SvPrxXEiqa_GV-z2KN4yjGDr7WzliEi8Qe0uj5d90312jmzizvXBcE2cHGg437s5YsPCD-Ot6PcqsgwKsmf5mUE8urXLP203rSOrEzDemq2Bs0AqoWVYCiWA_a1mVdATpYc62gGHA5xmt7vH6tC7kqX28'
 
 spotifyApi.setAccessToken(accessToken)
 
@@ -82,7 +82,6 @@ router.get('/getCurrentlyPlaying', (req, res, next) => {
         res.json(data.body.item)
       },
       err => {
-        text
         console.log('Something went wrong!', err)
       }
     )
@@ -184,6 +183,22 @@ router.get('/:spotifyPlaylistId', async (req, res, next) => {
     const spotifyPlaylistId = req.params.spotifyPlaylistId
 
     const singlePlaylist = await Playlist.findOne({
+      where: {
+        spotifyPlaylistId
+      },
+      include: [{model: Song}]
+    })
+    res.json(singlePlaylist)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:spotifyPlaylistId', async (req, res, next) => {
+  try {
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
+
+    const singlePlaylist = await Playlist.update({
       where: {
         spotifyPlaylistId
       },

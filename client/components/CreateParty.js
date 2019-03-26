@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addedPlaylistToDb} from '../store/user'
 import parseSpotifyUrl from '../parseUrlFunc'
-// import {Button} from 'semantic-ui-react'
+import {Input, Button, Header} from 'semantic-ui-react'
 
 export class CreateParty extends React.Component {
   constructor(props) {
@@ -36,10 +36,12 @@ export class CreateParty extends React.Component {
 
   render() {
     return (
-      <div id="create-playlist">
+      <div className="create-party-input">
         <form onSubmit={this.handleSubmit}>
-          <label>Copy and paste your Spotify playlist Url.</label>
-          <input
+          <Header as="h3" color="teal">
+            Copy and paste your Spotify playlist Url
+          </Header>
+          <Input
             name="newPlaylistId"
             type="text"
             value={this.state.newPlaylistId}
@@ -47,8 +49,7 @@ export class CreateParty extends React.Component {
             placeholder="Enter Party Code"
           />
           {/* clicking create playlist makes a row in the playlist table and changes the url to the /playlist/newPlaylistId */}
-
-          <button type="submit">create party</button>
+          <Button type="submit">create party</Button>
         </form>
       </div>
     )
