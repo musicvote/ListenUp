@@ -26,11 +26,17 @@ class Searchbar extends Component {
       [event.target.name]: event.target.value
     })
   }
+
   submitSongHandler(event) {
     event.preventDefault()
     const pickedSong = this.state.foundSongs[event.target.value]
-
-    this.props.songPickedNowPost(pickedSong, this.props.playlistId)
+    console.log(
+      'this.props in search Comp: ',
+      this.props,
+      'pickedSongs: ',
+      pickedSong
+    )
+    this.props.songPickedNowPost(pickedSong, this.props.playlist)
     this.setState({foundSongs: []})
   }
 

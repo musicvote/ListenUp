@@ -23,6 +23,7 @@ class Playlist extends React.Component {
   async componentDidMount() {
     let playlistFromPath = this.props.location.pathname.split('/')[2]
     const isAdmin = await this.props.isAdminCheck(playlistFromPath)
+    //less than two check
 
     this.props.fetchedPlaylist(playlistFromPath).then(() => {
       this.setState({
@@ -34,11 +35,15 @@ class Playlist extends React.Component {
   }
 
   CheckSpotify() {
-    this.props.isSongDone({
-      newDeckSong: this.state.playlist[2],
-      newCurrSong: this.state.playlist[1],
-      lastCurrSong: this.state.playlist[0]
-    })
+    if (this.state.playlist.length >= 2) {
+      let playlistFromPath = this.props.location.pathname.split('/')[2]
+      this.props.isSongDone({
+        newDeckSong: this.state.playlist[2],
+        newCurrSong: this.state.playlist[1],
+        lastCurrSong: this.state.playlist[0],
+        playlistId: playlistFromPath
+      })
+    }
     this.setState({playlist: this.props.playlist.songs})
   }
 
@@ -59,17 +64,12 @@ class Playlist extends React.Component {
         <Sidebar />
         <Searchbar playlist={this.state.playlistFromPath} />
         <div id="playlist">
-          <div>
-            <button type="button" onClick={this.CheckSpotify}>
-              Check Spotify
-            </button>
-          </div>
-          {this.props.playlist.songs.length ? (
+          {this.props.playlist.songs.length >= 1 ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.id} song={song} />
             })
           ) : (
-            <div>Sorry no songs</div>
+            <div>Please add at least 2 songs to start this PARTY!!!</div>
           )}
         </div>
       </div>

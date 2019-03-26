@@ -15,7 +15,7 @@ const GET_SONGS = 'GET_SONGS'
 const GOT_NEXT = 'GOT_NEXT'
 const FOUND_SONGS = 'FOUND_SONGS'
 const ADDED_SONG = 'ADDED_SONG'
-const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
+// const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const IS_ADMIN = 'IS_ADMIN'
 
 //ACTION CREATORS
@@ -53,12 +53,12 @@ const adminChecked = isAdmin => {
   }
 }
 
-const createPlaylist = playlistId => {
-  return {
-    type: CREATE_PLAYLIST,
-    playlistId
-  }
-}
+// const createPlaylist = playlistId => {
+//   return {
+//     type: CREATE_PLAYLIST,
+//     playlistId
+//   }
+// }
 
 //THUNK CREATORS
 export const fetchPlaylist = playlistId => {
@@ -66,8 +66,8 @@ export const fetchPlaylist = playlistId => {
     try {
       const {data} = await axios.get(`/api/songs/${playlistId}`)
 
-      const action = getSongs(data.songs)
-      socket.emit('new-song', data)
+      const action = getSongs({songs: data.songs, id: playlistId})
+      //socket.emit('new-song', data)
       dispatch(action)
     } catch (error) {
       console.log(error)
@@ -85,13 +85,17 @@ export const CheckFetchSpotify = newPlacement => {
         console.log('Changed Song.')
 
         const postedSong = await axios.post(`/api/songs/addToPlaylist`, {
-          newSong: newPlacement.newDeckSong
+          newSong: newPlacement.newDeckSong,
+          playlistId: newPlacement.playlistId
         })
 
+        console.log('newPlacementID: ', newPlacement.playlistId)
+        console.log('newPlacementDECK: ', newPlacement.newDeckSong)
         if (postedSong.status === 200) {
           axios.delete(`/api/songs/removeFromPlaylist`, {
             data: {
-              lastCurrSongId: newPlacement.lastCurrSong.spotifySongID
+              lastCurrSongId: newPlacement.lastCurrSong.spotifySongID,
+              playlistId: newPlacement.playlistFromPath
             }
           })
         }
@@ -103,7 +107,6 @@ export const CheckFetchSpotify = newPlacement => {
         dispatch(action)
       } else {
         //Same song playing
-        console.log('Same Song.')
         dispatch({type: 'SAME_SONG_PLAYING'})
       }
     } catch (error) {
@@ -133,28 +136,27 @@ export const checkIsAdmin = playlistId => {
     }
   }
 }
-
+//
 export const postSongToPlaylist = (addedSongObj, playlistId) => {
   return async dispatch => {
     try {
-      console.log(
-        'the addedSongObj from postSongToPlaylistThunk: ',
-        addedSongObj,
-        playlistId
-      )
-      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+      //const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
+      console.log('playlistid from postsongstoplayulist: ', playlistId)
+      const res = await axios.post(`/api/songs/${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-      if (!data) {
+      const newSong = res.data
+      if (!newSong) {
         //Placeholder. this is when the song selected is already on the playlist
         throw Error
       } else {
         console.log(
-          data,
+          newSong,
           '**************data in the post song to playlist route'
         )
-        const action = addedSongToDb(data)
+        const action = addedSongToDb(newSong)
         dispatch(action)
+        socket.emit('new-song', newSong)
       }
     } catch (error) {
       console.log(error)
@@ -162,17 +164,39 @@ export const postSongToPlaylist = (addedSongObj, playlistId) => {
   }
 }
 
-export const addPlaylistToDb = playlistId => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`/api/playlist/create-playlist`)
-      const action = createPlaylist(data)
-      dispatch(action)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
+//
+
+// export const postSongToPlaylist = (addedSongObj, playlistId) => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+//         selectedSong: addedSongObj
+//       })
+//       if (!data) {
+//         //Placeholder. this is when the song selected is already on the playlist
+//         throw Error
+//       } else {
+//         const action = addedSongToDb(data)
+//         dispatch(action)
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+
+//dont need ?
+// export const addPlaylistToDb = playlistId => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.post(`/api/playlist/create-playlist`)
+//       const action = createPlaylist(data)
+//       dispatch(action)
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
 
 //add song to playlist in our app
 const playlistReducer = (state = initialState, action) => {
@@ -180,7 +204,8 @@ const playlistReducer = (state = initialState, action) => {
     case GET_SONGS: {
       let newState = {
         ...state,
-        songs: [...action.playlist]
+        songs: [...action.playlist.songs],
+        actingPlaylist: action.playlist.id
       }
       initialState.songs = action.playlist
       initialState.currSong = action.playlist[0]
@@ -212,7 +237,6 @@ const playlistReducer = (state = initialState, action) => {
       }
       return newState
     }
-    // case ADD_
     default: {
       return state
     }

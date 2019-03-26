@@ -12,11 +12,9 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQAjC-G_fvvCdovNY8dmvZftj8niEDpaVTxR3ixxf2kcD0Q2kHNogWZLVLl35YX0KZOLM4nmfKF6ux8ldRcmLzRvbNBh_BCseDiikAByNq1lNq0_wQy18tZGDYQUb2xDkQBwGR8mzqPrpOp_1ykLRSbvgmhofLFL_6KN4x5OyMkw4jaJkHrStJJYYXMXhUP5PYxSlG-PpQvzqWHPKVWRpW8F-f2aRwK1BGOJu9oqkR9DK_5imRlyTN6Zqhpy3TxSCfQOVGN-GaCxFE-LwSyo5A89AA3nzuhojoY'
+  'BQBEnzErV43OY7ja-MVwHtKWNjXu2XG3pUuHhABhpmZVXZvRDV847OxXeYCqBON3HTo_406Egfi23HE0n5JRHDQOo1SRRHvSJPM4r-YxFdg390gcms_C-6NnpuL6BFhLIA4B4EFsRQ5qhUg5xA1iH1flo_GXR9snyE7B_CLwQeAQlLSdazioh8nZOLgGf-Z6wPTDAzKGkE3gWMtS1XhQiW2eloH0Vm2v3Lg33JkdZjmnTCB45tPBk3oZ5-S9Yk6SbueGVIHuawv0pk4GdxDkkbirmdjtxQcpCls'
 
 spotifyApi.setAccessToken(accessToken)
-
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -40,7 +38,7 @@ router.get('/getSong', async (req, res, next) => {
 
 router.delete('/removeFromPlaylist', (req, res, next) => {
   let removeSongId = req.body.lastCurrSongId
-
+  let playlistId = req.body.playlistId
   var tracks = [{uri: `spotify:track:${removeSongId}`}]
 
   spotifyApi
@@ -58,6 +56,7 @@ router.delete('/removeFromPlaylist', (req, res, next) => {
 
 router.post('/addToPlaylist', (req, res, next) => {
   let songId = req.body.newSong.spotifySongID
+  let playlistId = req.body.playlistId
 
   spotifyApi
     .addTracksToPlaylist(playlistId, [`spotify:track:${songId}`], {
@@ -136,13 +135,16 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
     const selectedSong = req.body.selectedSong
-
+    console.log('SPOTSPOT: ', spotifyPlaylistId, selectedSong)
     const playlist = await Playlist.findOne({
-      where: {spotifyPlaylistId: spotifyPlaylistId}
+      where: {spotifyPlaylistId}
     })
+
+    console.log('playlist from findOne: ', playlist)
     if (!playlist) {
+      //create the things
       res.status(204).send('Playlist does not exit')
     } else {
       const songInDb = await Song.findOne({

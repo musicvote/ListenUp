@@ -20,13 +20,14 @@ router.post('/create-playlist', async (req, res, next) => {
     const playlistId = req.body.id
     const userId = req.user.id
 
-    const matchedUser = await User.findOne({where: {id: userId}})
-
-    const newPlaylist = await Playlist.create({
-      spotifyPlaylistId: playlistId,
-      userId: matchedUser.id
+    const newPlaylist = await Playlist.findOrCreate({
+      where: {
+        spotifyPlaylistId: playlistId,
+        userId
+      }
     })
-    res.status(200).json(newPlaylist)
+
+    res.status(200).json(newPlaylist[0])
   } catch (error) {
     console.log('error', error)
   }

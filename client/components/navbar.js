@@ -5,8 +5,9 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import Searchbar from './Searchbar'
 
-const Navbar = ({isLoggedIn, handleClick}) => {
-  // console.log('isLoggedIn ', isLoggedIn)
+const Navbar = ({isLoggedIn, handleClick, playlist}) => {
+  console.log('t99999his.props ', playlist)
+
   return (
     <div id="navbar">
       <h1>Music Vote:Democrotizing your music listening experience</h1>
@@ -34,7 +35,8 @@ const Navbar = ({isLoggedIn, handleClick}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: state.user.user
+    isLoggedIn: state.user.user,
+    playlist: state.songs
   }
 }
 
