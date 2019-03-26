@@ -16,6 +16,7 @@ const FOUND_SONGS = 'FOUND_SONGS'
 const ADDED_SONG = 'ADDED_SONG'
 const CREATE_PLAYLIST = 'CREATE_PLAYLIST'
 const IS_ADMIN = 'IS_ADMIN'
+const UPDATE_VOTE_COUNT = 'UPDATE_VOTE_COUNT'
 
 //ACTION CREATORS
 const getSongs = playlist => {
@@ -39,7 +40,7 @@ const foundFromSearch = searchResults => {
   }
 }
 
-const addedSongToDb = addedSong => {
+export const addedSongToDb = addedSong => {
   return {
     type: ADDED_SONG,
     addedSong
@@ -56,6 +57,13 @@ const createPlaylist = playlistId => {
   return {
     type: CREATE_PLAYLIST,
     playlistId
+  }
+}
+
+const updateVote = songId => {
+  return {
+    type: UPDATE_VOTE_COUNT,
+    songId
   }
 }
 
@@ -136,20 +144,22 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      const playlistId = '5NASiveas4k209RBgVvH5B'
-      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+      const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
+      const res = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-      if (!data) {
+      const newSong = res.data
+      if (!newSong) {
         //Placeholder. this is when the song selected is already on the playlist
         throw Error
       } else {
         console.log(
-          data,
+          newSong,
           '**************data in the post song to playlist route'
         )
-        const action = addedSongToDb(data)
+        const action = addedSongToDb(newSong)
         dispatch(action)
+        socket.emit('new-song', newSong)
       }
     } catch (error) {
       console.log(error)
@@ -162,6 +172,18 @@ export const addPlaylistToDb = playlistId => {
     try {
       const {data} = await axios.post(`/api/playlist/create-playlist`)
       const action = createPlaylist(data)
+      dispatch(action)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const updateVotesInDb = songId => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put('/:playlistId/vote/:songId')
+      const action = updateVote(data)
       dispatch(action)
     } catch (error) {
       console.log(error)
@@ -207,7 +229,15 @@ const playlistReducer = (state = initialState, action) => {
       }
       return newState
     }
-    // case ADD_
+    //only update the voteCount in:
+    //songs.songs[0].playlistSong.voteCount
+    case UPDATE_VOTE_COUNT: {
+      let newState = {
+        ...state,
+        songs: [...state.songs.songs[0].playlistSong.voteCount, action]
+      }
+      return newState
+    }
     default: {
       return state
     }

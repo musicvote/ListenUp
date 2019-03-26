@@ -12,11 +12,11 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQAw5QtCm5gDz0gnrj6XXjnr8EfcuyY13raeJq-iQwfQrnznixi8CgCiW4ko_AJG31fjaKl4FezNJnDm9uTGfiyLKZJceSA_5e1aHrqYtN3pT2Tr0QROnO7quoivtbueUBU2XlVqwiWcg3bLkU0myjZKwgAuoPUSGY4heIZsPsPkDJbRoFH3I5_daM9v9Dsnc7hDgQAsJt7h-TCvhfk_7l4yJGudmFWkX8S3uAZTWNtsZzRGWtJHU_-K6LppginB_lEFih7lDPnQyPgb-DWoLylr_RQ213mF5XQ'
+  'BQBanxHBQoNU5E47PFq5Gfah6-hmgAA5t4_MsakRmCkPAKU6arK_v0jE5Ir_Xm1Ev49XPsdkAuC30xIrPXyx1Wu5nVMpUPLO3LhP_dwVkx1H4s6YT8zU7AQTmv9oIkhAVyM2Y0ElkyBNhEFkW-W7HwS6CzdD31ymyazjSSLeLp2W9OeT2TzQk2esnTbChnLj2gZLdDxnSovNP_eQ_0caP-7uDgg0nsijciUkbR_bgaRvAGx6Z_rHGpdL0h0GdNFEle5T1BgMikccTMAg'
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '5NASiveas4k209RBgVvH5B'
+const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -136,7 +136,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
+    const spotifyPlaylistId = '6UKjReBGFqkPx1eb1qnwc0'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
@@ -154,7 +154,6 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
         }
       })
       if (songInDb) {
-        console.log('SONG IS ALREADY IN THE DB', songInDb)
         res.status(204).send('Song is already on the playlist')
       } else {
         const songAddedToDb = await Song.create({

@@ -8,8 +8,11 @@ router.get('/usersPlaylist', async (req, res, next) => {
   try {
     const userId = req.user.id
     const playlist = await Playlist.findOne({where: {userId}})
-
-    res.status(200).json(playlist.dataValues.spotifyPlaylistId)
+    if (playlist) {
+      res.status(200).json(playlist.dataValues.spotifyPlaylistId)
+    } else {
+      res.send({isAdmin: false})
+    }
   } catch (error) {
     console.log('error', error)
   }
@@ -29,5 +32,28 @@ router.post('/create-playlist', async (req, res, next) => {
     res.status(200).json(newPlaylist)
   } catch (error) {
     console.log('error', error)
+  }
+})
+
+router.put('/:playlistId/vote/:songId', async (req, res, next) => {
+  try {
+    const songId = req.params.songId
+    const playlistId = req.params.playlistId
+    const updatedVoteCount = await PlaylistSong.update(
+      {
+        voteCount
+      },
+      {
+        where: {
+          songId,
+          playlistId
+        },
+        returning: true,
+        plain: true
+      }
+    )
+    res.status(204).end()
+  } catch (error) {
+    next(error)
   }
 })
