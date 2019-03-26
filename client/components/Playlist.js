@@ -7,7 +7,6 @@ import {
 } from '../store/playlistStore'
 import SongCard from './SongCard'
 import Searchbar from './Searchbar'
-import Sidebar from './sidebar'
 import Heartbeat from 'react-heartbeat'
 
 class Playlist extends React.Component {
