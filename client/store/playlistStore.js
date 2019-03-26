@@ -39,7 +39,7 @@ const foundFromSearch = searchResults => {
   }
 }
 
-const addedSongToDb = addedSong => {
+export const addedSongToDb = addedSong => {
   return {
     type: ADDED_SONG,
     addedSong
@@ -136,11 +136,15 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
+      let newSong
       const playlistId = '5NASiveas4k209RBgVvH5B'
       const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-      if (!data) {
+
+      newSong = data
+
+      if (!newSong) {
         //Placeholder. this is when the song selected is already on the playlist
         throw Error
       } else {
@@ -148,8 +152,9 @@ export const postSongToPlaylist = addedSongObj => {
           data,
           '**************data in the post song to playlist route'
         )
-        const action = addedSongToDb(data)
+        const action = addedSongToDb(newSong)
         dispatch(action)
+        socket.emit('new-song', newSong)
       }
     } catch (error) {
       console.log(error)
