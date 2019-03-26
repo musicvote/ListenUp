@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
+import {Input, Button, Form} from 'semantic-ui-react'
 
 class Searchbar extends Component {
   constructor(props) {
@@ -29,48 +30,46 @@ class Searchbar extends Component {
   submitSongHandler(event) {
     event.preventDefault()
     const pickedSong = this.state.foundSongs[event.target.value]
-
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})
   }
 
   render() {
     return (
-      <div id="searchbar">
-        <div />
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            className="input"
-            name="songName"
-            placeholder="Search song name..."
-            value={this.state.songName}
-            onChange={this.handleChange}
-          />
-          <button className="submit-btn" type="submit">
-            Submit
-          </button>
-        </form>
-
-        {this.state.foundSongs.length ? (
-          this.state.foundSongs.map((song, i) => {
-            return (
-              <div className="listBorder" key={song.songId}>
-                <img src={song.imageUrl} />
-                <p>{`${song.artist} - ${song.songName}`}</p>
-                <button
-                  onClick={this.submitSongHandler}
-                  type="button"
-                  value={i}
-                >
-                  +
-                </button>
-              </div>
-            )
-          })
-        ) : (
-          <div>Not found</div>
-        )}
+      <div>
+        <div className="searchbar">
+          <form onSubmit={this.handleSubmit}>
+            <Input
+              type="text"
+              className="input"
+              name="songName"
+              placeholder="Search song name..."
+              value={this.state.songName}
+              onChange={this.handleChange}
+            />
+            <Button className="submit-btn" type="submit">
+              Submit
+            </Button>
+          </form>
+        </div>
+        <div className="search-result">
+          {this.state.foundSongs.length
+            ? this.state.foundSongs.map((song, i) => {
+                return (
+                  <div className="listBorder" key={song.songId}>
+                    <img src={song.imageUrl} />
+                    <p>{`${song.artist} - ${song.songName}`}</p>
+                    <Button
+                      icon="plus"
+                      onClick={this.submitSongHandler}
+                      type="button"
+                      value={i}
+                    />
+                  </div>
+                )
+              })
+            : null}
+        </div>
       </div>
     )
   }

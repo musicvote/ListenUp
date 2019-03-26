@@ -8,15 +8,15 @@ module.exports = router
 const spotifyApi = new spotifyWebApi({
   clientID: process.env.SPOTIFY_CLIENT_ID || client_id,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET || client_secret,
-  callbackURL: process.env.SPOTIFY_CALLBACK || redirect_uri
+  callbackURL: process.env.SPOTIFY_CALLBACK || redspotifyPlaylistIdirect_uri
 })
 
 const accessToken =
-  'BQDR6GYU52682kWvCSzMw_U5RXIDz81yClyKqmA9yR8kUUgdSfgHaPW6qVQkrK6XYIa_xi6LzDcR1IBP-3KlrQKPN1EaFeZUbT97uhLZFrO7ZZhGGpV3SnZ8oWN28ozvk-_DzRe0eSGC4-c4Mq2D8Kl9iOZoPnlvZWEGJIjOgN7f11LEyX-XckSRMkDNXX5nJj6ga8ZbCQVTnX6JbiwXlN86RdMwGS1mrrEKdqxnc4KynlFg7Fknwy6oAmeOmUiT9vDvGZSSORp2wBNBILf2z1Zq9CKyp9vg5WE'
+  'BQDytj_RfgY246m2s6rdTmEMlcwF0jx-x3Ii9kOTGUplUpAg13Pk_Ui9LSU69eYbQbe-maM2TRnlCOIQjfn5qed9_zmb6tWlam8QImViHWC0EqAcGiK5lGeGQk9x_AC5SRrN3Zlp4t_K0qk54s5xakdWm_yABtDmU9c'
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -136,7 +136,8 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '6UKjReBGFqkPx1eb1qnwc0'
+
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({
@@ -183,6 +184,22 @@ router.get('/:spotifyPlaylistId', async (req, res, next) => {
     const spotifyPlaylistId = req.params.spotifyPlaylistId
 
     const singlePlaylist = await Playlist.findOne({
+      where: {
+        spotifyPlaylistId
+      },
+      include: [{model: Song}]
+    })
+    res.json(singlePlaylist)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/:spotifyPlaylistId', async (req, res, next) => {
+  try {
+    const spotifyPlaylistId = req.params.spotifyPlaylistId
+
+    const singlePlaylist = await Playlist.update({
       where: {
         spotifyPlaylistId
       },

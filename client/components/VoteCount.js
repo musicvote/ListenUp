@@ -1,15 +1,13 @@
 import React from 'react'
+import {Button} from 'semantic-ui-react'
 
 const VoteCount = props => {
   const {changeVote} = props
   return (
     <div>
-      <button type="button" onClick={() => changeVote(false)}>
-        Dislike
-      </button>
-      <button type="button" onClick={() => changeVote(true)}>
+      <Button size="mini" type="button" onClick={() => changeVote(true)}>
         Like
-      </button>
+      </Button>
     </div>
   )
 }

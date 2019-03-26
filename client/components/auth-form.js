@@ -2,19 +2,21 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-//import {Button} from 'semantic-ui-react'
+import {Button, Grid, Segment} from 'semantic-ui-react'
 
 // COMPONENT Keep!
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {displayName} = props
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSubmit} name={name}>
-          {error && error.response && <div> {error.response.data} </div>}
-        </form>
-        <a href="/auth/spotify">{displayName} with spotify</a>
+      <h1 className="welcome-message">Welcome to ListenUp</h1>
+      <div className="login-button">
+        <Grid.Column textAlign="center">
+          <Button size="massive">
+            <a href="/auth/spotify">{displayName} with spotify</a>
+          </Button>
+        </Grid.Column>
       </div>
     </div>
   )
