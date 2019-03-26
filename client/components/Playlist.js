@@ -54,6 +54,7 @@ class Playlist extends React.Component {
         <Searchbar />
         <div>
           <h1 id="playlist-header">Playlist</h1>
+
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map(song => {
               return <SongCard key={song.id} song={song} />
