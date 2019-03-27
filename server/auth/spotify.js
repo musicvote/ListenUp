@@ -22,8 +22,6 @@ if (!spotifyApi.clientID || !spotifyApi.clientSecret) {
   const strategy = new SpotifyStrategy(
     spotifyConfig,
     (accessToken, refreshToken, expires_in, profile, done) => {
-      profile.access_token = accessToken
-      profile.refresh_token = refreshToken
       const spotifyUsername = profile.id
 
       User.findOrCreate({
