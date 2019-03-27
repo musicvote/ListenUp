@@ -1,5 +1,11 @@
 # Listen Up
 
+Listen Up is a web application where a user may crowd source playlist creating responsibilities. Any party host, DJ, road-trip organizer or anyone else with a Spotify account, may connect a Spotify playlist and allow other listeners to:
+    * Search for songs via Spotify's search API 
+    * Add songs to that playlist 
+    * Vote on songs that are in the playlist 
+As users add songs and cast votes, the queue of songs from Listen Up will flow into Spotify and play the songs in the order of votes in descending order. 
+
 ## Setup
 
 To use this web application, you'll need to take the following steps:
@@ -27,9 +33,9 @@ Now that you've got the code, follow these steps to get acclimated:
     process.env.SPOTIFY_CALLBACK = '/auth/spotify/callback'
   ```
 
-* To use OAuth with Spotify, complete the step above with a real client ID and client secret from Spotify
+* To use OAuth with Spotify, complete the step above with a real client ID and client secret obtained from Spotify.
   * You can get them here: https://developer.spotify.com/dashboard/
-    * If you already have a Spotify account, log in and select "CREATE A CLIENT ID" and fill out the necessary form.
+    * If you already have a Spotify account, log in, select "CREATE A CLIENT ID" and fill out the necessary form.
 
 ## Start
 
