@@ -28,10 +28,13 @@ class Searchbar extends Component {
       [event.target.name]: event.target.value
     })
   }
+
   submitSongHandler(event) {
     event.preventDefault()
+    if (!event.target.value) return
     toast.success(<div>'Song Added!'</div>)
     const pickedSong = this.state.foundSongs[event.target.value]
+
     console.log(event.target.value)
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})

@@ -139,9 +139,6 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
-      if (!addedSongObj.songName) {
-        return
-      }
       let newSong
       const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
       const {data} = await axios.post(`/api/songs/${playlistId}/addToDb`, {
