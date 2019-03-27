@@ -7,7 +7,7 @@ socket.on('connect', () => {
   console.log('Connected!')
   //socket.on's go here
   socket.on('new-song', song => {
-    store.dispatch(addedSongToDb(song))
+    if (!song.songs) store.dispatch(addedSongToDb(song))
   })
 })
 
