@@ -196,15 +196,35 @@ router.get('/:spotifyPlaylistId', async (req, res, next) => {
 router.put('/:spotifyPlaylistId', async (req, res, next) => {
   try {
     const spotifyPlaylistId = req.params.spotifyPlaylistId
-
     const singlePlaylist = await Playlist.update({
       where: {
         spotifyPlaylistId
       },
       include: [{model: Song}]
     })
-    res.json(singlePlaylist)
+
+    console.log('HELLO')
+    const cleanedSinglePlaylist = cleanUpJoinTable(singlePlaylist)
+    res.json(cleanedSinglePlaylist)
   } catch (error) {
     next(error)
   }
 })
+
+const cleanUpJoinTable = jTable => {
+  return jTable.reduce((acc, elem) => {
+    let newSong = {}
+    for (let key in elem) {
+      if (key !== 'playlistSong') {
+        newSong[key] = elem[key]
+      }
+      {
+        newSong.voteCount = elem.playlistSong.voteCount
+        newSong.playlistId = elem.playlistSong.playlistId
+        newSong.hasPlayed = elem.playlistSong.hasPlayed
+      }
+    }
+    acc.push(newSong)
+    return acc
+  }, [])
+}
