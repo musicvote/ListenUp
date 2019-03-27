@@ -137,8 +137,8 @@ export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
       let newSong
-      const playlistId = '5NASiveas4k209RBgVvH5B'
-      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+      const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+      const {data} = await axios.post(`/api/songs/${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
 

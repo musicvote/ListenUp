@@ -141,6 +141,8 @@ var _user = __webpack_require__(/*! ../store/user */ "./client/store/user.js");
 
 var _parseUrlFunc = _interopRequireDefault(__webpack_require__(/*! ../parseUrlFunc */ "./client/parseUrlFunc.js"));
 
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -167,7 +169,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-// import {Button} from 'semantic-ui-react'
 var CreateParty =
 /*#__PURE__*/
 function (_React$Component) {
@@ -231,18 +232,20 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return _react.default.createElement("div", {
-        id: "create-playlist"
+        className: "create-party-input"
       }, _react.default.createElement("form", {
         onSubmit: this.handleSubmit
-      }, _react.default.createElement("label", null, "Copy and paste your Spotify playlist Url."), _react.default.createElement("input", {
+      }, _react.default.createElement(_semanticUiReact.Header, {
+        as: "h3"
+      }, "Copy and paste your Spotify playlist Url"), _react.default.createElement(_semanticUiReact.Input, {
         name: "newPlaylistId",
         type: "text",
         value: this.state.newPlaylistId,
         onChange: this.handleChange,
         placeholder: "Enter Party Code"
-      }), _react.default.createElement("button", {
+      }), _react.default.createElement(_semanticUiReact.Button, {
         type: "submit"
-      }, "create party")));
+      }, "Create party")));
     }
   }]);
 
@@ -342,9 +345,9 @@ function (_Component) {
     value: function render() {
       return _react.default.createElement("div", {
         id: "join-playlist"
-      }, _react.default.createElement("div", null), _react.default.createElement("form", {
+      }, _react.default.createElement(_semanticUiReact.Form, {
         onSubmit: this.handleSubmit
-      }, _react.default.createElement("input", {
+      }, _react.default.createElement(_semanticUiReact.Form.Field, null, _react.default.createElement("input", {
         type: "text",
         className: "input",
         name: "playlistId",
@@ -352,7 +355,7 @@ function (_Component) {
         onChange: this.handleChange
       }), this.state.playlistId.length === 22 ? _react.default.createElement(_reactRouterDom.Link, {
         to: "/playlist/".concat(this.state.playlistId)
-      }, "Join Party") : _react.default.createElement("p", null, "Please Copy and paste the 22 character Spotify Playlist Id in the search box. we will use this to create your musicVote playlist")));
+      }, "Join Party") : _react.default.createElement("p", null, "Please Copy and paste the 22 character Spotify Playlist Id in the search box. we will use this to create your musicVote playlist"))));
     }
   }]);
 
@@ -518,17 +521,16 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react.default.createElement("div", null, this.state.isAdmin ? _react.default.createElement(_reactHeartbeat.default, {
+      return _react.default.createElement("div", {
+        className: "main-component"
+      }, this.state.isAdmin ? _react.default.createElement(_reactHeartbeat.default, {
         heartbeatFunction: function heartbeatFunction() {
           return _this3.CheckSpotify();
         },
         heartbeatInterval: 10000
-      }) : _react.default.createElement("div", null), _react.default.createElement("h1", null, "Playlist"), _react.default.createElement(_sidebar.default, null), _react.default.createElement(_Searchbar.default, null), _react.default.createElement("div", {
-        id: "playlist"
-      }, _react.default.createElement("div", null, _react.default.createElement("button", {
-        type: "button",
-        onClick: this.CheckSpotify
-      }, "Check Spotify")), this.props.playlist.songs.length ? this.props.playlist.songs.map(function (song) {
+      }) : _react.default.createElement("div", null), _react.default.createElement(_Searchbar.default, null), _react.default.createElement("div", null, _react.default.createElement("h1", {
+        id: "playlist-header"
+      }, "Playlist"), this.props.playlist.songs.length ? this.props.playlist.songs.map(function (song) {
         return _react.default.createElement(_SongCard.default, {
           key: song.id,
           song: song
@@ -587,6 +589,8 @@ var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_mo
 var _playlistStore = __webpack_require__(/*! ../store/playlistStore */ "./client/store/playlistStore.js");
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -688,32 +692,35 @@ function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      return _react.default.createElement("div", {
-        id: "searchbar"
-      }, _react.default.createElement("div", null), _react.default.createElement("form", {
+      return _react.default.createElement("div", null, _react.default.createElement("div", {
+        className: "searchbar"
+      }, _react.default.createElement("form", {
         onSubmit: this.handleSubmit
-      }, _react.default.createElement("input", {
+      }, _react.default.createElement(_semanticUiReact.Input, {
         type: "text",
         className: "input",
         name: "songName",
         placeholder: "Search song name...",
         value: this.state.songName,
         onChange: this.handleChange
-      }), _react.default.createElement("button", {
+      }), _react.default.createElement(_semanticUiReact.Button, {
         className: "submit-btn",
         type: "submit"
-      }, "Submit")), this.state.foundSongs.length ? this.state.foundSongs.map(function (song, i) {
+      }, "Submit"))), _react.default.createElement("div", {
+        className: "search-result"
+      }, this.state.foundSongs.length ? this.state.foundSongs.map(function (song, i) {
         return _react.default.createElement("div", {
           className: "listBorder",
           key: song.songId
         }, _react.default.createElement("img", {
           src: song.imageUrl
-        }), _react.default.createElement("p", null, "".concat(song.artist, " - ").concat(song.songName)), _react.default.createElement("button", {
+        }), _react.default.createElement("p", null, "".concat(song.artist, " - ").concat(song.songName)), _react.default.createElement(_semanticUiReact.Button, {
+          icon: "plus",
           onClick: _this2.submitSongHandler,
           type: "button",
           value: i
-        }, "+"));
-      }) : _react.default.createElement("div", null, "Not found"));
+        }));
+      }) : null));
     }
   }]);
 
@@ -761,6 +768,8 @@ exports.default = void 0;
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
 var _VoteCount = _interopRequireDefault(__webpack_require__(/*! ./VoteCount */ "./client/components/VoteCount.js"));
+
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -820,15 +829,30 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        className: "listBorder"
-      }, _react.default.createElement("img", {
-        src: this.props.song.albumArtworkurl
-      }), _react.default.createElement("div", {
-        className: "searchbar"
-      }, _react.default.createElement("h1", null, this.props.song.songName), _react.default.createElement("h3", null, this.props.song.artistName), _react.default.createElement("h4", null, this.state.count)), _react.default.createElement("div", null, _react.default.createElement(_VoteCount.default, {
+      // {
+      //   console.log(this.props.song)
+      // }
+      return _react.default.createElement(_semanticUiReact.Grid, {
+        divided: "vertically",
+        columns: 3
+      }, _react.default.createElement(_semanticUiReact.Grid.Row, {
+        className: "playlist-Rows"
+      }, _react.default.createElement(_semanticUiReact.Grid.Column, {
+        width: 3
+      }, _react.default.createElement(_semanticUiReact.Image, {
+        src: this.props.song.albumArtworkurl,
+        centered: true,
+        rounded: true
+      })), _react.default.createElement(_semanticUiReact.Grid.Column, {
+        width: 7
+      }, _react.default.createElement(_semanticUiReact.Grid.Row, {
+        verticalAlign: "bottom",
+        textAlign: "right"
+      }, this.props.song.songName), _react.default.createElement(_semanticUiReact.Grid.Row, {
+        verticalAlign: "bottom"
+      }, ' ', this.props.song.artistName)), _react.default.createElement(_semanticUiReact.Grid.Column, null, _react.default.createElement(_semanticUiReact.Grid.Row, null, "Likes: ", this.state.count), _react.default.createElement(_VoteCount.default, {
         changeVote: this.changeVote
-      })));
+      }))));
     }
   }]);
 
@@ -863,25 +887,22 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * COMPONENT
- */
 var UserHome = function UserHome(_ref) {
   var user = _ref.user;
-  return _react.default.createElement("div", null, _react.default.createElement("h3", null, "Welcome ".concat(user.spotifyUsername), " "), _react.default.createElement(_semanticUiReact.Button, {
+  return _react.default.createElement("div", {
+    className: "userHome-page"
+  }, _react.default.createElement("h3", null, "Welcome ".concat(user.spotifyUsername), " "), _react.default.createElement("div", null, _react.default.createElement(_semanticUiReact.Button, {
+    fluid: true,
     size: "massive"
   }, _react.default.createElement("a", {
     href: "/create"
-  }, " Create Playlist")), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_semanticUiReact.Button, {
+  }, " Create Playlist")), _react.default.createElement("br", null), _react.default.createElement(_semanticUiReact.Button, {
+    fluid: true,
     size: "massive"
   }, _react.default.createElement("a", {
     href: "/join"
-  }, " Join Playlist")));
+  }, " Join Playlist"))));
 };
-/**
- * CONTAINER
- */
-
 
 exports.UserHome = UserHome;
 
@@ -891,9 +912,7 @@ var mapState = function mapState(state) {
   };
 };
 
-var _default = (0, _reactRedux.connect)(mapState)(UserHome); // /**
-//  * PROP TYPES
-//  */
+var _default = (0, _reactRedux.connect)(mapState)(UserHome); //  PROP TYPES
 // UserHome.propTypes = {
 //   email: PropTypes.string
 // }
@@ -920,16 +939,14 @@ exports.default = void 0;
 
 var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var VoteCount = function VoteCount(props) {
   var changeVote = props.changeVote;
-  return _react.default.createElement("div", null, _react.default.createElement("button", {
-    type: "button",
-    onClick: function onClick() {
-      return changeVote(false);
-    }
-  }, "Dislike"), _react.default.createElement("button", {
+  return _react.default.createElement("div", null, _react.default.createElement(_semanticUiReact.Button, {
+    size: "mini",
     type: "button",
     onClick: function onClick() {
       return changeVote(true);
@@ -965,21 +982,24 @@ var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ ".
 
 var _store = __webpack_require__(/*! ../store */ "./client/store/index.js");
 
+var _semanticUiReact = __webpack_require__(/*! semantic-ui-react */ "./node_modules/semantic-ui-react/dist/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import {Button} from 'semantic-ui-react'
 // COMPONENT Keep!
 var AuthForm = function AuthForm(props) {
-  var name = props.name,
-      displayName = props.displayName,
-      handleSubmit = props.handleSubmit,
-      error = props.error;
-  return _react.default.createElement("div", null, _react.default.createElement("div", null, _react.default.createElement("form", {
-    onSubmit: handleSubmit,
-    name: name
-  }, error && error.response && _react.default.createElement("div", null, " ", error.response.data, " ")), _react.default.createElement("a", {
+  var displayName = props.displayName;
+  return _react.default.createElement("div", null, _react.default.createElement("h1", {
+    className: "welcome-message"
+  }, "Welcome to ListenUp"), _react.default.createElement("div", {
+    className: "login-button"
+  }, _react.default.createElement(_semanticUiReact.Grid.Column, {
+    textAlign: "center"
+  }, _react.default.createElement(_semanticUiReact.Button, {
+    size: "massive"
+  }, _react.default.createElement("a", {
     href: "/auth/spotify"
-  }, displayName, " with spotify")));
+  }, displayName, " with spotify")))));
 };
 
 var mapLogin = function mapLogin(state) {
@@ -1134,28 +1154,24 @@ var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_module
 
 var _store = __webpack_require__(/*! ../store */ "./client/store/index.js");
 
-var _Searchbar = _interopRequireDefault(__webpack_require__(/*! ./Searchbar */ "./client/components/Searchbar.js"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Navbar = function Navbar(_ref) {
   var isLoggedIn = _ref.isLoggedIn,
       handleClick = _ref.handleClick;
-  // console.log('isLoggedIn ', isLoggedIn)
-  return _react.default.createElement("div", {
-    id: "navbar"
-  }, _react.default.createElement("h1", null, "Music Vote:Democrotizing your music listening experience"), _react.default.createElement("nav", null, isLoggedIn.id ? _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+  return _react.default.createElement("div", null, _react.default.createElement("nav", {
+    className: "nav"
+  }, isLoggedIn.id ? _react.default.createElement("div", null, _react.default.createElement("h1", null, "ListenUp: Crowdsource your playlist"), _react.default.createElement("div", {
+    className: "nav-links"
+  }, _react.default.createElement(_reactRouterDom.Link, {
     to: "/home"
   }, "Home"), _react.default.createElement(_reactRouterDom.Link, {
     to: "/playlist"
   }, "Playlist"), _react.default.createElement("a", {
     href: "/",
     onClick: handleClick
-  }, "Logout")) : _react.default.createElement("div", null, "Please click below to log in with Spotify.")), _react.default.createElement("hr", null));
-};
-/**
- * CONTAINER
- */
+  }, "Logout"))) : null));
+}; //Container
 
 
 var mapState = function mapState(state) {
@@ -1173,10 +1189,6 @@ var mapDispatch = function mapDispatch(dispatch) {
 };
 
 var _default = (0, _reactRedux.connect)(mapState, mapDispatch)(Navbar);
-/**
- * PROP TYPES
- */
-
 
 exports.default = _default;
 
@@ -1875,9 +1887,9 @@ var postSongToPlaylist = function postSongToPlaylist(addedSongObj) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.prev = 0;
-                playlistId = '5NASiveas4k209RBgVvH5B';
+                playlistId = '6UOF0Hq6ffLXnADFQxVKUH';
                 _context5.next = 4;
-                return _axios.default.post("/api/songs/:".concat(playlistId, "/addToDb"), {
+                return _axios.default.post("/api/songs/".concat(playlistId, "/addToDb"), {
                   selectedSong: addedSongObj
                 });
 
@@ -2023,7 +2035,7 @@ var playlistReducer = function playlistReducer() {
     case FOUND_SONGS:
       {
         var _newState4 = _objectSpread({}, state, {
-          searchResult: _toConsumableArray(action.searchResults)
+          searchResult: _toConsumableArray(action.searchResults.slice(0, 10))
         });
 
         return _newState4;

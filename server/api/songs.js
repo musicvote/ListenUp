@@ -12,11 +12,11 @@ const spotifyApi = new spotifyWebApi({
 })
 
 const accessToken =
-  'BQDytj_RfgY246m2s6rdTmEMlcwF0jx-x3Ii9kOTGUplUpAg13Pk_Ui9LSU69eYbQbe-maM2TRnlCOIQjfn5qed9_zmb6tWlam8QImViHWC0EqAcGiK5lGeGQk9x_AC5SRrN3Zlp4t_K0qk54s5xakdWm_yABtDmU9c'
+  'BQDYns_XFXYniJJXphecGt-0V4TAQ3CkXjFAJlTOEm-WdiAzv6CZ4otYtIB0PBkCh0DwDbYITcxnbZM3idQa7IPP4tVIQdp-Ve97s6x1NFAii7BCpWs8KIkFdLpkvM7F6YSv6zvPrQ2QPvakjht7TZcdTj2adlzZXQVNHBLbgHjz-o9m4VZBw5nPFBur4L2CFAt5CoRywjOYAsqgqbVN7ApeGW-xAgDcipY8Xo1XV1FB5woAYaW1sr-I7WmlmD55mtwnksyrdpqaKg7_l29W3MuazfJLUOHZJXs'
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UKjReBGFqkPx1eb1qnwc0'
+const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -136,7 +136,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UKjReBGFqkPx1eb1qnwc0'
+    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
     const selectedSong = req.body.selectedSong
 
