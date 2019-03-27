@@ -6,7 +6,7 @@ const initialState = {
   songs: [],
   currSong: {},
   deckSong: {},
-  isAdmin: false
+  isAdmin: true
 }
 
 //ACTION TYPES
@@ -64,10 +64,13 @@ export const fetchPlaylist = playlistId => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/songs/${playlistId}`)
-
-      const action = getSongs(data.songs)
-      socket.emit('new-song', data)
-      dispatch(action)
+      if (!data) {
+        return 'No song in the playlist'
+      } else {
+        const action = getSongs(data.songs)
+        socket.emit('new-song', data)
+        dispatch(action)
+      }
     } catch (error) {
       console.log(error)
     }

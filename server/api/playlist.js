@@ -8,8 +8,11 @@ router.get('/usersPlaylist', async (req, res, next) => {
   try {
     const userId = req.user.id
     const playlist = await Playlist.findOne({where: {userId}})
-
-    res.status(200).json(playlist.dataValues.spotifyPlaylistId)
+    if (!playlist) {
+      res.json({Message: 'No playlist'})
+    } else {
+      res.status(200).json(playlist.dataValues.spotifyPlaylistId)
+    }
   } catch (error) {
     console.log('error', error)
   }
