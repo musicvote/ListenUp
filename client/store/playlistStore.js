@@ -139,12 +139,13 @@ export const checkIsAdmin = playlistId => {
 export const postSongToPlaylist = addedSongObj => {
   return async dispatch => {
     try {
+      console.log('!!!!!!!!!!!!!xTHIS IS THE LINE 142')
       let newSong
       const playlistId = '5NASiveas4k209RBgVvH5B'
-      const {data} = await axios.post(`/api/songs/:${playlistId}/addToDb`, {
+      const {data} = await axios.post(`/api/songs/${playlistId}/addToDb`, {
         selectedSong: addedSongObj
       })
-
+      console.log(data, 'HELLO THIS IS IN THE POST SONG TO PLAYLIST THUNK')
       newSong = data
 
       if (!newSong) {

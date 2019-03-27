@@ -136,40 +136,43 @@ router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
     const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
 
-    const selectedSong = req.body.selectedSong
-
-    const playlist = await Playlist.findOne({
-      where: {spotifyPlaylistId: spotifyPlaylistId}
-    })
-    if (!playlist) {
-      res.status(204).send('Playlist does not exit')
+    if (!req.body) {
+      res.json({Message: 'Please search again'})
     } else {
-      const songInDb = await Song.findOne({
-        where: {
-          spotifySongID: selectedSong.songId,
-          songName: selectedSong.songName,
-          artistName: selectedSong.artist,
-          albumArtworkurl: selectedSong.imageUrl
-        }
+      const selectedSong = req.body.selectedSong
+      const playlist = await Playlist.findOne({
+        where: {spotifyPlaylistId: spotifyPlaylistId}
       })
-      if (songInDb) {
-        console.log('SONG IS ALREADY IN THE DB', songInDb)
-        res.status(204).send('Song is already on the playlist')
+      if (!playlist) {
+        res.status(204).send('Playlist does not exit')
       } else {
-        const songAddedToDb = await Song.create({
-          spotifySongID: selectedSong.songId,
-          songName: selectedSong.songName,
-          artistName: selectedSong.artist,
-          albumArtworkurl: selectedSong.imageUrl,
-          playlistId: playlist.id
+        const songInDb = await Song.findOne({
+          where: {
+            spotifySongID: selectedSong.songId,
+            songName: selectedSong.songName,
+            artistName: selectedSong.artist,
+            albumArtworkurl: selectedSong.imageUrl
+          }
         })
-        const addedToJoinTable = await PlaylistSong.create({
-          playlistId: playlist.id,
-          songId: songAddedToDb.id
-        })
-        console.log('NEW SONG IN THE DB', songAddedToDb.dataValues.id)
-        const songAddedToReturn = songAddedToDb.dataValues
-        res.json(songAddedToReturn)
+        if (songInDb) {
+          console.log('SONG IS ALREADY IN THE DB', songInDb)
+          res.status(204).send('Song is already on the playlist')
+        } else {
+          const songAddedToDb = await Song.create({
+            spotifySongID: selectedSong.songId,
+            songName: selectedSong.songName,
+            artistName: selectedSong.artist,
+            albumArtworkurl: selectedSong.imageUrl,
+            playlistId: playlist.id
+          })
+          const addedToJoinTable = await PlaylistSong.create({
+            playlistId: playlist.id,
+            songId: songAddedToDb.id
+          })
+          console.log('NEW SONG IN THE DB', songAddedToDb.dataValues.id)
+          const songAddedToReturn = songAddedToDb.dataValues
+          res.json(songAddedToReturn)
+        }
       }
     }
   } catch (error) {
