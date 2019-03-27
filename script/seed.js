@@ -9,17 +9,15 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({spotifyUsername: 'em320xo'}),
-    User.create({spotifyUsername: 'murphy123'})
+    User.create({spotifyUsername: 'murphy123'}),
+    User.create({spotifyUsername: 'ffm0dhc1u2scdnu8tdpc1jd12'})
   ])
 
   const playlist = await Promise.all([
     Playlist.create({
       spotifyId: 1,
-      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH'
-    }),
-    Playlist.create({
-      spotifyId: 3,
-      spotifyPlaylistId: '6UKjReBGFqkPx1eb1qnwc0'
+      spotifyPlaylistId: '6UOF0Hq6ffLXnADFQxVKUH',
+      userId: 3
     })
   ])
 
