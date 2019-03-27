@@ -6,7 +6,6 @@ const socket = io(window.location.origin)
 socket.on('connect', () => {
   console.log('Connected!')
   //socket.on's go here
-  console.log('addedSongToDb ', addedSongToDb)
   socket.on('new-song', song => {
     store.dispatch(addedSongToDb(song))
   })

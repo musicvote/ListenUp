@@ -11,12 +11,11 @@ const spotifyApi = new spotifyWebApi({
   callbackURL: process.env.SPOTIFY_CALLBACK || redspotifyPlaylistIdirect_uri
 })
 
-const accessToken =
-  'BQDYns_XFXYniJJXphecGt-0V4TAQ3CkXjFAJlTOEm-WdiAzv6CZ4otYtIB0PBkCh0DwDbYITcxnbZM3idQa7IPP4tVIQdp-Ve97s6x1NFAii7BCpWs8KIkFdLpkvM7F6YSv6zvPrQ2QPvakjht7TZcdTj2adlzZXQVNHBLbgHjz-o9m4VZBw5nPFBur4L2CFAt5CoRywjOYAsqgqbVN7ApeGW-xAgDcipY8Xo1XV1FB5woAYaW1sr-I7WmlmD55mtwnksyrdpqaKg7_l29W3MuazfJLUOHZJXs'
+const accessToken = process.env.SPOTIFY_ACCESS_TOKEN
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '5NASiveas4k209RBgVvH5B'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -137,7 +136,6 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
     const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
-
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({

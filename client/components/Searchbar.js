@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
-import {Input, Button, Form} from 'semantic-ui-react'
+import {Input, Button} from 'semantic-ui-react'
+import {toast} from 'react-toastify'
 
 class Searchbar extends Component {
   constructor(props) {
@@ -29,7 +30,9 @@ class Searchbar extends Component {
   }
   submitSongHandler(event) {
     event.preventDefault()
+    toast.success(<div>'Song Added!'</div>)
     const pickedSong = this.state.foundSongs[event.target.value]
+    console.log(event.target.value)
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})
   }
