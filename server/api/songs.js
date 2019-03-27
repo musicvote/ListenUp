@@ -15,7 +15,7 @@ const accessToken = process.env.SPOTIFY_ACCESS_TOKEN
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '5NASiveas4k209RBgVvH5B'
+const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
 
 router.get('/', async (req, res, next) => {
   try {
