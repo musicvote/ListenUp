@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 export const UserHome = ({user}) => {
   return (
     <div className="userHome-page">
-      <h3>{`Welcome Jennifer`} </h3>
+      <h3>{`Welcome Zach`} </h3>
       <div className="animated fadeIn delay-.5s">
         <Button fluid size="massive">
           <a href="/create"> Create Playlist</a>
