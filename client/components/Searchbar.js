@@ -35,7 +35,6 @@ class Searchbar extends Component {
     toast.success(<div>'Song Added!'</div>)
     const pickedSong = this.state.foundSongs[event.target.value]
 
-    console.log(event.target.value)
     this.props.songPickedNowPost(pickedSong)
     this.setState({foundSongs: []})
   }
