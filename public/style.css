@@ -1,3 +1,9 @@
+.logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
 .row.playlist-Rows {
   border-style: solid;
   border-color: slategray;
@@ -109,8 +115,8 @@ form div {
 .login-button {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 40vh;
+  margin-top: 20px;
 }
 
 /* homepage*/

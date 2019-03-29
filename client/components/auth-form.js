@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button, Grid, Segment} from 'semantic-ui-react'
+import {Image, Button, Grid, Segment} from 'semantic-ui-react'
 
 // COMPONENT Keep!
 const AuthForm = props => {
@@ -11,6 +11,9 @@ const AuthForm = props => {
   return (
     <div>
       <h1 className="welcome-message">Welcome to ListenUp</h1>
+      <div className="logo">
+        <Image src="listen_up_logo.png" />
+      </div>
       <div className="login-button">
         <Grid.Column textAlign="center">
           <Button size="massive">

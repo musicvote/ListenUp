@@ -15,7 +15,7 @@ const accessToken = process.env.SPOTIFY_ACCESS_TOKEN
 
 spotifyApi.setAccessToken(accessToken)
 
-const playlistId = '6UOF0Hq6ffLXnADFQxVKUH'
+const playlistId = '5NASiveas4k209RBgVvH5B'
 
 router.get('/', async (req, res, next) => {
   try {
@@ -135,7 +135,7 @@ router.get('/:playlistId/searchDb', async (req, res, next) => {
 
 router.post('/:spotifyPlaylistId/addToDb', async (req, res, next) => {
   try {
-    const spotifyPlaylistId = '6UOF0Hq6ffLXnADFQxVKUH'
+    const spotifyPlaylistId = '5NASiveas4k209RBgVvH5B'
     const selectedSong = req.body.selectedSong
 
     const playlist = await Playlist.findOne({

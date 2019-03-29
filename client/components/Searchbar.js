@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {findSongFromSpotify, postSongToPlaylist} from '../store/playlistStore'
 import {connect} from 'react-redux'
-import {Input, Button} from 'semantic-ui-react'
+import {Input, Button, Image} from 'semantic-ui-react'
 import {toast} from 'react-toastify'
 
 class Searchbar extends Component {
@@ -63,7 +63,7 @@ class Searchbar extends Component {
             ? this.state.foundSongs.map((song, i) => {
                 return (
                   <div className="listBorder" key={song.songId}>
-                    <img src={song.imageUrl} />
+                    <Image src={song.imageUrl} rounded />
                     <p>{`${song.artist} - ${song.songName}`}</p>
                     <Button
                       icon="plus"
