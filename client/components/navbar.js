@@ -10,11 +10,11 @@ const Navbar = ({isLoggedIn, handleClick}) => {
       <nav className="nav animated fadeIn delay-.5s">
         {isLoggedIn.id ? (
           <div>
-            <h1>ListenUp: Crowdsource your playlist</h1>
+            <h1 className="center">ListenUp</h1>
             {/* The navbar will show these links after you log in */}
             <div className="nav-links">
               <Link to="/home">Home</Link>
-              <Link to="/playlist">Playlist</Link>
+              <Link to="/playlist/6UOF0Hq6ffLXnADFQxVKUH">Playlist</Link>
               <a href="/" onClick={handleClick}>
                 Logout
               </a>
