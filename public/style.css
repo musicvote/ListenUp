@@ -94,6 +94,15 @@ form div {
   margin-right: 20vw;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  margin: 20px 0px;
+}
+
 /*search result styling */
 .listBorder {
   display: flex;
