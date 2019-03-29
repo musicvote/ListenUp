@@ -50,10 +50,9 @@ class Playlist extends React.Component {
         ) : (
           <div />
         )}
+        <h1 id="playlist-header">Jennifer's Playlist</h1>
         <Searchbar />
         <div>
-          <h1 id="playlist-header">Playlist</h1>
-
           {this.props.playlist.songs.length ? (
             this.props.playlist.songs.map((song, i) => {
               if (i === 0) {
@@ -66,7 +65,7 @@ class Playlist extends React.Component {
               }
             })
           ) : (
-            <div>Sorry no songs</div>
+            <div>Add songs to get this party started</div>
           )}
         </div>
       </div>

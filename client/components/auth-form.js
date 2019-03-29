@@ -8,14 +8,16 @@ const AuthForm = props => {
   const {displayName} = props
 
   return (
-    <div className="container">
-      <div className="animated zoomInDown delay-.5s">
-        <h1 className="welcome-message">ListenUp</h1>
-        <img id="logo" src="./listen_up_logo.png" />
-        <div className="login-button">
-          <Button size="massive">
-            <a href="/auth/spotify">{displayName} with spotify</a>
-          </Button>
+    <div>
+      <h1 className="welcome-message">ListenUp</h1>
+      <div className="container">
+        <div className="animated jackInTheBox delay-.5s">
+          <img id="logo" src="./listen_up_logo.png" />
+          <div className="login-button">
+            <Button size="massive">
+              <a href="/auth/spotify">{displayName} with spotify</a>
+            </Button>
+          </div>
         </div>
       </div>
     </div>

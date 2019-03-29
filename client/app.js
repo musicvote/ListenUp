@@ -9,7 +9,7 @@ const App = () => {
     <div>
       <Navbar />
       <Routes />
-      <ToastContainer autoClose={1000} />
+      <ToastContainer autoClose={2000} />
     </div>
   )
 }
