@@ -50,7 +50,7 @@ class Playlist extends React.Component {
         ) : (
           <div />
         )}
-        <h1 id="playlist-header">Jennifer's Playlist</h1>
+        <h1 id="playlist-header">Zach's Playlist</h1>
         <Searchbar />
         <div>
           {this.props.playlist.songs.length ? (
