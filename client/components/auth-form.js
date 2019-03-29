@@ -1,22 +1,22 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button, Grid, Segment} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 
 // COMPONENT Keep!
 const AuthForm = props => {
   const {displayName} = props
 
   return (
-    <div>
-      <h1 className="welcome-message">Welcome to ListenUp</h1>
-      <div className="login-button">
-        <Grid.Column textAlign="center">
+    <div className="container">
+      <div className="animated zoomInDown delay-.5s">
+        <h1 className="welcome-message">ListenUp</h1>
+        <img id="logo" src="./listen_up_logo.png" />
+        <div className="login-button">
           <Button size="massive">
             <a href="/auth/spotify">{displayName} with spotify</a>
           </Button>
-        </Grid.Column>
+        </div>
       </div>
     </div>
   )

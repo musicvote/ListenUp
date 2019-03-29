@@ -42,7 +42,7 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="animated fadeIn delay-.5s">
         <div className="searchbar">
           <form onSubmit={this.handleSubmit}>
             <Input

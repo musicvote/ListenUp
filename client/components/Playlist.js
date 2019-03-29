@@ -41,7 +41,7 @@ class Playlist extends React.Component {
 
   render() {
     return (
-      <div className="main-component">
+      <div className="main-component animated fadeIn delay-.5s">
         {this.state.isAdmin ? (
           <Heartbeat
             heartbeatFunction={() => this.CheckSpotify()}
@@ -55,8 +55,15 @@ class Playlist extends React.Component {
           <h1 id="playlist-header">Playlist</h1>
 
           {this.props.playlist.songs.length ? (
-            this.props.playlist.songs.map(song => {
-              return <SongCard key={song.id} song={song} />
+            this.props.playlist.songs.map((song, i) => {
+              if (i === 0) {
+                return <SongCard class="currSong" key={song.id} song={song} />
+              }
+              if (i === 1) {
+                return <SongCard class="deckSong" key={song.id} song={song} />
+              } else {
+                return <SongCard key={song.id} song={song} />
+              }
             })
           ) : (
             <div>Sorry no songs</div>

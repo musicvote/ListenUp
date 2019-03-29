@@ -7,7 +7,7 @@ import {logout} from '../store'
 const Navbar = ({isLoggedIn, handleClick}) => {
   return (
     <div>
-      <nav className="nav">
+      <nav className="nav animated fadeIn delay-.5s">
         {isLoggedIn.id ? (
           <div>
             <h1>ListenUp: Crowdsource your playlist</h1>

@@ -21,25 +21,27 @@ class SongCard extends React.Component {
 
   render() {
     return (
-      <Grid divided="vertically" columns={3}>
-        <Grid.Row className="playlist-Rows">
-          <Grid.Column width={3}>
-            <Image src={this.props.song.albumArtworkurl} centered rounded />
-          </Grid.Column>
-          <Grid.Column width={7}>
-            <Grid.Row verticalAlign="bottom" textAlign="right">
-              {this.props.song.songName}
-            </Grid.Row>
-            <Grid.Row verticalAlign="bottom">
-              {this.props.song.artistName}
-            </Grid.Row>
-          </Grid.Column>
-          <Grid.Column>
-            <Grid.Row>Likes: {this.state.count}</Grid.Row>
-            <VoteCount changeVote={this.changeVote} />
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <div className={this.props.class}>
+        <Grid divided="vertically" columns={3}>
+          <Grid.Row className="playlist-Rows">
+            <Grid.Column width={3}>
+              <Image src={this.props.song.albumArtworkurl} centered rounded />
+            </Grid.Column>
+            <Grid.Column width={7}>
+              <Grid.Row verticalAlign="bottom" textAlign="right">
+                {this.props.song.songName}
+              </Grid.Row>
+              <Grid.Row verticalAlign="bottom">
+                {this.props.song.artistName}
+              </Grid.Row>
+            </Grid.Column>
+            <Grid.Column>
+              <Grid.Row>Likes: {this.state.count}</Grid.Row>
+              <VoteCount changeVote={this.changeVote} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
     )
   }
 }
