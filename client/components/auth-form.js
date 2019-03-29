@@ -1,8 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button, Grid, Segment} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 
 // COMPONENT Keep!
 const AuthForm = props => {
@@ -10,13 +9,16 @@ const AuthForm = props => {
 
   return (
     <div>
-      <h1 className="welcome-message">Welcome to ListenUp</h1>
-      <div className="login-button">
-        <Grid.Column textAlign="center">
-          <Button size="massive">
-            <a href="/auth/spotify">{displayName} with spotify</a>
-          </Button>
-        </Grid.Column>
+      <h1 className="welcome-message">ListenUp</h1>
+      <div className="container">
+        <div className="animated jackInTheBox delay-.5s">
+          <img id="logo" src="./listen_up_logo.png" />
+          <div className="login-button">
+            <Button size="massive">
+              <a href="/auth/spotify">{displayName} with spotify</a>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )

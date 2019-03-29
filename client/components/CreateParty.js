@@ -38,7 +38,7 @@ export class CreateParty extends React.Component {
 
   render() {
     return (
-      <div className="create-party-input">
+      <div className="create-party-input animated fadeIn delay-.5s">
         <form onSubmit={this.handleSubmit}>
           <Header as="h3">Copy and paste your Spotify playlist Url</Header>
           <Input

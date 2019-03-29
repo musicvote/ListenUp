@@ -42,6 +42,27 @@ label {
   justify-content: center;
   padding: 1em;
 }
+#logo {
+  margin-top: 30px;
+}
+
+.currSong {
+  margin: 10 auto;
+  border-top-right-radius: 50px;
+  border-top-left-radius: 50px;
+  background-color: rgba(87, 230, 255, 0.438);
+}
+
+.deckSong {
+  margin: 10 auto;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  background-color: rgba(45, 99, 112, 0.438);
+}
+.container {
+  display: flex;
+  justify-content: center;
+}
 nav a {
   display: inline-block;
   margin: 1em;
@@ -71,6 +92,15 @@ form div {
   justify-content: flex-start;
   margin-left: 20vw;
   margin-right: 20vw;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  margin: 20px 0px;
 }
 
 /*search result styling */
@@ -110,7 +140,7 @@ form div {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40vh;
+  height: 20vh;
 }
 
 /* homepage*/
