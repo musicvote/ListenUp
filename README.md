@@ -7,6 +7,7 @@ _ Add songs to that newly created playlist
 As participants add songs and cast votes on songs, the queue of songs from Listen Up will flow into Spotify and play the songs in the order of votes in descending order.
 
 ![](GifListenUp.gif)
+<div style=“width:100%;height:0;padding-bottom:56%;position:relative;“><iframe src=“https://giphy.com/embed/xFkdkYScHQHh2hempj” width=“100%” height=“100%” style=“position:absolute” frameBorder=“0” class=“giphy-embed” allowFullScreen></iframe></div><p><a href=“https://giphy.com/gifs/xFkdkYScHQHh2hempj”>via GIPHY</a></p>
 
 ## Setup
 
