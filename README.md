@@ -3,7 +3,7 @@
 ![](ListenUpAdd.gif)
 
 <p align=“center”>
- <img src=“https://giphy.com/embed/xFkdkYScHQHh2hempj”/>
+ <img src=“![](ListenUpAdd.gif)”/>
 </p>
 
 Listen Up is a mobile optimized web application that allows users to connect playlists created in Spotify in an effort to crowd source those playlist creating responsibilities. Any party host, DJ, road-trip organizer or anyone else with a Spotify account, may connect a Spotify playlist by plugging in their shareable Spotify playlist URL into ListenUp. By giving us that Spotify playlist URL, we instantiate the instantaneous connection between your Spotify playlist and your ListenUp playlist. By creating a ListenUp playlist, you allow participants to:
